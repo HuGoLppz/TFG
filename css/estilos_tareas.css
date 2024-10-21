@@ -1,0 +1,122 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+/* Estilo para el cuerpo */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: white;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+/* Barra de navegación */
+header {
+    background-color: #333;
+    padding: 10px 0;
+}
+
+nav ul {
+    list-style: none;
+    text-align: center;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    transition: 0.33s;
+}
+
+nav ul li a:hover {
+    color: #f7ca18;
+    transition: 0.33s;
+}
+
+.tareas {
+    padding: 20px;
+    background-color: #fff;
+    margin: 20px;
+    border-radius: 10px;
+    box-shadow: 10px 10px 10px 10px gray;
+}
+
+.tareas h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.tareas ul {
+    list-style: none;
+    padding: 0;
+}
+
+.tareas .tarea {
+    background-color: #f4f4f9;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-left: 5px solid #f7ca18;
+    border-radius: 5px;
+    box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+.tareas .tarea h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.tareas .tarea p {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.tareas .btn-completar {
+    background-color: #333;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    cursor: pointer;
+    transition: 0.20s;
+    border-radius: 5px;
+}
+
+.tareas .btn-completar:hover {
+    background-color: #555;
+    transition: 0.33s;
+}
+
+.btn-crear, .btn-historial {
+    background-color: #333;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    cursor: pointer;
+    transition: 0.20s;
+    border-radius: 5px;
+}
+
+.btn-crear:hover, .btn-historial:hover {
+    background-color: #555;
+    transition: 0.33s;
+}
+/* Pie de página */
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    margin-top: 20px;
+}
