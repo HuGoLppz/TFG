@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    
+    //Hola mundo//
     // Animaciones del cabecero //
     $(".btn-cabezero").click(function() {
         $(".line-1").toggleClass("hide");
