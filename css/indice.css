@@ -115,8 +115,8 @@
     position: relative;
     display: block;
     overflow: hidden;
-    padding-bottom: 15px !important;
-    padding-top: 15px !important;
+    padding-bottom: 25px !important;
+    padding-top: 25px !important;
 }
 
 .slick-list:focus {
