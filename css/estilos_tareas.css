@@ -1,57 +1,9 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-::-webkit-scrollbar {
-    display: none;
-}
-
-/* Estilo para el cuerpo */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: white;
-    color: #333;
-    line-height: 1.6;
-    margin: 0;
-    padding: 0;
-}
-
-/* Barra de navegación */
-header {
-    background-color: #333;
-    padding: 10px 0;
-}
-
-nav ul {
-    list-style: none;
-    text-align: center;
-}
-
-nav ul li {
-    display: inline;
-    margin: 0 15px;
-}
-
-nav ul li a {
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
-    transition: 0.33s;
-}
-
-nav ul li a:hover {
-    color: #f7ca18;
-    transition: 0.33s;
-}
-
 .tareas {
     padding: 20px;
     background-color: #fff;
     margin: 20px;
     border-radius: 10px;
-    box-shadow: 10px 10px 10px 10px gray;
+    box-shadow: 0px 2px 18px 0px rgba(0,0,0,0.3);
 }
 
 .tareas h2 {
@@ -70,7 +22,10 @@ nav ul li a:hover {
     margin-bottom: 15px;
     border-left: 5px solid #f7ca18;
     border-radius: 5px;
-    box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.2);
+    /*box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.2);*/
+    border-right: 1px solid gray;
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
 }
 
 .tareas .tarea h3 {

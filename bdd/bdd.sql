@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS Usuarios;
 
 -- CREACIÓN DE USUARIOS Y PERFILES
 CREATE TABLE Usuarios (
-    usuario_id VARCHAR(9) PRIMARY KEY, -- Cambiado de SERIAL a VARCHAR(9)
+    usuario_id VARCHAR(9) PRIMARY KEY, 
     nombre VARCHAR(100) NOT NULL,
     email VARCHAR(150) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
@@ -57,9 +57,9 @@ CREATE TABLE Tareas (
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fecha_entrega DATE NOT NULL,
     asignatura VARCHAR(100),
-    tipo_actividad VARCHAR(50), -- trabajos, exámenes, etc.
-    urgencia VARCHAR(20), -- bajo, medio, alto.
-    estado VARCHAR(20) DEFAULT 'pendiente' -- pendiente, completada, eliminada.
+    tipo_actividad VARCHAR(50),
+    urgencia VARCHAR(20), 
+    estado VARCHAR(20) DEFAULT 'pendiente' 
 );
 
 -- REGISTRO DE CALIFICACIONES
@@ -101,7 +101,7 @@ CREATE TABLE Tareas_Sala (
     titulo VARCHAR(255) NOT NULL,
     descripcion TEXT,
     fecha_entrega DATE NOT NULL,
-    estado VARCHAR(20) DEFAULT 'pendiente', -- pendiente, completada
+    estado VARCHAR(20) DEFAULT 'pendiente', 
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -128,7 +128,7 @@ CREATE TABLE Archivos_Salas (
 CREATE TABLE Notificaciones (
     notificacion_id SERIAL PRIMARY KEY,
     usuario_id INT REFERENCES Usuarios(usuario_id) ON DELETE CASCADE,
-    tipo VARCHAR(50), -- tarea, calificación, mensaje, etc.
+    tipo VARCHAR(50), 
     mensaje TEXT NOT NULL,
     leida BOOLEAN DEFAULT FALSE,
     fecha_envio TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -139,10 +139,10 @@ CREATE TABLE Pomodoro (
     pomodoro_id SERIAL PRIMARY KEY,
     usuario_id INT REFERENCES Usuarios(usuario_id) ON DELETE CASCADE,
     fecha_inicio TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    duracion_trabajo INT NOT NULL, -- duración en minutos
-    duracion_descanso INT NOT NULL, -- duración en minutos
+    duracion_trabajo INT NOT NULL, 
+    duracion_descanso INT NOT NULL, 
     ciclos INT NOT NULL DEFAULT 0,
-    estado VARCHAR(20) DEFAULT 'en_proceso' -- en_proceso, completado
+    estado VARCHAR(20) DEFAULT 'en_proceso' 
 );
 
 -- VISUALIZACIÓN DE MEDIAS Y PROGRESO ACADÉMICO
