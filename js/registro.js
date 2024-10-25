@@ -3,14 +3,16 @@ $(document).ready(function() {
         event.preventDefault(); 
 
         var user = $('#user').val();
+        var email =$('#email').val();
         var password = $('#password').val();
 
         $.ajax({
-            url: '../php/login.php',  
+            url: '../php/sing_up.php',  
             type: 'POST',
             dataType: 'json',
             data: {
-                user: user, // Cambiado de email a user
+                email: email,
+                user: user, 
                 password: password   
             },
             success: function(response) {
