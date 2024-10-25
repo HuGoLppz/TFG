@@ -5,6 +5,7 @@
     box-sizing: border-box;
 }
 
+/*Ocultar barra de scroll*/
 ::-webkit-scrollbar {
     display: none;
 }
@@ -33,6 +34,13 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 0;
+}
+
+/* Contenedor principal */
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Altura mínima igual a la altura del viewport */
 }
 
 /* Barra de navegación */
@@ -118,13 +126,15 @@ nav ul li a:hover {
     transition: transform 0.3s ease, top 0.3s ease;
 }
 
+/* Contenido principal para llenar el espacio */
+main {
+    flex: 1;
+}
+
 /* Pie de página */
 footer {
     text-align: center;
     padding: 10px;
     background-color: var(--color-nav-bg);
     color: var(--color-nav-text);
-    margin-top: 40px;
 }
-
-

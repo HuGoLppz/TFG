@@ -4,32 +4,60 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Tareas - STUDY-PLANNER</title>
+        <title>Salas de Trabajo - STUDY-PLANNER</title>
         <link rel="stylesheet" href="../css/estilos.css">
         <link rel="stylesheet" href="../css/estilos_salas.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script src="../js/cabecero.js"></script>
     </head>
 <body>
-    <header>
-        <nav>
-            <ul class="menu-cabezero">
-                <li><a href="../index.html">Inicio</a></li>
-                <li><a href="tareas.html">Tareas</a></li>
-                <li><a href="salas.html">Salas de Trabajo</a></li>
-                <li><a href="amigos.html">Lista de amigos</a></li>
-                <li><a href="pomodoro.html">Entorno de estudio</a></li>
-                <li><a href="perfil.html">Perfil</a></li>
-            </ul>
-            <div class="btn-cabezero">
-                <span class="line line-1"></span>
-                <span class="line line-2"></span>
-                <span class="line line-3"></span>
-            </div>
-        </nav>
-    </header>
-    <footer>
-        <p>&copy; 2024 STUDY-PLANNER. Todos los derechos reservados.</p>
-    </footer>
+    <div class="container">
+        <header>
+            <nav>
+                <ul class="menu-cabezero">
+                    <li><a href="../index.html">Inicio</a></li>
+                    <li><a href="tareas.html">Tareas</a></li>
+                    <li><a href="salas.html">Salas de Trabajo</a></li>
+                    <li><a href="amigos.html">Lista de amigos</a></li>
+                    <li><a href="pomodoro.html">Entorno de estudio</a></li>
+                    <li><a href="calendario.html">Calendario</a></li>
+                    <li><a href="perfil.html">Perfil</a></li>
+                </ul>
+                <div class="btn-cabezero">
+                    <span class="line line-1"></span>
+                    <span class="line line-2"></span>
+                    <span class="line line-3"></span>
+                </div>
+            </nav>
+        </header>
+        
+        <main>
+            <!-- Aquí puede ir el contenido de las salas de trabajo -->
+            <section class="salas">
+                <h2>Salas de Trabajo</h2>
+                <!-- Ejemplo de contenido -->
+                <ul>
+                    <li>
+                        <div class="sala">
+                            <h3>Proyecto de Ciencias</h3>
+                            <p>Fecha de entrega: 25/09/2024</p>
+                            <button class="btn-ir">Ir a la sala</button>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="sala">
+                            <h3>Trabajo en grupo de Historia</h3>
+                            <p>Fecha de entrega: 01/10/2024</p>
+                            <button class="btn-ir">Ir a la sala</button>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 STUDY-PLANNER. Todos los derechos reservados.</p>
+        </footer>
+    </div>
 </body>
 </html>

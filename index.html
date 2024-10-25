@@ -14,7 +14,7 @@
 
 </head>
 <body>
-    <!-- Barra de navegación (de momento solo funciona aquí)-->
+    <div class="container">
     <header>
         <nav>
             <ul class="menu-cabezero">
@@ -23,6 +23,7 @@
                 <li><a href="html/salas.html">Salas de Trabajo</a></li>
                 <li><a href="html/amigos.html">Lista de amigos</a></li>
                 <li><a href="html/pomodoro.html">Entorno de estudio</a></li>
+                <li><a href="html/calendario.html">Calendario</a></li>
                 <li><a href="html/perfil.html">Perfil</a></li>
             </ul>
             <div class="btn-cabezero">
@@ -32,73 +33,75 @@
             </div>
         </nav>
     </header>
+    <main>
+        <!-- Sección de bienvenida -->
+        <section class="bienvenida">
+            <h1>Bienvenido a STUDY-PLANNER</h1>
+            <p>Organiza tus tareas y colabora con tus compañeros de manera eficiente.</p>
+            <a href="html/login.html" class="btn-login"><button class="btn-comenzar">Iniciar sesión</button></a>
+        </section>
 
-    <!-- Sección de bienvenida -->
-    <section class="bienvenida">
-        <h1>Bienvenido a STUDY-PLANNER</h1>
-        <p>Organiza tus tareas y colabora con tus compañeros de manera eficiente.</p>
-        <a href="html/login.html" class="btn-login"><button class="btn-comenzar">Iniciar sesión</button></a>
-    </section>
-
-    <!-- Lista de tareas pendientes -->
-    <div class="informacion">
-        <section class="tareas">
-            <h2>Tus Tareas Pendientes</h2>
-            <ul>
-                <li>
-                    <div class="tarea">
-                        <h3>Tarea 1: Estudio de Matemáticas</h3>
-                        <p>Fecha de entrega: 20/09/2024</p>
-                        <button class="btn-completar">Marcar como Completada</button>
-                    </div>
-                </li>
-                <li>
-                    <div class="tarea">
-                        <h3>Tarea 2: Proyecto de Ciencias</h3>
-                        <p>Fecha de entrega: 25/09/2024</p>
-                        <button class="btn-completar">Marcar como Completada</button>
-                    </div>
-                </li>
-            </ul>
-        </section>
-        <section class="salas">
-            <h2>Lista de salas</h2>
-            <ul>
-                <li>
-                    <div class="tarea">
-                        <h3>Proyecto de Sociales</h3>
-                        <p>Fecha de entrega: 20/09/2024</p>
-                        <button class="btn-completar">Ir al proyecto</button>
-                    </div>
-                </li>
-                <li>
-                    <div class="tarea">
-                        <h3>Presentación de educación física</h3>
-                        <p>Fecha de entrega: 25/09/2024</p>
-                        <button class="btn-completar">Ir al proyecto</button>
-                    </div>
-                </li>
-            </ul>
-        </section>
-        <section class="companero">
-            <h2>Lista de amigos</h2>
-            <ul>
-                <li>
-                    <div class="tarea">
-                        <p><img src="img/pixelcut-export.jpeg"><h3>Juan</h3></p>
-                    </div>
-                </li>
-                <li>
-                    <div class="tarea">
-                        <p><img src="img/pixelcut-export.jpeg"><h3>Pedro</h3></p>
-                    </div>
-                </li>
-            </ul>
-        </section>
-    </div>
+        <!-- Lista de tareas pendientes -->
+        <div class="informacion">
+            <section class="tareas">
+                <h2>Tus Tareas Pendientes</h2>
+                <ul>
+                    <li>
+                        <div class="tarea">
+                            <h3>Tarea 1: Estudio de Matemáticas</h3>
+                            <p>Fecha de entrega: 20/09/2024</p>
+                            <button class="btn-completar">Marcar como Completada</button>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="tarea">
+                            <h3>Tarea 2: Proyecto de Ciencias</h3>
+                            <p>Fecha de entrega: 25/09/2024</p>
+                            <button class="btn-completar">Marcar como Completada</button>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+            <section class="salas">
+                <h2>Lista de salas</h2>
+                <ul>
+                    <li>
+                        <div class="tarea">
+                            <h3>Proyecto de Sociales</h3>
+                            <p>Fecha de entrega: 20/09/2024</p>
+                            <button class="btn-completar">Ir al proyecto</button>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="tarea">
+                            <h3>Presentación de educación física</h3>
+                            <p>Fecha de entrega: 25/09/2024</p>
+                            <button class="btn-completar">Ir al proyecto</button>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+            <section class="companero">
+                <h2>Lista de amigos</h2>
+                <ul>
+                    <li>
+                        <div class="tarea">
+                            <p><img src="img/pixelcut-export.jpeg"><h3>Juan</h3></p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="tarea">
+                            <p><img src="img/pixelcut-export.jpeg"><h3>Pedro</h3></p>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </main>
     <!-- Pie de página -->
     <footer>
         <p>&copy; 2024 STUDY-PLANNER. Todos los derechos reservados.</p>
     </footer>
+    </div>
 </body>
 </html>

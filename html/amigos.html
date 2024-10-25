@@ -3,33 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Lista de Amigos - STUDY-PLANNER</title>
     <link rel="stylesheet" href="../css/estilos.css">
     <link rel="stylesheet" href="../css/estilos_amigos.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="../js/cabecero.js"></script>
 </head>
 <body>
-    <header>
-        <nav>
-            <ul class="menu-cabezero">
-                <li><a href="../index.html">Inicio</a></li>
-                <li><a href="tareas.html">Tareas</a></li>
-                <li><a href="salas.html">Salas de Trabajo</a></li>
-                <li><a href="amigos.html">Lista de amigos</a></li>
-                <li><a href="pomodoro.html">Entorno de estudio</a></li>
-                <li><a href="perfil.html">Perfil</a></li>
-            </ul>
-            <div class="btn-cabezero">
-                <span class="line line-1"></span>
-                <span class="line line-2"></span>
-                <span class="line line-3"></span>
-            </div>
-        </nav>
-    </header>
+    <div class="container">
+        <header>
+            <nav>
+                <ul class="menu-cabezero">
+                    <li><a href="../index.html">Inicio</a></li>
+                    <li><a href="tareas.html">Tareas</a></li>
+                    <li><a href="salas.html">Salas de Trabajo</a></li>
+                    <li><a href="amigos.html">Lista de amigos</a></li>
+                    <li><a href="pomodoro.html">Entorno de estudio</a></li>
+                    <li><a href="calendario.html">Calendario</a></li>
+                    <li><a href="perfil.html">Perfil</a></li>
+                </ul>
+                <div class="btn-cabezero">
+                    <span class="line line-1"></span>
+                    <span class="line line-2"></span>
+                    <span class="line line-3"></span>
+                </div>
+            </nav>
+        </header>
+        
+        <main>
+            <!-- Aquí puede ir el contenido de la lista de amigos -->
+            <section class="amigos">
+                <h2>Lista de Amigos</h2>
+                <!-- Ejemplo de amigos -->
+                <ul>
+                    <li>
+                        <div class="amigo">
+                            <img src="img/pixelcut-export.jpeg" alt="Amigo Juan">
+                            <h3>Juan</h3>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="amigo">
+                            <img src="img/pixelcut-export.jpeg" alt="Amigo Pedro">
+                            <h3>Pedro</h3>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+        </main>
 
-    <footer>
-        <p>&copy; 2024 STUDY-PLANNER. Todos los derechos reservados.</p>
-    </footer>
+        <footer>
+            <p>&copy; 2024 STUDY-PLANNER. Todos los derechos reservados.</p>
+        </footer>
+    </div>
 </body>
 </html>

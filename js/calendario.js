@@ -2,13 +2,13 @@ document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',   // Vista inicial (mes completo)
-        locale: 'es',                  // Cambiar a español
-        firstDay: 1,                   // Comienza la semana en lunes
+        initialView: 'dayGridMonth',   
+        locale: 'es',                  
+        firstDay: 1,                   
         headerToolbar: {
-            left: 'prev,next today',   // Botones de navegación
-            center: 'title',           // Título en el centro
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'  // Vistas disponibles
+            left: 'prev,next today',   
+            center: 'title',          
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'  
         },
         events: [
             {
@@ -18,9 +18,8 @@ document.addEventListener('DOMContentLoaded', function () {
             {
                 title: 'Evento 2',
                 start: '2024-10-15',
-            }
+            },
         ]
     });
-
     calendar.render();
 });
