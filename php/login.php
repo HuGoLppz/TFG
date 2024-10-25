@@ -12,8 +12,8 @@ try {
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $name = $_POST['email'];
-        $email = $_POST['email'];
+        $name = $_POST['user']; // Cambiado de email a user
+        $email = $_POST['user']; // Cambiado de email a user
         $password = $_POST['password'];
         
         // Consultar el usuario en la base de datos

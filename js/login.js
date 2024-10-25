@@ -2,7 +2,7 @@ $(document).ready(function() {
     $('form').on('submit', function(event) {
         event.preventDefault(); 
 
-        var email = $('#email').val();
+        var user = $('#user').val();
         var password = $('#password').val();
 
         $.ajax({
@@ -10,7 +10,7 @@ $(document).ready(function() {
             type: 'POST',
             dataType: 'json',
             data: {
-                email: email,        
+                user: user, // Cambiado de email a user
                 password: password   
             },
             success: function(response) {
