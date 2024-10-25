@@ -48,7 +48,7 @@
     border-radius: 20px;
     box-shadow: 0px 2px 18px 0px rgba(0,0,0,0.3);
     overflow: scroll;
-    height: 500px;
+    max-height: 500px;
 }
 
 .tareas h2, .salas h2, .companero h2 {
