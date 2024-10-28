@@ -25,7 +25,7 @@ try {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
             
             // Verificar la contraseña
-            if ($password = $user['password']) {
+            if ($password == $user['password']) {
                 $_SESSION['usuario_id'] = $user['usuario_id'];
                 echo json_encode(['success' => true, 'message' => 'Inicio de sesión exitoso']);
             } else {
