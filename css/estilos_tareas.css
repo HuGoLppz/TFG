@@ -1,4 +1,4 @@
-.tareas {
+.tareas, .tareas-crear {
     padding: 20px;
     background-color: #fff;
     margin: 20px;
@@ -6,10 +6,29 @@
     box-shadow: 0px 2px 18px 0px rgba(0,0,0,0.3);
 }
 
-.tareas h2 {
+.tareas{
+    display: block;
+}
+
+.tareas-crear{
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /*transition: 0.5s ease-in-out;*/
+}
+
+.tareas h2, .tareas-crear h2  {
     text-align: center;
     margin-bottom: 20px;
 }
+
+.tareas h3, .tareas-crear h3{
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
 
 .tareas ul {
     list-style: none;
@@ -22,15 +41,6 @@
     margin-bottom: 15px;
     border-left: 5px solid #f7ca18;
     border-radius: 5px;
-    /*box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.2);*/
-    border-right: 1px solid gray;
-    border-top: 1px solid gray;
-    border-bottom: 1px solid gray;
-}
-
-.tareas .tarea h3 {
-    font-size: 20px;
-    margin-bottom: 10px;
 }
 
 .tareas .tarea p {
@@ -38,7 +48,7 @@
     margin-bottom: 10px;
 }
 
-.tareas .btn-completar {
+button{
     background-color: #333;
     color: white;
     padding: 8px 15px;
@@ -48,30 +58,7 @@
     border-radius: 5px;
 }
 
-.tareas .btn-completar:hover {
+button:hover{
     background-color: #555;
     transition: 0.33s;
-}
-
-.btn-crear, .btn-historial {
-    background-color: #333;
-    color: white;
-    padding: 8px 15px;
-    border: none;
-    cursor: pointer;
-    transition: 0.20s;
-    border-radius: 5px;
-}
-
-.btn-crear:hover, .btn-historial:hover {
-    background-color: #555;
-    transition: 0.33s;
-}
-/* Pie de página */
-footer {
-    text-align: center;
-    padding: 10px;
-    background-color: #333;
-    color: white;
-    margin-top: 20px;
 }

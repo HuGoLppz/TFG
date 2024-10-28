@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../css/estilos_tareas.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="../js/cabecero.js"></script>
+    <script src="../js/tareas.js"></script>
     <title>Tareas - STUDY-PLANNER</title>
 </head>
 <body>
@@ -66,6 +67,36 @@
                 <button class="btn-crear">Crear nueva tarea</button>
                 <button class="btn-historial">Revisar tareas ya completadas</button>
             </section>
+
+
+            <section class="tareas-crear">
+                <h2>Crea la nueva tarea</h2>
+                <form>
+                    <label for="titulo">Título de la Tarea:</label>
+                    <input type="text" id="titulo" name="titulo" maxlength="255" placeholder="Ej: Estudio de Matemáticas">
+                    <br>
+                    <label for="descripcion">Descripción:</label>
+                    <textarea id="descripcion" name="descripcion" rows="4" placeholder="Escribe una breve descripción de la tarea..."></textarea>
+                    <br>
+                    <label for="fecha_entrega">Fecha de Entrega:</label>
+                    <input type="date" id="fecha_entrega" name="fecha_entrega" >
+                    <br>
+                    <label for="asignatura">Asignatura:</label>
+                    <input type="text" id="asignatura" name="asignatura" maxlength="100" placeholder="Ej: Matemáticas">
+                    <br>
+                    <label for="tipo_actividad">Tipo de Actividad:</label>
+                    <input type="text" id="tipo_actividad" name="tipo_actividad" maxlength="50" placeholder="Ej: Estudio, Proyecto">
+                    <br>
+                    <label for="urgencia">Urgencia:</label>
+                    <select id="urgencia" name="urgencia">
+                        <option value="baja">Baja</option>
+                        <option value="media">Media</option>
+                        <option value="alta">Alta</option>
+                    </select>
+                    <br>
+                    <button type="submit" class="btn-crear">Crear Tarea</button>
+                </form>
+            </section>            
         </main>
         
         <footer>

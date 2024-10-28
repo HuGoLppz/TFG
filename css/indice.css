@@ -38,11 +38,14 @@
     margin: auto;
     position: relative;
 }
+.informacion > div{
+    z-index: 10;
+}
 
 /* Sección de tareas */
 .tareas, .salas, .companero {
-    width: 75% !important;
-    margin-left: 12.5%;
+    width: 66.66666% !important;
+    margin-left: 17.5%;
     padding: 20px;
     background-color: var(--color-bg);
     border-radius: 20px;
@@ -148,7 +151,11 @@
 .slick-slide:not(.slick-center) {
     opacity: 0.5; 
 }
-
+/*
+.slick-slide.slick-center + .slick-slide {
+    margin-left: -400px; 
+}
+*/
 .slick-prev, .slick-next {
     display: none;
     font-size: 0;
@@ -172,14 +179,14 @@
 
 /* Paginación del slider */
 .slick-dots {
-    position: absolute;
-    bottom: -15px;
+    z-index: 50;
     width: 100%;
+    margin-top: -30px !important;
     display: flex;
     justify-content: center;
     list-style: none;
-    padding: 0;
-    margin: 0;
+    margin-bottom: 5px;
+    z-index: 30;
 }
 
 .slick-dots li {

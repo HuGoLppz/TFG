@@ -1,14 +1,17 @@
 $(document).ready(function() {
     // Carrusel del index //
     $('.informacion').slick({
-        arrows: false, 
-        dots: false, 
-        infinite: true,
-        slidesToShow: 3, 
+        arrows: false,
+        dots: true,
+        infinite: false,
+        slidesToShow: 1,
         slidesToScroll: 1,
         autoplay: true,
-        autoplaySpeed: 4000, 
-        speed: 500,
-        centerMode: true,  
+        autoplaySpeed: 3000,
+        speed: 250,
+        centerMode: true,
+        centerPadding: '0px',
+        pauseOnHover: true,
     });
 });
+
