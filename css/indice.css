@@ -1,3 +1,61 @@
+/* css/estilos.css */
+.cont {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f7f7f7;
+    padding: 20px;
+    opacity: 0; /* Oculto al inicio para animación */
+    transform: scale(0.8); /* Escala inicial para animación */
+}
+
+.cont h1 {
+    font-size: 2.5em;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.cont p {
+    font-size: 1.1em;
+    color: #666;
+    text-align: center;
+    max-width: 600px;
+    margin-bottom: 20px;
+}
+
+.cont .table-info {
+    width: 100%;
+    max-width: 600px;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.cont .table-info th, .cont .table-info td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.btn-login, .btn-registro {
+    margin: 10px;
+}
+
+.btn-comenzar {
+    padding: 10px 20px;
+    font-size: 1.2em;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+
+
+
 /* Sección de bienvenida */
 .bienvenida {
     text-align: center;
