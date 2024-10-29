@@ -45,8 +45,8 @@ CREATE TABLE Amigos (
     amigo_id VARCHAR(9),
     fecha_amistad TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (usuario_id, amigo_id),
-    FOREIGN KEY (usuario_id) REFERENCES Usuarios(usuario_id) ON DELETE CASCADE,
-    FOREIGN KEY (amigo_id) REFERENCES Usuarios(usuario_id) ON DELETE CASCADE
+    FOREIGN KEY (usuario_id) REFERENCES Usuarios(usuario_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (amigo_id) REFERENCES Usuarios(usuario_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CREACIÓN DE TAREAS
@@ -61,7 +61,7 @@ CREATE TABLE Tareas (
     tipo_actividad VARCHAR(50), 
     urgencia VARCHAR(20), 
     estado VARCHAR(20) DEFAULT 'pendiente', 
-    FOREIGN KEY (usuario_id) REFERENCES Usuarios(usuario_id) ON DELETE CASCADE
+    FOREIGN KEY (usuario_id) REFERENCES Usuarios(usuario_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- REGISTRO DE CALIFICACIONES
@@ -72,8 +72,8 @@ CREATE TABLE Calificaciones (
     asignatura VARCHAR(100) NOT NULL,
     calificacion DECIMAL(5, 2) CHECK (calificacion >= 0 AND calificacion <= 10),
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (usuario_id) REFERENCES Usuarios(usuario_id) ON DELETE CASCADE,
-    FOREIGN KEY (tarea_id) REFERENCES Tareas(tarea_id) ON DELETE CASCADE
+    FOREIGN KEY (usuario_id) REFERENCES Usuarios(usuario_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (tarea_id) REFERENCES Tareas(tarea_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CREACIÓN DE SALAS DE TRABAJO GRUPALES
@@ -83,7 +83,7 @@ CREATE TABLE Salas (
     descripcion TEXT,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     creador_id VARCHAR(9),
-    FOREIGN KEY (creador_id) REFERENCES Usuarios(usuario_id) ON DELETE SET NULL
+    FOREIGN KEY (creador_id) REFERENCES Usuarios(usuario_id) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- PARTICIPANTES DE LAS SALAS DE TRABAJO
@@ -92,8 +92,8 @@ CREATE TABLE Participantes_Salas (
     usuario_id VARCHAR(9),
     fecha_union TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (sala_id, usuario_id),
-    FOREIGN KEY (sala_id) REFERENCES Salas(sala_id) ON DELETE CASCADE,
-    FOREIGN KEY (usuario_id) REFERENCES Usuarios(usuario_id) ON DELETE CASCADE
+    FOREIGN KEY (sala_id) REFERENCES Salas(sala_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (usuario_id) REFERENCES Usuarios(usuario_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- TAREAS ASIGNADAS A LOS PARTICIPANTES DE LAS SALAS
@@ -106,8 +106,8 @@ CREATE TABLE Tareas_Sala (
     fecha_entrega DATE NOT NULL,
     estado VARCHAR(20) DEFAULT 'pendiente', 
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (sala_id) REFERENCES Salas(sala_id) ON DELETE CASCADE,
-    FOREIGN KEY (usuario_id) REFERENCES Usuarios(usuario_id) ON DELETE CASCADE
+    FOREIGN KEY (sala_id) REFERENCES Salas(sala_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (usuario_id) REFERENCES Usuarios(usuario_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CHAT GRUPAL DE LAS SALAS
@@ -117,8 +117,8 @@ CREATE TABLE Mensajes_Salas (
     usuario_id VARCHAR(9),
     mensaje TEXT NOT NULL,
     fecha_envio TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (sala_id) REFERENCES Salas(sala_id) ON DELETE CASCADE,
-    FOREIGN KEY (usuario_id) REFERENCES Usuarios(usuario_id) ON DELETE CASCADE
+    FOREIGN KEY (sala_id) REFERENCES Salas(sala_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (usuario_id) REFERENCES Usuarios(usuario_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- BIBLIOTECA DE ARCHIVOS DE LAS SALAS
@@ -129,8 +129,8 @@ CREATE TABLE Archivos_Salas (
     nombre_archivo VARCHAR(255) NOT NULL,
     ruta_archivo TEXT NOT NULL,
     fecha_subida TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (sala_id) REFERENCES Salas(sala_id) ON DELETE CASCADE,
-    FOREIGN KEY (usuario_id) REFERENCES Usuarios(usuario_id) ON DELETE CASCADE
+    FOREIGN KEY (sala_id) REFERENCES Salas(sala_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (usuario_id) REFERENCES Usuarios(usuario_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- NOTIFICACIONES Y RECORDATORIOS
@@ -141,7 +141,7 @@ CREATE TABLE Notificaciones (
     mensaje TEXT NOT NULL,
     leida BOOLEAN DEFAULT FALSE,
     fecha_envio TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (usuario_id) REFERENCES Usuarios(usuario_id) ON DELETE CASCADE
+    FOREIGN KEY (usuario_id) REFERENCES Usuarios(usuario_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CRONÓMETRO Y TÉCNICA POMODORO
@@ -153,7 +153,7 @@ CREATE TABLE Pomodoro (
     duracion_descanso INT NOT NULL, 
     ciclos INT NOT NULL DEFAULT 0,
     estado VARCHAR(20) DEFAULT 'en_proceso', 
-    FOREIGN KEY (usuario_id) REFERENCES Usuarios(usuario_id) ON DELETE CASCADE
+    FOREIGN KEY (usuario_id) REFERENCES Usuarios(usuario_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- VISUALIZACIÓN DE MEDIAS Y PROGRESO ACADÉMICO
@@ -164,7 +164,7 @@ CREATE TABLE Progreso_Academico (
     media_calificaciones DECIMAL(5, 2),
     tareas_completadas INT DEFAULT 0,
     fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (usuario_id) REFERENCES Usuarios(usuario_id) ON DELETE CASCADE
+    FOREIGN KEY (usuario_id) REFERENCES Usuarios(usuario_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- ACTUALIZACIÓN DE PROGRESO AUTOMÁTICO DESPUÉS DE UNA CALIFICACIÓN
@@ -210,7 +210,6 @@ BEGIN
 END //
 DELIMITER ;
 
-
 -- Generación de ID de sala
 DELIMITER //
 CREATE FUNCTION generar_id_sala() 
@@ -230,11 +229,8 @@ BEGIN
                     FLOOR(RAND() * 10), 
                     CHAR(FLOOR(65 + RAND() * 26)), 
                     FLOOR(RAND() * 10));
-
-        -- Verificar si el ID ya existe en la tabla Salas
         SELECT COUNT(*) INTO existe FROM Salas WHERE sala_id = nuevo_id;
     END WHILE;
-
     RETURN nuevo_id;
 END //
 DELIMITER ;
