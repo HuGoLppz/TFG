@@ -4,7 +4,7 @@ $(document).ready(function() {
         $(".tareas-crear").css("display", "block");
         $(".tareas").css("opacity", 0.5);
     });
-
+//holi
     // Ocultar formulario de creación de tareas
     $(".btn-crear2").on("click", function() {
         $(".tareas-crear").css("display", "none");
