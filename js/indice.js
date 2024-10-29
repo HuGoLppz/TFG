@@ -2,7 +2,7 @@ $(document).ready(function() {
     // Carrusel del index
     $('.informacion').slick({
         arrows: false,
-        dots: true,
+        dots: false,
         infinite: false,
         slidesToShow: 1,
         slidesToScroll: 1,
@@ -10,7 +10,6 @@ $(document).ready(function() {
         autoplaySpeed: 3000,
         speed: 250,
         centerMode: true,
-        centerPadding: '0px',
         pauseOnHover: true,
     });
 
