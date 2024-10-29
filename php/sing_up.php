@@ -14,7 +14,7 @@ try {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $name = $_POST['user'];
         $password = $_POST['password'];
-        $email = $_POST['email']; // Se añadió el punto y coma
+        $email = $_POST['email']; 
         
         // Verificar si el correo ya está registrado
         $checkEmailStmt = $conn->prepare("SELECT COUNT(*) FROM `Usuarios` WHERE email = :email");
@@ -27,18 +27,14 @@ try {
             // Correo ya registrado
             echo json_encode(['success' => false, 'message' => 'El correo electrónico ya está registrado.']);
         } else {
-            // Almacenar la contraseña de manera segura
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-            
             // Insertar el usuario en la base de datos
             $stmt = $conn->prepare("INSERT INTO `Usuarios` (usuario_id, nombre, email, password)
                                     SELECT generar_id_usuario(), :name, :email, :password");
             $stmt->bindParam(':name', $name);
             $stmt->bindParam(':email', $email);
-            $stmt->bindParam(':password', $hashedPassword);
+            $stmt->bindParam(':password', $password);
             $stmt->execute();
-            
-            // Opción para verificar si la inserción fue exitosa
+
             echo json_encode(['success' => true, 'message' => 'Usuario registrado correctamente.']);
         }
     }

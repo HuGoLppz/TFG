@@ -8,22 +8,32 @@
 /*Ocultar barra de scroll*/
 ::-webkit-scrollbar {
     display: none;
+    /*scroll-behavior: smooth;*/
 }
 
 /* Definición de la paleta de colores en root */
 :root {
-    --color-bg: white;
-    --color-text: #333;
-    --color-nav-bg: #333;
-    --color-nav-text: white;
-    --color-nav-hover: #f7ca18;
-    --color-btn-bg: #333;
-    --color-btn-hover: #555;
-    --color-tarea-bg: #f4f4f9;
-    --color-tarea-border: #f7ca18;
-    --color-slider-btn-bg: rgb(0, 0, 0);
-    --color-slider-dot: #555555;
-    --color-slider-dot-active: #f7ca18;
+    --color-white: white;
+    --color-black: #333;
+    --color-light-gray: #555;
+    --color-yellow: #f7ca18;
+    --color-bg-gray: #f4f4f9;
+    --color-absolute-black:black;
+    --color-shadow: rgba(0,0,0,0.3);
+    
+    --color-bg: var(--color-white);
+    --color-text: var(--color-black);
+    --color-nav-bg: var(--color-black);
+    --color-nav-text: var(--color-white);
+    --color-nav-hover: var(--color-yellow);
+    --color-btn-bg: var(--color-black);
+    --color-btn-hover: var(--color-light-gray);
+    --color-tarea-bg: var(--color-bg-gray);
+    --color-tarea-border: var(--color-yellow);
+    --color-slider-btn-bg: var(--color-absolute-black); 
+    --color-slider-dot: var(--color-light-gray);
+    --color-slider-dot-active: var(--color-yellow);
+    --color-shadows:var(--color-shadow);
 }
 
 /* Estilo para el cuerpo */

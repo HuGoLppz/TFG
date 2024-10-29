@@ -27,6 +27,7 @@ try {
             // Verificar la contraseña
             if ($password == $user['password']) {
                 $_SESSION['usuario_id'] = $user['usuario_id'];
+                $_SESSION['nombre_usuario'] = $name;
                 echo json_encode(['success' => true, 'message' => 'Inicio de sesión exitoso']);
             } else {
                 echo json_encode(['success' => false, 'message' => 'Contraseña incorrecta']);

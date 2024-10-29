@@ -1,9 +1,63 @@
+/* css/estilos.css */
+.cont {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: var(--color-bg);
+    padding: 20px;
+    opacity: 0; 
+    transform: scale(0.8); 
+}
+
+.cont h1 {
+    font-size: 2.5em;
+    color: var(--color-text);
+    margin-bottom: 20px;
+}
+
+.cont p {
+    font-size: 1.1em;
+    color: var(--color-light-gray);
+    text-align: center;
+    max-width: 600px;
+    margin-bottom: 20px;
+}
+
+.cont .table-info {
+    width: 100%;
+    max-width: 600px;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.cont .table-info th, .cont .table-info td {
+    padding: 12px;
+    border: 1px solid var(--color-light-gray);
+    text-align: left;
+}
+
+.btn-login, .btn-registro {
+    margin: 10px;
+}
+
+.btn-comenzar {
+    padding: 10px 20px;
+    font-size: 1.2em;
+    background-color: var(--color-btn-bg);
+    color: var(--color-nav-text);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
 /* Sección de bienvenida */
 .bienvenida {
     text-align: center;
     background-color: var(--color-nav-hover);
     color: var(--color-text);
-    padding: 50px 20px;
+    padding: 30px;
 }
 
 .bienvenida h1 {
@@ -38,18 +92,19 @@
     margin: auto;
     position: relative;
 }
-.informacion > div{
+
+.informacion > div {
     z-index: 10;
 }
 
 /* Sección de tareas */
 .tareas, .salas, .companero {
     width: 66.66666% !important;
-    margin-left: 17.5%;
+    margin-left: 16.5%;
     padding: 20px;
     background-color: var(--color-bg);
     border-radius: 20px;
-    box-shadow: 0px 2px 18px 0px rgba(0,0,0,0.3);
+    box-shadow: 0px 2px 18px 0px var(--color-shadows); 
     overflow: scroll;
     max-height: 500px;
 }
@@ -151,11 +206,7 @@
 .slick-slide:not(.slick-center) {
     opacity: 0.5; 
 }
-/*
-.slick-slide.slick-center + .slick-slide {
-    margin-left: -400px; 
-}
-*/
+
 .slick-prev, .slick-next {
     display: none;
     font-size: 0;
@@ -220,4 +271,23 @@
 .slick-next {
     display: none;
     right: -45px;
+}
+
+.calificaciones {
+    width: 80% !important;
+    margin-left: 10%;
+    padding: 20px;
+    background-color: var(--color-bg);
+    border-radius: 20px;
+    box-shadow: 0px 2px 18px 0px var(--color-shadows); 
+    overflow: scroll;
+    min-height: 500px;
+    margin-bottom: 20px;
+}
+
+.calificaciones h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    text-align: center;
+    color: var(--color-text); 
 }
