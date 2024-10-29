@@ -1,34 +1,32 @@
 .tareas, .tareas-crear {
     padding: 20px;
-    background-color: #fff;
+    background-color: var(--color-bg);
     margin: 20px;
     border-radius: 10px;
-    box-shadow: 0px 2px 18px 0px rgba(0,0,0,0.3);
+    box-shadow: 0px 2px 18px 0px var(--color-shadows);
 }
 
-.tareas{
+.tareas {
     display: block;
 }
 
-.tareas-crear{
+.tareas-crear {
     display: none;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    /*transition: 0.5s ease-in-out;*/
 }
 
-.tareas h2, .tareas-crear h2  {
+.tareas h2, .tareas-crear h2 {
     text-align: center;
     margin-bottom: 20px;
 }
 
-.tareas h3, .tareas-crear h3{
+.tareas h3, .tareas-crear h3 {
     font-size: 20px;
     margin-bottom: 10px;
 }
-
 
 .tareas ul {
     list-style: none;
@@ -36,10 +34,10 @@
 }
 
 .tareas .tarea {
-    background-color: #f4f4f9;
+    background-color: var(--color-tarea-bg);
     padding: 15px;
     margin-bottom: 15px;
-    border-left: 5px solid #f7ca18;
+    border-left: 5px solid var(--color-tarea-border);
     border-radius: 5px;
 }
 
@@ -48,9 +46,9 @@
     margin-bottom: 10px;
 }
 
-button{
-    background-color: #333;
-    color: white;
+button {
+    background-color: var(--color-btn-bg);
+    color: var(--color-nav-text);
     padding: 8px 15px;
     border: none;
     cursor: pointer;
@@ -58,7 +56,7 @@ button{
     border-radius: 5px;
 }
 
-button:hover{
-    background-color: #555;
+button:hover {
+    background-color: var(--color-btn-hover);
     transition: 0.33s;
 }
