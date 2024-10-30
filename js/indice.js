@@ -12,7 +12,7 @@ $(document).ready(function() {
         centerMode: true,
         pauseOnHover: true,
     });
-
+    var val = 0;
     // Verificar que el usuario está activado
     $.ajax({
         url: 'php/session.php',
@@ -22,17 +22,48 @@ $(document).ready(function() {
             if (response.auth) {
                 $('.container').css('display', 'block');
                 $('.cont').css('display', 'none');
-                console.log(`Bienvenido, ${response.nombre_usuario}`);
+                val = 1;
             } else {
                 $('.container').css('display', 'none');
                 $('.cont').css('display', 'block');
-
             }
         },
         error: function() {
             console.error("No se pudo verificar la sesión");
         }
     });
+    if (val = 1){
+        $.ajax({
+            url: 'php/tareas.php', 
+            method: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                if (data.error) {
+                    // alert(data.error);
+                } else {
+                    $('.tareas ul').empty(); 
+                    data.forEach(function(tarea) {
+                        $('.tareas ul').append(`
+                            <li>
+                                <div class="tarea" data-id="${tarea.tarea_id}">
+                                    <h3>${tarea.titulo}</h3>
+                                    <p>Fecha de entrega: ${tarea.fecha_entrega}</p>
+                                    <button class="btn-ir-tarea">Ir a página de tareas</button>
+                                </div>
+                            </li>
+                        `);
+                    });
+                }
+            },
+            error: function() {
+                alert('Error al cargar las tareas.');
+            }
+        });
+    }
+    $(document).on('click', '.btn-ir-tarea', function() {
+        window.location.href = "html/tareas.html";
+    });
+
 });
 document.addEventListener("DOMContentLoaded", () => {
     // Animación de entrada para el contenedor ".cont"

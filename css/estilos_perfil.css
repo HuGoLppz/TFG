@@ -7,17 +7,17 @@
 
 /* Contenedor del perfil */
 .perfil-contenedor {
-    background-color: var(--color-bg); /* Usando la variable de fondo */
+    background-color: var(--color-bg); 
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0px 2px 18px 0px var(--color-shadows); /* Usando la variable para la sombra */
+    box-shadow: 0px 2px 18px 0px var(--color-shadows); 
     width: 20%;
-    min-width: 300px; /* Mantiene un ancho máximo */
+    min-width: 300px; 
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 20px;
-    flex: 0 1 400px; /* Elimina el ancho fijo y permite que ocupe menos espacio */
+    flex: 0 1 400px; /
 }
 
 /* Estilo de la imagen de perfil */
@@ -25,7 +25,7 @@
     width: 150px;
     height: 150px;
     border-radius: 50%;
-    border: 3px solid var(--color-tarea-border); /* Usando la variable para el borde */
+    border: 3px solid var(--color-tarea-border); 
     object-fit: cover;
     margin-bottom: 20px;
 }
@@ -33,25 +33,25 @@
 /* Estilo del nombre del usuario */
 .info-perfil h1 {
     font-size: 24px;
-    color: var(--color-text); /* Usando la variable para el color del texto */
+    color: var(--color-text); 
     margin-bottom: 10px;
 }
 
 /* Estilo de la descripción del usuario */
 .info-perfil p {
     font-size: 16px;
-    color: var(--color-light-gray); /* Usando la variable para el color del texto */
+    color: var(--color-light-gray); 
     line-height: 1.5;
     margin-bottom: 20px;
 }
 
 /* Estilo de la sección de datos del perfil */
 .datos-perfil {
-    background-color: var(--color-bg); /* Usando la variable de fondo */
+    background-color: var(--color-bg); 
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0px 2px 18px 0px var(--color-shadows); /* Usando la variable para la sombra */
+    box-shadow: 0px 2px 18px 0px var(--color-shadows); 
     width: 80%;
-    min-width: 300px; /* Mantiene un ancho máximo */
+    min-width: 300px; 
     margin: 20px;
 }

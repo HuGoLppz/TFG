@@ -1,28 +1,27 @@
-/* css/estilos.css */
-.cont {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: var(--color-bg);
-    padding: 20px;
-    opacity: 0; 
-    transform: scale(0.8); 
+.cont{
+    background-color: var(--color-nav-bg);
+    margin-top: -20px;
 }
-
 .cont h1 {
-    font-size: 2.5em;
+    text-align: center;
+    font-size: 4em;
     color: var(--color-text);
     margin-bottom: 20px;
+    margin-top: 20px;
 }
 
-.cont p {
-    font-size: 1.1em;
+.cont .intro{
+    clip-path: ellipse(100% 100% at 50% 0);
+   background-color: pink;
+}
+
+.cont .intro p {
+    text-align: justify;
     color: var(--color-light-gray);
-    text-align: center;
-    max-width: 600px;
+    max-width: 800px;
     margin-bottom: 20px;
+    margin-left: 50%;
+    transform: translateX(-50%);
 }
 
 .cont .table-info {
@@ -40,9 +39,26 @@
 
 .btn-login, .btn-registro {
     margin: 10px;
+    margin: 75px;
+    margin-top: 10px;
+    margin-bottom: 30px;
 }
 
-.btn-comenzar {
+.cont .contenido {
+    width: 100%;
+}
+
+.cont .contenido p{
+    color: var(--color-bg);
+}
+
+.botones{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+button {
     padding: 10px 20px;
     font-size: 1.2em;
     background-color: var(--color-btn-bg);
@@ -81,7 +97,7 @@
     border-radius: 5px;
 }
 
-.bienvenida .btn-comenzar:hover {
+button:hover {
     background-color: var(--color-btn-hover);
     transition: 0.25s;
 }
