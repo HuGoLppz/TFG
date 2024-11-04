@@ -16,7 +16,7 @@ if (!$conn) {
     exit;
 }
 
-$usuario_id = $_SESSION['usuario_id'];
+$usuario_id = $_SESSION['usuario_id']; 
 $method = $_SERVER['REQUEST_METHOD'];
 
 try {
@@ -28,7 +28,7 @@ try {
             $query = "SELECT tarea_id, usuario_id, titulo, descripcion, fecha_entrega FROM tareas 
                       WHERE estado = 'completada' AND usuario_id = :usuario_id";
             $stmt = $conn->prepare($query);
-            $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
+            $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR); 
             $stmt->execute();
             $tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             echo json_encode($tareas);
@@ -38,7 +38,7 @@ try {
             $query = "SELECT tarea_id, usuario_id, titulo, descripcion, fecha_entrega FROM tareas 
                       WHERE estado = 'pendiente' AND usuario_id = :usuario_id";
             $stmt = $conn->prepare($query);
-            $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
+            $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR); 
             $stmt->execute();
             $tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             echo json_encode($tareas);
@@ -52,11 +52,10 @@ try {
             $tarea_id = $_POST['tarea_id'] ?? null;
 
             if ($tarea_id) {
-                // Marcar la tarea como completada si pertenece al usuario autenticado
                 $query = "UPDATE tareas SET estado = 'completada' WHERE tarea_id = :tarea_id AND usuario_id = :usuario_id";
                 $stmt = $conn->prepare($query);
                 $stmt->bindParam(':tarea_id', $tarea_id, PDO::PARAM_INT);
-                $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
+                $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR); 
                 $success = $stmt->execute();
 
                 echo json_encode(['success' => $success]);
@@ -74,11 +73,10 @@ try {
             $urgencia = $_POST['urgencia'] ?? '';
             $id = $usuario_id;
 
-            // Crear una nueva tarea asociada al usuario autenticado
             $query = "INSERT INTO tareas (usuario_id, titulo, descripcion, fecha_entrega, asignatura, tipo_actividad, urgencia, estado) 
                       VALUES (:usuario_id, :titulo, :descripcion, :fecha_entrega, :asignatura, :tipo_actividad, :urgencia, 'pendiente')";
             $stmt = $conn->prepare($query);
-            $stmt->bindParam(':usuario_id', $id);
+            $stmt->bindParam(':usuario_id', $id, PDO::PARAM_STR); 
             $stmt->bindParam(':titulo', $titulo);
             $stmt->bindParam(':descripcion', $descripcion);
             $stmt->bindParam(':fecha_entrega', $fecha_entrega);

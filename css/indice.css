@@ -54,10 +54,14 @@
     color: var(--color-bg);
 }
 
-.botones{
+.botones {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.botones > a {
+    margin: 25px;
 }
 
 button {
@@ -86,17 +90,6 @@ button {
 .bienvenida p {
     font-size: 18px;
     margin-bottom: 30px;
-}
-
-.bienvenida .btn-comenzar {
-    background-color: var(--color-btn-bg);
-    color: var(--color-nav-text);
-    padding: 10px 20px;
-    border: none;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.33s;
-    border-radius: 5px;
 }
 
 button:hover {

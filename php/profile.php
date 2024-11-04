@@ -16,7 +16,7 @@ try {
         $id = $_SESSION['usuario_id'];
 
         // Preparar y ejecutar la consulta SQL
-        $stmt = $conn->prepare("SELECT nombre, foto_perfil, descripcion, curso, estudios FROM Usuarios WHERE usuario_id = :id LIMIT 1");
+        $stmt = $conn->prepare("SELECT nombre, foto_perfil, descripcion, curso, estudios, usuario_id FROM Usuarios WHERE usuario_id = :id LIMIT 1");
         $stmt->bindParam(':id', $id, PDO::PARAM_STR);
         $stmt->execute();
 

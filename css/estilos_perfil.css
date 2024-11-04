@@ -45,6 +45,10 @@
     margin-bottom: 20px;
 }
 
+.info-perfil h5{
+    font-weight: lighter;
+}
+
 /* Estilo de la sección de datos del perfil */
 .datos-perfil {
     background-color: var(--color-bg); 
@@ -54,4 +58,17 @@
     width: 80%;
     min-width: 300px; 
     margin: 20px;
+}
+
+button{
+    padding: 10px 20px;
+    font-size: 1.2em;
+    background-color: var(--color-btn-bg);
+    color: var(--color-nav-text);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
