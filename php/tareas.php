@@ -1,6 +1,5 @@
 <?php
 session_start();
-header('Content-Type: application/json');
 require_once 'db.php';
 
 // Verificar si el usuario está autenticado

@@ -23,4 +23,23 @@ $(document).ready(function () {
             alert('Hubo un error al cargar los datos del perfil.');
         }
     });
+
+    $("#conf-perfil").on("click", function() {
+        $(".datos-perfil").css("display", "none");
+        $(".info-perfil").css("opacity", ".6");
+        $("#conf-perfil").prop("disabled", true);
+        $(".formulario-perfil").css("display", "block");
+        $('#imagen-perfil').css("opacity", ".6");
+    });
+
+    $("#enviar-formulario").on("click", function() {
+        $.ajax({
+            
+        })
+        $(".datos-perfil").css("display", "block");
+        $(".info-perfil").css("opacity", "1");
+        $("#conf-perfil").prop("disabled", false);
+        $(".formulario-perfil").css("display", "none");
+        $('#imagen-perfil').css("opacity", "1");
+    });
 });

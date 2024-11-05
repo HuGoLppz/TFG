@@ -53,6 +53,25 @@
                 <div class="datos-perfil">
                     
                 </div>
+                <div class="formulario-perfil">
+                    <label for="foto_perfil">Foto de Perfil:</label>
+                    <input type="file" id="foto_perfil" name="foto_perfil" accept="image/*">
+                    <br>
+                    <label for="descripcion">Descripción:</label>
+                    <textarea id="descripcion" name="descripcion" rows="4" cols="50"></textarea>
+                    <br>
+                    <label for="curso">Curso:</label>
+                    <input type="text" id="curso" name="curso" maxlength="100">
+                    <br>
+                    <label for="estudios">Estudios:</label>
+                    <input type="text" id="estudios" name="estudios" maxlength="255">
+                    <br>
+                    <label for="privacidad">Privacidad:</label>
+                    <input type="checkbox" id="privacidad" name="privacidad" value="1">
+                    <span>(Marcar para mantener el perfil privado)</span>
+                    <br><br>
+                    <button type="submit" id="enviar-formulario">Modificar perfil</button>
+                </div>
             </div>
         </main>
         <footer>

@@ -1,9 +1,9 @@
 $(document).ready(function() {
     // Animaciones del cabecero //
-    $(".btn-cabezero").click(function() {
+    $(".btn-cabecero").click(function() {
         $(".line-1").toggleClass("hide");
         $(".line-2").toggleClass("rotate-45");
         $(".line-3").toggleClass("rotate--45");
-        $(".menu-cabezero").slideToggle(); 
+        $(".menu-cabecero").slideToggle(); 
     });
 });
