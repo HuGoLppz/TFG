@@ -36,7 +36,7 @@ $(document).ready(function() {
                 if (data.error) {
                     alert(data.error);
                 } else {
-                    $('.tareas ul').empty(); // Limpiar la lista antes de agregar nuevas tareas
+                    $('.tareas-cont ul').empty(); // Limpiar la lista antes de agregar nuevas tareas
                     data.forEach(function(tarea) {
                         $('.tareas ul').append(`
                             <li>
