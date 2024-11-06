@@ -155,7 +155,7 @@ $(document).ready(function() {
         locale: 'es',                  
         firstDay: 1,                   
         headerToolbar: {
-            left: 'prev,next today',   
+            left: 'prev,next',   
             center: 'title',          
             right: 'dayGridMonth,timeGridWeek,timeGridDay'  
         },
