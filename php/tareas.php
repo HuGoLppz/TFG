@@ -2,13 +2,11 @@
 session_start();
 require_once 'db.php';
 
-// Verificar si el usuario está autenticado
 if (!isset($_SESSION['usuario_id'])) {
     echo json_encode(['success' => false, 'error' => 'Usuario no autenticado.']);
     exit;
 }
 
-// Establecer la conexión con la base de datos
 $conn = conectar();
 if (!$conn) {
     echo json_encode(['success' => false, 'error' => 'Error de conexión a la base de datos.']);
@@ -23,7 +21,6 @@ try {
         $action = $_GET['action'] ?? '';
 
         if ($action === 'listarCompletado') {
-            // Listar tareas completadas para el usuario autenticado
             $query = "SELECT tarea_id, usuario_id, titulo, descripcion, fecha_entrega FROM tareas 
                       WHERE estado = 'completada' AND usuario_id = :usuario_id";
             $stmt = $conn->prepare($query);
@@ -33,7 +30,6 @@ try {
             echo json_encode($tareas);
             exit;
         } else {
-            // Listar tareas pendientes
             $query = "SELECT tarea_id, usuario_id, titulo, descripcion, fecha_entrega FROM tareas 
                       WHERE estado = 'pendiente' AND usuario_id = :usuario_id";
             $stmt = $conn->prepare($query);

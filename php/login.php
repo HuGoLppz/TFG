@@ -1,42 +1,42 @@
 <?php
 session_start();
+require_once 'db.php';
 
-$host = 'localhost';  
-$dbname = 'study_planner';
-$username = 'root';   
-$password = '';       
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $name = $_POST['user'] ?? '';
+    $password = $_POST['password'] ?? '';
 
-try {
-    // Crear conexión a la base de datos
-    $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $name = $_POST['user'];
-        $password = $_POST['password'];
-        
-        // Consultar el usuario en la base de datos
-        $stmt = $conn->prepare("SELECT usuario_id, password FROM Usuarios WHERE nombre = :name LIMIT 1");
-        $stmt->bindParam(':name', $name);
-        $stmt->execute();
-
-        // Verificar si el usuario existe
-        if ($stmt->rowCount() == 1) {
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-            
-            // Verificar la contraseña
-            if ($password == $user['password']) {
-                $_SESSION['usuario_id'] = $user['usuario_id'];
-                $_SESSION['nombre_usuario'] = $name;
-                echo json_encode(['success' => true, 'message' => 'Inicio de sesión exitoso']);
-            } else {
-                echo json_encode(['success' => false, 'message' => 'Contraseña incorrecta']);
-            }
-        } else {
-            echo json_encode(['success' => false, 'message' => 'Nombre no registrado']);
-        }
+    // Validar datos de entrada
+    if (empty($name) || empty($password)) {
+        echo json_encode(['success' => false, 'message' => 'Usuario y contraseña son requeridos']);
+        exit();
     }
-} catch (PDOException $e) {
-    echo json_encode(['success' => false, 'message' => 'Error al conectar con la base de datos']);
+
+    // Conectar a la base de datos
+    $conn = conectar();
+    if (!$conn) {
+        echo json_encode(["success" => false, "message" => "Error de conexión a la base de datos"]);
+        exit();
+    }
+
+    // Buscar el usuario en la base de datos
+    $stmt = $conn->prepare("SELECT usuario_id, password FROM Usuarios WHERE nombre = :name LIMIT 1");
+    $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+    $stmt->execute();
+
+    if ($stmt->rowCount() === 1) {
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Verificar la contraseña hasheada
+        if ($password = $user['password']) {
+            $_SESSION['usuario_id'] = $user['usuario_id'];
+            $_SESSION['nombre_usuario'] = $name;
+            echo json_encode(['success' => true, 'message' => 'Inicio de sesión exitoso']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Contraseña incorrecta']);
+        }
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Nombre de usuario no registrado']);
+    }
 }
 ?>

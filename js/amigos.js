@@ -11,7 +11,7 @@ $(document).ready(function() {
                     $('#lista-amigos').append(`
                         <li>
                             <div class="amigo">
-                                <img src="${amigo.foto_perfil || 'img/default-avatar.png'}" alt="Amigo ${amigo.nombre}">
+                                <img src="${amigo.foto_perfil || '../img/default-profile.png'}" alt="Amigo ${amigo.nombre}">
                                 <h3>${amigo.nombre}</h3>
                                 <p>${amigo.email}</p>
                             </div>
@@ -22,10 +22,10 @@ $(document).ready(function() {
         });
     }
 
-    listarAmigos(); // Inicializar la lista de amigos al cargar la página
+    listarAmigos(); 
 
     // Función de búsqueda de amigos
-    $('#buscar').on('click', function() {
+    $('#busqueda').on('input', function() {
         const busqueda = $('#busqueda').val();
         $.ajax({
             url: '../php/amigos.php',
@@ -38,12 +38,16 @@ $(document).ready(function() {
 
                 if (usuarios.mensaje) {
                     $('#resultados-busqueda').append(`<li>${usuarios.mensaje}</li>`);
-                } else {
+                }
+                else if(busqueda === ""){
+                    $('#resultados-busqueda').append(`<li>No se encontraron usuarios</li>`);
+                }
+                else {
                     usuarios.forEach(usuario => {
                         $('#resultados-busqueda').append(`
                             <li>
                                 <div class="usuario">
-                                    <p>${usuario.nombre} - ${usuario.email}</p>
+                                    <p>${usuario.nombre} | ${usuario.usuario_id}</p>
                                     <button class="agregar-amigo" data-id="${usuario.usuario_id}">Agregar</button>
                                 </div>
                             </li>

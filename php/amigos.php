@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 FROM Amigos a 
                                 JOIN Usuarios u ON a.amigo_id = u.usuario_id 
                                 WHERE a.usuario_id = :usuario_id");
-        $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
+        $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR);
         $stmt->execute();
         $amigos = $stmt->fetchAll();
         echo json_encode($amigos);
@@ -37,23 +37,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $likeBusqueda = "%{$busqueda}%";
         $stmt = $conn->prepare("SELECT usuario_id, nombre, email, foto_perfil 
                                 FROM Usuarios 
-                                WHERE (usuario_id = :busqueda OR nombre LIKE :likeBusqueda) 
+                                WHERE (usuario_id LIKE :likeBusqueda OR nombre LIKE :likeBusqueda) 
                                 AND usuario_id != :usuario_id 
-                                AND usuario_id NOT IN (SELECT amigo_id FROM Amigos WHERE usuario_id = :usuario_id)");
-        $stmt->bindParam(':busqueda', $busqueda, PDO::PARAM_INT);
+                                AND usuario_id NOT IN (SELECT amigo_id FROM Amigos WHERE usuario_id = :usuario_id)
+                                LIMIT 15");
         $stmt->bindParam(':likeBusqueda', $likeBusqueda, PDO::PARAM_STR);
-        $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
+        $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR);
         $stmt->execute();
         $usuarios = $stmt->fetchAll();
         echo json_encode($usuarios ?: ["mensaje" => "No se encontraron usuarios"]);
-    }
+    }    
 
     // Agregar amigo
     if ($accion === 'agregar_amigo') {
         $nuevo_amigo_id = $_POST['amigo_id'];
         $stmt = $conn->prepare("INSERT INTO Amigos (usuario_id, amigo_id) VALUES (:usuario_id, :amigo_id)");
-        $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
-        $stmt->bindParam(':amigo_id', $nuevo_amigo_id, PDO::PARAM_INT);
+        $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR);
+        $stmt->bindParam(':amigo_id', $nuevo_amigo_id, PDO::PARAM_STR);
         
         if ($stmt->execute()) {
             echo json_encode(["mensaje" => "Amigo agregado exitosamente"]);
