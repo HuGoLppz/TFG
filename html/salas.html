@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="../css/estilos_salas.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
         <script src="../js/cabecero.js"></script>
+        <script src="../js/salas.js"></script>
     </head>
 <body>
     <div class="container">
@@ -34,26 +35,57 @@
             <!-- Aquí puede ir el contenido de las salas de trabajo -->
             <section class="salas">
                 <h2>Salas de Trabajo</h2>
-                <!-- Ejemplo de contenido -->
-                <ul>
-                    <li>
-                        <div class="sala">
-                            <h3>Proyecto de Ciencias</h3>
-                            <p>Fecha de entrega: 25/09/2024</p>
-                            <button class="btn-ir">Ir a la sala</button>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="sala">
-                            <h3>Trabajo en grupo de Historia</h3>
-                            <p>Fecha de entrega: 01/10/2024</p>
-                            <button class="btn-ir">Ir a la sala</button>
-                        </div>
-                    </li>
-                </ul>
+                <div class="cont-salas">
+                    <ul>
+                        <li>
+                            <div class="sala">
+                                <h3>Proyecto de Ciencias</h3>
+                                <p>Fecha de entrega: 25/09/2024</p>
+                                <button class="btn-ir">Ir a la sala</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="sala">
+                                <h3>Trabajo en grupo de Historia</h3>
+                                <p>Fecha de entrega: 01/10/2024</p>
+                                <button class="btn-ir">Ir a la sala</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="sala">
+                                <h3>Trabajo en grupo de Historia</h3>
+                                <p>Fecha de entrega: 01/10/2024</p>
+                                <button class="btn-ir">Ir a la sala</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="sala">
+                                <h3>Trabajo en grupo de Historia</h3>
+                                <p>Fecha de entrega: 01/10/2024</p>
+                                <button class="btn-ir">Ir a la sala</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <button class="crear-sala">Crear sala</button>
             </section>
-        </main>
+            <section class="salas-select">
 
+            </section>    
+        </main>
+        <section class="menu-crear-sala">
+            <h2>Crear Sala de Trabajo</h2>
+                <label for="nombre_sala">Nombre de la sala:</label>
+                <input type="text" id="nombre_sala" name="nombre_sala" required>
+
+                <label for="descripcion_sala">Descripción:</label>
+                <textarea id="descripcion_sala" name="descripcion_sala" required></textarea>
+
+                <label for="fecha_entrega">Fecha de entrega:</label>
+                <input type="date" id="fecha_entrega" name="fecha_entrega" required>
+                <button class="btn-crear-sala">Crear Sala</button>
+            </form>
+        </section>
         <footer>
             <p>&copy; 2024 STUDY-PLANNER. Todos los derechos reservados.</p>
         </footer>

@@ -39,7 +39,6 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(data) {
                 if (data.error) {
-                    // alert(data.error);
                 } else {
                     $('.tareas ul').empty(); 
                     data.forEach(function(tarea) {
@@ -59,6 +58,28 @@ $(document).ready(function() {
                 alert('Error al cargar las tareas.');
             }
         });
+        $.ajax({
+            url: 'php/amigos.php',
+            type: 'POST',
+            data: { accion: 'listar_amigos' },
+            success: function(data) {
+                const amigos = JSON.parse(data);
+                $('#lista-amigos').empty();
+                amigos.forEach(amigo => {
+                    $('.lista-amigos').append(`
+                        <li>
+                            <div class="amigo">
+                                <a href="html/perfil-amigo.html?usuario_id=${amigo.usuario_id.replace('#', '')}">
+                                    <img src="${amigo.foto_perfil || 'img/default-profile.png'}" alt="Amigo ${amigo.nombre}">
+                                    <h3>${amigo.nombre}</h3>
+                                    <p>${amigo.email}</p>
+                                </a>
+                            </div>
+                        </li>
+                    `);
+                });
+            }
+        });        
     }
     $(document).on('click', '.btn-ir-tarea', function() {
         window.location.href = "html/tareas.html";
