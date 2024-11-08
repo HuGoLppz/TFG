@@ -66,7 +66,7 @@ $(document).ready(function() {
                 const amigos = JSON.parse(data);
                 $('#lista-amigos').empty();
                 amigos.forEach(amigo => {
-                    $('.lista-amigos').append(`
+                    $('.companero ul').append(`
                         <li>
                             <div class="amigo">
                                 <a href="html/perfil-amigo.html?usuario_id=${amigo.usuario_id.replace('#', '')}">
@@ -79,7 +79,46 @@ $(document).ready(function() {
                     `);
                 });
             }
-        });        
+        }); 
+        $.ajax({
+            url: 'php/salas.php',
+            type: 'GET',
+            data: { action: 'listar_participacion' },
+            success: function(response) {
+                try {
+                    var data = JSON.parse(response);
+                    
+                    if (data.success) {
+                        $('.salas ul').empty();
+                        
+                        // Verifica si `salas` realmente existe en los datos devueltos
+                        if (Array.isArray(data.salas)) {
+                            data.salas.forEach(function(sala) {
+                                $('.salas ul').append(`
+                                    <li>
+                                        <div class="sala">
+                                            <h3>${sala.nombre}</h3>
+                                            <p>Fecha de entrega: ${sala.fecha_entrega || 'No definida'}</p>
+                                            <button class="btn-ir" data-sala-id="${sala.sala_id}">Ir a la sala</button>
+                                        </div>
+                                    </li>
+                                `);
+                            });
+                        } else {
+                            alert('No se encontraron salas.');
+                        }
+                    } else {
+                        alert('Error al listar salas: ' + (data.error || 'Desconocido'));
+                    }
+                } catch (e) {
+                    console.error('Error de formato JSON:', e);
+                    alert('Hubo un problema al procesar los datos del servidor.');
+                }
+            },
+            error: function() {
+                alert('Hubo un error al conectar con el servidor.');
+            }
+        });               
     }
     $(document).on('click', '.btn-ir-tarea', function() {
         window.location.href = "html/tareas.html";

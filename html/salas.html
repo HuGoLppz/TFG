@@ -37,53 +37,47 @@
                 <h2>Salas de Trabajo</h2>
                 <div class="cont-salas">
                     <ul>
-                        <li>
-                            <div class="sala">
-                                <h3>Proyecto de Ciencias</h3>
-                                <p>Fecha de entrega: 25/09/2024</p>
-                                <button class="btn-ir">Ir a la sala</button>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="sala">
-                                <h3>Trabajo en grupo de Historia</h3>
-                                <p>Fecha de entrega: 01/10/2024</p>
-                                <button class="btn-ir">Ir a la sala</button>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="sala">
-                                <h3>Trabajo en grupo de Historia</h3>
-                                <p>Fecha de entrega: 01/10/2024</p>
-                                <button class="btn-ir">Ir a la sala</button>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="sala">
-                                <h3>Trabajo en grupo de Historia</h3>
-                                <p>Fecha de entrega: 01/10/2024</p>
-                                <button class="btn-ir">Ir a la sala</button>
-                            </div>
-                        </li>
+                        
                     </ul>
                 </div>
                 <button class="crear-sala">Crear sala</button>
             </section>
             <section class="salas-select">
+                <div class="cabecero-sala">
+                    <h2>Sala de tareas prueba html</h2>
+                    <div class="iconos-cabecero-sala">
+                        <img src="../img/book-outline.svg" class="acceso-tarea">
+                        <img src="../img/document-outline.svg" class="acceso-documentos">
+                        <img src="../img/chatbubble-ellipses-outline.svg" class="acceso-chat-grupo">
+                        <img src="../img/settings-outline.svg" class="acceso-ajustes">
+                    </div>
+                </div>
+                <div class="contenido-sala">
 
+                </div>
             </section>    
         </main>
         <section class="menu-crear-sala">
             <h2>Crear Sala de Trabajo</h2>
+            <form id="crearSalaForm">
                 <label for="nombre_sala">Nombre de la sala:</label>
                 <input type="text" id="nombre_sala" name="nombre_sala" required>
-
+                <br>
                 <label for="descripcion_sala">Descripción:</label>
+                <br>
                 <textarea id="descripcion_sala" name="descripcion_sala" required></textarea>
-
+                <br>
                 <label for="fecha_entrega">Fecha de entrega:</label>
                 <input type="date" id="fecha_entrega" name="fecha_entrega" required>
-                <button class="btn-crear-sala">Crear Sala</button>
+                <br>
+                <label for="lista_amigos">Invitar amigos:</label>
+                <label for="lista_amigos">Invitar amigos:</label>
+                <select id="lista_amigos" name="lista_amigos[]" multiple>
+                    <option value="">Selecciona amigos</option>
+                </select>
+                <br>
+                <br>
+                <button type="submit" class="btn-crear-sala">Crear Sala</button>
             </form>
         </section>
         <footer>

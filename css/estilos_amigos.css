@@ -72,3 +72,8 @@ button:hover {
     background-color: var(--color-btn-hover);
     transition: 0.33s;
 }
+
+a{
+    color:var(--color-text);
+    text-decoration: none;
+}

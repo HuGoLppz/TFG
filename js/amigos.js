@@ -11,9 +11,11 @@ $(document).ready(function() {
                     $('#lista-amigos').append(`
                         <li>
                             <div class="amigo">
-                                <img src="${amigo.foto_perfil || '../img/default-profile.png'}" alt="Amigo ${amigo.nombre}">
-                                <h3>${amigo.nombre}</h3>
-                                <p>${amigo.email}</p>
+                                <a href="../html/perfil-amigo.html?usuario_id=${amigo.usuario_id.replace('#', '')}">
+                                    <img src="${amigo.foto_perfil || '../img/default-profile.png'}" alt="Amigo ${amigo.nombre}">
+                                    <h3>${amigo.nombre}</h3>
+                                    <p>${amigo.email}</p>
+                                </a>
                             </div>
                         </li>
                     `);

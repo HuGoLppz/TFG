@@ -135,7 +135,7 @@ button:hover {
     padding: 0;
 }
 
-.tarea , .amigo{
+.tarea , .amigo, .sala{
     background-color: var(--color-tarea-bg);
     padding: 15px;
     margin-bottom: 15px;
