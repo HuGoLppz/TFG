@@ -98,3 +98,22 @@ ul{
 .contenido-sala{
     display: none;
 }
+
+.sugerencias-amigos {
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+    position: absolute;
+    background: white;
+    width: calc(100% - 20px);
+    display: none;
+}
+
+.sugerencias-amigos div {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.sugerencias-amigos div:hover {
+    background-color: #f0f0f0;
+}

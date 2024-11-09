@@ -38,7 +38,7 @@ input:focus {
     width: 46%;
 }
 .tareas-cont{
-    height: 88%;
+    height: 32vw;
     overflow: scroll;
 }
 

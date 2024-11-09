@@ -70,16 +70,17 @@
                 <label for="fecha_entrega">Fecha de entrega:</label>
                 <input type="date" id="fecha_entrega" name="fecha_entrega" required>
                 <br>
-                <label for="lista_amigos">Invitar amigos:</label>
-                <label for="lista_amigos">Invitar amigos:</label>
-                <select id="lista_amigos" name="lista_amigos[]" multiple>
-                    <option value="">Selecciona amigos</option>
-                </select>
+                <label for="buscar_amigos">Buscar amigos:</label>
+                <input type="text" id="buscar_amigos" placeholder="Escribe el nombre de un amigo">
+                <div id="sugerencias_amigos" class="sugerencias-amigos"></div>
                 <br>
+                <label>Amigos invitados:</label>
+                <ul id="amigos_invitados"></ul>
                 <br>
                 <button type="submit" class="btn-crear-sala">Crear Sala</button>
             </form>
         </section>
+        
         <footer>
             <p>&copy; 2024 STUDY-PLANNER. Todos los derechos reservados.</p>
         </footer>

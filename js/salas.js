@@ -1,8 +1,8 @@
 $(document).ready(function() {
     listarSalas();
+    
     $(".crear-sala").on("click", function() {
         $(".menu-crear-sala").css("display", "block");
-        listarAmigos();
     });
 
     $(".btn-crear-sala").on("click", function(event) {
@@ -12,7 +12,7 @@ $(document).ready(function() {
         var nombre_sala = $('#nombre_sala').val();
         var descripcion_sala = $('#descripcion_sala').val();
         var fecha_entrega = $('#fecha_entrega').val();
-        var idAmigos = $('#lista_amigos').val(); 
+        var idAmigos = amigosSeleccionados.map(amigo => amigo.id); // IDs de los amigos seleccionados
 
         console.log("IDs de amigos seleccionados: ", idAmigos);
 
@@ -20,6 +20,7 @@ $(document).ready(function() {
             alert('Por favor, completa todos los campos y selecciona al menos un amigo.');
             return;
         }
+
         $.ajax({
             url: '../php/salas.php',
             type: 'POST',
@@ -46,7 +47,6 @@ $(document).ready(function() {
             }
         });
     });
-    
 
     function listarSalas() {
         $.ajax({
@@ -82,23 +82,65 @@ $(document).ready(function() {
             }
         });
     }
-    function listarAmigos() {
-        $.ajax({
-            url: '../php/amigos.php',
-            type: 'POST',
-            data: { accion: 'listar_amigos' },
-            success: function(data) {
-                const amigos = JSON.parse(data);
-                $('#lista_amigos').empty(); 
-                $('#lista_amigos').append('<option value="">Selecciona un amigo</option>');
-                amigos.forEach(amigo => {
-                    $('#lista_amigos').append(`
-                        <option value="${amigo.usuario_id}">${amigo.nombre}</option>
-                    `);
-                });
-            }
+
+    // Variables para manejar los amigos seleccionados y sugerencias de búsqueda
+    let amigosSeleccionados = [];
+    
+    // Buscar amigos en tiempo real al escribir
+    $('#buscar_amigos').on('input', function() {
+        const query = $(this).val().trim();
+        if (query.length > 0) {
+            $.ajax({
+                url: '../php/amigos.php',
+                type: 'POST',
+                data: { accion: 'buscar_amigos', query: query },
+                success: function(data) {
+                    const amigos = JSON.parse(data);
+                    mostrarSugerencias(amigos);
+                }
+            });
+        } else {
+            $('#sugerencias_amigos').empty().hide();
+        }
+    });
+
+    // Mostrar sugerencias de amigos en el desplegable
+    function mostrarSugerencias(amigos) {
+        const sugerenciasDiv = $('#sugerencias_amigos');
+        sugerenciasDiv.empty().show();
+        amigos.forEach(amigo => {
+            const amigoDiv = $(`<div data-id="${amigo.usuario_id}">${amigo.nombre}</div>`);
+            amigoDiv.on('click', function() {
+                agregarAmigo(amigo.usuario_id, amigo.nombre);
+                $('#buscar_amigos').val('');
+                sugerenciasDiv.hide();
+            });
+            sugerenciasDiv.append(amigoDiv);
         });
     }
+
+    // Agregar amigo a la lista de invitados
+    function agregarAmigo(id, nombre) {
+        if (!amigosSeleccionados.some(amigo => amigo.id === id)) {
+            amigosSeleccionados.push({ id: id, nombre: nombre });
+            $('#amigos_invitados').append(`<li>${nombre} <button type="button" onclick="eliminarAmigo(${id})">Eliminar</button></li>`);
+            $('#crearSalaForm').append(`<input type="hidden" name="lista_amigos[]" value="${id}">`);
+        }
+    }
+
+    // Eliminar amigo de la lista de invitados
+    window.eliminarAmigo = function(id) {
+        amigosSeleccionados = amigosSeleccionados.filter(amigo => amigo.id !== id);
+        $(`input[name="lista_amigos[]"][value="${id}"]`).remove();
+        $(`#amigos_invitados li button[onclick="eliminarAmigo(${id})"]`).parent().remove();
+    };
+
+    // Ocultar sugerencias cuando se hace clic fuera
+    $(document).on('click', function(e) {
+        if (!$(e.target).closest('#buscar_amigos, #sugerencias_amigos').length) {
+            $('#sugerencias_amigos').hide();
+        }
+    });
 
     $(".cont-salas").on("click", ".btn-ir", function() {
         $(".cabecero-sala").css("display", "flex");

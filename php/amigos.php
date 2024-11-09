@@ -2,7 +2,7 @@
 session_start();
 require_once 'db.php';
 
-$usuario_id = $_SESSION['usuario_id'] ?? null; 
+$usuario_id = $_SESSION['usuario_id'] ?? null;
 
 if (!$usuario_id) {
     echo json_encode(["mensaje" => "No hay usuario autenticado"]);
@@ -31,7 +31,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode($amigos);
     }
 
-    // Buscar y agregar amigos
+    // Buscar amigos según un término de búsqueda
+    if ($accion === 'buscar_amigos') {
+        $busqueda = $_POST['query'] ?? '';
+        $likeBusqueda = "%{$busqueda}%";
+        
+        $stmt = $conn->prepare("SELECT u.usuario_id, u.nombre 
+                                FROM Usuarios u
+                                WHERE (u.nombre LIKE :likeBusqueda)
+                                AND u.usuario_id != :usuario_id
+                                AND u.usuario_id IN (SELECT amigo_id FROM Amigos WHERE usuario_id = :usuario_id)
+                                LIMIT 15");
+        $stmt->bindParam(':likeBusqueda', $likeBusqueda, PDO::PARAM_STR);
+        $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR);
+        $stmt->execute();
+        
+        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($resultados ?: ["mensaje" => "No se encontraron amigos"]);
+    }
+    
+    // Buscar y agregar amigos (opcional: nueva funcionalidad)
     if ($accion === 'buscar_agregar') {
         $busqueda = $_POST['busqueda'];
         $likeBusqueda = "%{$busqueda}%";
@@ -46,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute();
         $usuarios = $stmt->fetchAll();
         echo json_encode($usuarios ?: ["mensaje" => "No se encontraron usuarios"]);
-    }    
+    }
 
     // Agregar amigo
     if ($accion === 'agregar_amigo') {
