@@ -5,6 +5,10 @@ $(document).ready(function() {
         $(".menu-crear-sala").css("display", "block");
     });
 
+    $(".cerrar-ventana").on("click", function(){
+        $(".menu-crear-sala").css("display", "none");
+    });
+
     $(".btn-crear-sala").on("click", function(event) {
         event.preventDefault(); 
         $(".menu-crear-sala").css("display", "none");

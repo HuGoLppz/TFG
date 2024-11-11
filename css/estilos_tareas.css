@@ -18,19 +18,82 @@ main{
     box-shadow: 0px 2px 18px 0px var(--color-shadows);
 }
 
-input{
-    border-top: 0px;
-    border-left: 0px;
-    border-right: 0px;
-    border-bottom: 1px solid var(--color-text);
+.tareas-crear{
+    width: 600px;
+    max-height: 500px;
+    overflow: scroll;
 }
 
-input:focus {
-    margin-bottom: -1px;
-    border-bottom: 2px solid;
-    border-color: #f7ca18;
-    outline: none;
+.cerrar-ventana{
+    float: right;
+    height: 25px;
+    cursor: pointer;
 }
+
+.input-container {
+    position: relative;
+    width: 100%;
+    --border-before-color: var(--color-text); /* Color inicial del borde */
+    --border-after-color: var(--color-nav-hover); /* Color de foco del borde */
+  }
+  
+  /* Estilo del input con fondo transparente */
+  input[type="text"],
+  input[type="date"],
+  textarea {
+    background-color: transparent;
+    width: 100%;
+    padding: 0.5em 0.5em;
+    border: none;
+    border-bottom: 1px solid var(--border-before-color);
+    font-size: 1rem;
+    color: var(--color-text);
+    box-sizing: border-box;
+  }
+
+  textarea {
+    width: 100%; 
+    min-height: 100px; 
+    max-height: 300px;
+    resize: none;
+    padding: 0.5em;
+    border: 1px solid var(--color-text);
+    border-radius: 4px;
+    background-color: var(--color-tarea-bg);
+    color: var(--color-text);
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+  
+  /* Borde animado */
+  .input-border {
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    background-color: var(--border-after-color);
+    bottom: 0;
+    left: 0;
+    transition: width 0.3s ease;
+  }
+  
+  /* Hover y focus */
+  input[type="text"]:hover,
+  input[type="date"]:hover,
+  textarea:hover {
+    background-color: var(--input-hovered-color, rgba(85, 85, 85, 0.1));
+  }
+  
+  input[type="text"]:focus,
+  input[type="date"]:focus,
+  textarea:focus {
+    outline: none;
+  }
+  
+  input[type="text"]:focus ~ .input-border,
+  input[type="date"]:focus ~ .input-border,
+  textarea:focus ~ .input-border {
+    width: 100%;
+  }  
 
 .tareas {
     display: block;
@@ -38,7 +101,7 @@ input:focus {
     width: 46%;
 }
 .tareas-cont{
-    height: 32vw;
+    height: 31vw;
     overflow: scroll;
 }
 
@@ -48,7 +111,9 @@ input:focus {
     top: 46%;
     left: 50%;
     transform: translate(-50%, -50%);
+    z-index: 10; 
 }
+
 .tareas > button{
     margin-top: 15px;
 }
@@ -121,53 +186,51 @@ button:hover {
 }
 
 .fc-toolbar .fc-button {
-    background-color: var(--color-nav-text); /* Fondo de los botones */
-    color: var(--color-nav-bg); /* Color de texto */
-    border: none; /* Sin borde */
+    background-color: var(--color-nav-text);
+    color: var(--color-nav-bg); 
+    border: none; 
     padding: 6px 12px;
     border-radius: 4px;
     font-weight: bold;
 }
 
 .fc-toolbar .fc-button:hover {
-    background-color: var(--color-btn-hover); /* Cambio de color al pasar el ratón */
+    background-color: var(--color-btn-hover); 
 }
 
 .fc-toolbar .fc-button.fc-button-active {
-    background-color: var(--color-btn-hover); /* Color del botón activo */
+    background-color: var(--color-btn-hover); 
     color: var(--color-nav-text);
 }
 
-/* Estilos para los días (celdas del calendario) */
+
 .fc-daygrid-day {
     background-color: var(--color-bg);
-    border: 1px solid #ddd; /* Borde de cada celda */
+    border: 1px solid #ddd; 
     transition: background-color 0.3s ease;
 }
 
 .fc-daygrid-day:hover {
-    background-color: var(--color-tarea-bg); /* Fondo al pasar el ratón por un día */
+    background-color: var(--color-tarea-bg);
 }
 
 .fc-day-today {
-    background-color: var(--color-nav-hover); /* Color del día actual */
-    border-color: var(--color-tarea-border); /* Borde del día actual */
+    background-color: var(--color-nav-hover); 
+    border-color: var(--color-tarea-border); 
 }
 
 .fc-day-sat, .fc-day-sun {
-    background-color: var(--color-tarea-bg); /* Color de fondo para sábados y domingos */
+    background-color: var(--color-tarea-bg); 
 }
 
-/* Estilo para el texto de los días */
 .fc-daygrid-day-number {
     color: var(--color-btn-bg);
     font-weight: bold;
 }
 
-/* Estilos para los eventos */
 .fc-event {
-    background-color: var(--color-slider-dot-active); /* Color de fondo de los eventos */
-    border: 1px solid var(--color-tarea-border); /* Borde de los eventos */
+    background-color: var(--color-slider-dot-active); 
+    border: 1px solid var(--color-tarea-border); 
     color: var(--color-nav-text);
     border-radius: 4px;
     padding: 5px;
@@ -175,7 +238,7 @@ button:hover {
 }
 
 .fc-event:hover {
-    background-color: var(--color-tarea-border); /* Color al pasar el ratón por el evento */
+    background-color: var(--color-tarea-border); 
 }
 
 /* Texto de los eventos */

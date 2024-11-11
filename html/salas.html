@@ -32,7 +32,6 @@
         </header>
         
         <main>
-            <!-- Aquí puede ir el contenido de las salas de trabajo -->
             <section class="salas">
                 <h2>Salas de Trabajo</h2>
                 <div class="cont-salas">
@@ -58,21 +57,31 @@
             </section>    
         </main>
         <section class="menu-crear-sala">
+            <img src="../img/x-lg.svg" alt="cerrar ventana" class="cerrar-ventana">
             <h2>Crear Sala de Trabajo</h2>
             <form id="crearSalaForm">
                 <label for="nombre_sala">Nombre de la sala:</label>
-                <input type="text" id="nombre_sala" name="nombre_sala" required>
+                <div class="input-container">
+                    <input type="text" id="nombre_sala" name="nombre_sala" required>
+                    <span class="input-border"></span>
+                </div>
                 <br>
                 <label for="descripcion_sala">Descripción:</label>
                 <br>
                 <textarea id="descripcion_sala" name="descripcion_sala" required></textarea>
                 <br>
                 <label for="fecha_entrega">Fecha de entrega:</label>
-                <input type="date" id="fecha_entrega" name="fecha_entrega" required>
+                <div class="input-container">
+                    <input type="date" id="fecha_entrega" name="fecha_entrega" required>
+                    <span class="input-border"></span>
+                </div>
                 <br>
                 <label for="buscar_amigos">Buscar amigos:</label>
-                <input type="text" id="buscar_amigos" placeholder="Escribe el nombre de un amigo">
-                <div id="sugerencias_amigos" class="sugerencias-amigos"></div>
+                <div class="input-container">
+                    <input type="text" id="buscar_amigos" placeholder="Escribe el nombre de un amigo">
+                    <span class="input-border"></span>
+                    <div id="sugerencias_amigos" class="sugerencias-amigos"></div>
+                </div>
                 <br>
                 <label>Amigos invitados:</label>
                 <ul id="amigos_invitados"></ul>

@@ -26,6 +26,11 @@ $(document).ready(function() {
         cargarTareas();
     });
 
+    $(".cerrar-ventana").on("click", function(){
+        $(".tareas-crear").css("display", "none");
+        $(".tareas").css("opacity", 1);
+    });
+
     // Función para cargar tareas pendientes al iniciar la página
     function cargarTareas() {
         $.ajax({

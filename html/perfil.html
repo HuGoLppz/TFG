@@ -47,29 +47,42 @@
                         <button id="conf-perfil">Modificar perfil</button>
                     </div>
                 </div>
-                
-                <!-- Contenedor de Datos de Usuario -->
-                <div class="datos-perfil">
-                    
-                </div>
+
                 <div class="formulario-perfil">
                     <label for="foto_perfil">Foto de Perfil:</label>
-                    <input type="file" id="foto_perfil" name="foto_perfil" accept="image/*">
+                    <div class="file-input-wrapper">
+                        <input type="file" class="foto-perfil-input" name="foto_perfil" accept="image/*">
+                        <label class="file-input-label">
+                          <img class="preview-img" src="../img/pen.svg" alt="Subir foto"/>
+                        </label>
+                      </div>                      
                     <br>
                     <label for="descripcion">Descripción:</label>
                     <textarea id="descripcion" name="descripcion" rows="4" cols="50"></textarea>
                     <br>
                     <label for="curso">Curso:</label>
-                    <input type="text" id="curso" name="curso" maxlength="100">
+                    <div class="input-container">
+                        <input type="text" id="curso" name="curso" maxlength="100">
+                        <span class="input-border"></span>
+                    </div>
                     <br>
                     <label for="estudios">Estudios:</label>
-                    <input type="text" id="estudios" name="estudios" maxlength="255">
+                    <div class="input-container">
+                        <input type="text" id="estudios" name="estudios" maxlength="255">
+                        <span class="input-border"></span>
+                    </div>
                     <br>
                     <label for="privacidad">Privacidad:</label>
                     <input type="checkbox" id="privacidad" name="privacidad" value="1">
                     <span>(Marcar para mantener el perfil privado)</span>
                     <br><br>
                     <button type="submit" id="enviar-formulario">Modificar perfil</button>
+                </div>
+
+                                
+                <!-- Contenedor de Datos de Usuario -->
+                <div class="datos-perfil">
+                    
                 </div>
             </div>
         </main>
