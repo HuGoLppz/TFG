@@ -10,7 +10,7 @@ $(document).ready(function() {
             type: 'POST',
             dataType: 'json',
             data: {
-                user: user, // Cambiado de email a user
+                user: user, 
                 password: password   
             },
             success: function(response) {

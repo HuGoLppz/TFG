@@ -13,9 +13,8 @@ $(document).ready(function() {
         pauseOnHover: true,
     });
     var val = 0;
-    // Verificar que el usuario está activado
     $.ajax({
-        url: 'php/session.php',
+        url: '../php/session.php',
         method: 'GET',
         dataType: 'json',
         success: function(response) {
@@ -34,7 +33,7 @@ $(document).ready(function() {
     });
     if (val = 1){
         $.ajax({
-            url: 'php/tareas.php', 
+            url: '../php/tareas.php', 
             method: 'GET',
             dataType: 'json',
             success: function(data) {
@@ -59,7 +58,7 @@ $(document).ready(function() {
             }
         });
         $.ajax({
-            url: 'php/amigos.php',
+            url: '../php/amigos.php',
             type: 'POST',
             data: { accion: 'listar_amigos' },
             success: function(data) {
@@ -69,8 +68,8 @@ $(document).ready(function() {
                     $('.companero ul').append(`
                         <li>
                             <div class="amigo">
-                                <a href="html/perfil-amigo.html?usuario_id=${amigo.usuario_id.replace('#', '')}">
-                                    <img src="${amigo.foto_perfil || 'img/default-profile.png'}" alt="Amigo ${amigo.nombre}">
+                                <a href="../html/perfil-amigo.html?usuario_id=${amigo.usuario_id.replace('#', '')}">
+                                    <img src="${amigo.foto_perfil || '../img/default-profile.png'}" alt="Amigo ${amigo.nombre}">
                                     <h3>${amigo.nombre}</h3>
                                     <p>${amigo.email}</p>
                                 </a>
@@ -81,7 +80,7 @@ $(document).ready(function() {
             }
         }); 
         $.ajax({
-            url: 'php/salas.php',
+            url: '../php/salas.php',
             type: 'GET',
             data: { action: 'listar_participacion' },
             success: function(response) {
@@ -121,51 +120,7 @@ $(document).ready(function() {
         });               
     }
     $(document).on('click', '.btn-ir-tarea', function() {
-        window.location.href = "html/tareas.html";
+        window.location.href = "../html/tareas.html";
     });
 
-});
-document.addEventListener("DOMContentLoaded", () => {
-    // Animación de entrada para el contenedor ".cont"
-    gsap.to(".cont", {
-        opacity: 1,
-        scale: 1,
-        duration: 1.5,
-        ease: "power2.out",
-    });
-
-    // Animación de los elementos dentro de ".cont"
-    gsap.from(".cont h1", {
-        y: -50,
-        opacity: 0,
-        duration: 1,
-        delay: 0.3,
-        ease: "back.out(1.7)"
-    });
-
-    gsap.from(".cont p", {
-        y: 30,
-        opacity: 0,
-        duration: 1,
-        delay: 0.5,
-        stagger: 0.2,
-        ease: "power2.out"
-    });
-
-    gsap.from(".cont .table-info", {
-        scale: 0.9,
-        opacity: 0,
-        duration: 1,
-        delay: 0.7,
-        ease: "back.out(1.5)"
-    });
-
-    gsap.from(".btn-comenzar", {
-        y: 20,
-        opacity: 0,
-        duration: 0.8,
-        delay: 0.9,
-        stagger: 0.2,
-        ease: "power2.out"
-    });
 });
