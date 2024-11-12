@@ -1,36 +1,31 @@
 $(document).ready(function() {
-    $(".btn-volver").css("display", "none");
-    
+    $(".btn-volver").hide();
+
     $(".btn-crear").on("click", function() {
-        $(".tareas-crear").css("display", "inline-block");
+        $(".tareas-crear").toggle(); 
+        $(".tareas").css("opacity", $(".tareas-crear").is(":visible") ? 0.5 : 1);
     });
-    
-    $(".btn-crear2").on("click", function() {
-        $(".tareas-crear").css("display", "none");
+
+    $(".btn-crear2, .cerrar-ventana").on("click", function() {
+        $(".tareas-crear, .form-tarea-completar").hide();
         $(".tareas").css("opacity", 1);
     });
 
     $(".btn-historial").on("click", function() {
-        $(".btn-volver").css("display", "inline-block");
-        $(".btn-historial").css("display", "none");
+        $(".btn-volver").show();
+        $(this).hide();
         cargarTareasCompletadas();
     });
 
     $(".btn-volver").on("click", function() {
-        $(".btn-volver").css("display", "none");
-        $(".btn-historial").css("display", "inline-block");
+        $(".btn-historial").show();
+        $(this).hide();
         cargarTareas();
-    });
-
-    $(".cerrar-ventana").on("click", function(){
-        $(".tareas-crear").css("display", "none");
-        $(".form-tarea-completar").css("display", "none");
-        $(".tareas").css("opacity", 1);
     });
 
     function cargarTareas() {
         $.ajax({
-            url: '../php/tareas.php', 
+            url: '../php/tareas.php',
             method: 'GET',
             dataType: 'json',
             success: function(data) {
@@ -59,7 +54,7 @@ $(document).ready(function() {
 
     function cargarTareasCompletadas() {
         $.ajax({
-            url: '../php/tareas.php', 
+            url: '../php/tareas.php',
             method: 'GET',
             data: { action: 'listarCompletado' },
             dataType: 'json',
@@ -91,15 +86,9 @@ $(document).ready(function() {
     $(document).on('click', '.btn-completar', function() {
         const tareaId = $(this).closest('.tarea').data('id');
         $('#tarea-id-completar').val(tareaId); 
-        $(".form-tarea-completar").css("display", "inline-block");
+        $(".form-tarea-completar").toggle();
     });
 
-    // Cerrar el formulario de completar tarea
-    $(".cerrar-ventana").on("click", function() {
-        $(".form-tarea-completar").css("display", "none");
-    });
-
-    // Enviar el formulario de completar tarea
     $('#form-completar-tarea').on('submit', function(event) {
         event.preventDefault(); 
 
@@ -124,7 +113,7 @@ $(document).ready(function() {
                 if (response.success) {
                     alert('Tarea completada con éxito.');
                     cargarTareas(); 
-                    $(".form-tarea-completar").css("display", "none"); 
+                    $(".form-tarea-completar").hide(); 
                 } else {
                     alert(response.error || 'No se pudo completar la tarea.');
                 }
@@ -158,7 +147,7 @@ $(document).ready(function() {
                     alert('Tarea creada con éxito.');
                     cargarTareas(); 
                     $('form')[0].reset(); 
-                    $(".tareas-crear").css("display", "none"); 
+                    $(".tareas-crear").hide(); 
                     $(".tareas").css("opacity", 1); 
                 } else {
                     alert(response.error || 'No se pudo crear la tarea.');
@@ -173,13 +162,13 @@ $(document).ready(function() {
     var calendarEl = document.getElementById('calendar');
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',   
-        locale: 'es',                  
-        firstDay: 1,                   
+        initialView: 'dayGridMonth',
+        locale: 'es',
+        firstDay: 1,
         headerToolbar: {
-            left: 'prev,next',   
-            center: 'title',          
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'  
+            left: 'prev,next',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
         },
         events: [
             {
