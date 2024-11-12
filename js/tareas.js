@@ -1,25 +1,21 @@
 $(document).ready(function() {
     $(".btn-volver").css("display", "none");
     
-    // Mostrar el formulario de creación de tareas
     $(".btn-crear").on("click", function() {
         $(".tareas-crear").css("display", "inline-block");
     });
     
-    // Ocultar el formulario de creación de tareas
     $(".btn-crear2").on("click", function() {
         $(".tareas-crear").css("display", "none");
         $(".tareas").css("opacity", 1);
     });
 
-    // Mostrar el historial de tareas completadas
     $(".btn-historial").on("click", function() {
         $(".btn-volver").css("display", "inline-block");
         $(".btn-historial").css("display", "none");
         cargarTareasCompletadas();
     });
 
-    // Volver a mostrar las tareas pendientes
     $(".btn-volver").on("click", function() {
         $(".btn-volver").css("display", "none");
         $(".btn-historial").css("display", "inline-block");
@@ -28,10 +24,10 @@ $(document).ready(function() {
 
     $(".cerrar-ventana").on("click", function(){
         $(".tareas-crear").css("display", "none");
+        $(".form-tarea-completar").css("display", "none");
         $(".tareas").css("opacity", 1);
     });
 
-    // Función para cargar tareas pendientes al iniciar la página
     function cargarTareas() {
         $.ajax({
             url: '../php/tareas.php', 
@@ -41,7 +37,7 @@ $(document).ready(function() {
                 if (data.error) {
                     alert(data.error);
                 } else {
-                    $('.tareas-cont ul').empty(); // Limpiar la lista antes de agregar nuevas tareas
+                    $('.tareas-cont ul').empty(); 
                     data.forEach(function(tarea) {
                         $('.tareas ul').append(`
                             <li>
@@ -61,7 +57,6 @@ $(document).ready(function() {
         });
     }
 
-    // Función para cargar tareas completadas
     function cargarTareasCompletadas() {
         $.ajax({
             url: '../php/tareas.php', 
@@ -72,7 +67,7 @@ $(document).ready(function() {
                 if (data.error) {
                     alert(data.error);
                 } else {
-                    $('.tareas ul').empty(); // Limpiar la lista antes de agregar nuevas tareas
+                    $('.tareas ul').empty();
                     data.forEach(function(tarea) {
                         $('.tareas ul').append(`
                             <li>
@@ -91,22 +86,45 @@ $(document).ready(function() {
         });
     }
 
-    // Llamar a la función para cargar las tareas al iniciar la página
     cargarTareas();
 
-    // Evento para marcar una tarea como completada
     $(document).on('click', '.btn-completar', function() {
         const tareaId = $(this).closest('.tarea').data('id');
-        
+        $('#tarea-id-completar').val(tareaId); 
+        $(".form-tarea-completar").css("display", "inline-block");
+    });
+
+    // Cerrar el formulario de completar tarea
+    $(".cerrar-ventana").on("click", function() {
+        $(".form-tarea-completar").css("display", "none");
+    });
+
+    // Enviar el formulario de completar tarea
+    $('#form-completar-tarea').on('submit', function(event) {
+        event.preventDefault(); 
+
+        const tareaId = $('#tarea-id-completar').val();
+        const nota = $('#nota').val();
+
+        if (nota < 0 || nota > 10) {
+            alert('La nota debe estar entre 0.00 y 10.00');
+            return;
+        }
+
         $.ajax({
-            url: '../php/tareas.php', 
+            url: '../php/tareas.php',
             method: 'POST',
-            data: { action: 'completar', tarea_id: tareaId },
+            data: {
+                action: 'completar',
+                tarea_id: tareaId,
+                nota: nota
+            },
             dataType: 'json',
             success: function(response) {
                 if (response.success) {
-                    alert('Tarea marcada como completada.');
-                    cargarTareas(); // Recargar tareas pendientes
+                    alert('Tarea completada con éxito.');
+                    cargarTareas(); 
+                    $(".form-tarea-completar").css("display", "none"); 
                 } else {
                     alert(response.error || 'No se pudo completar la tarea.');
                 }
@@ -117,9 +135,8 @@ $(document).ready(function() {
         });
     });
 
-    // Evento para el envío del formulario de creación de nueva tarea
-    $('form').on('submit', function(event) {
-        event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+    $('.btn-crear-tarea').on('click', function(event) {
+        event.preventDefault(); 
         
         const nuevaTarea = {
             action: 'crear',
@@ -139,10 +156,10 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.success) {
                     alert('Tarea creada con éxito.');
-                    cargarTareas(); // Recargar tareas pendientes
-                    $('form')[0].reset(); // Limpiar el formulario
-                    $(".tareas-crear").css("display", "none"); // Ocultar el formulario
-                    $(".tareas").css("opacity", 1); // Restaurar la opacidad
+                    cargarTareas(); 
+                    $('form')[0].reset(); 
+                    $(".tareas-crear").css("display", "none"); 
+                    $(".tareas").css("opacity", 1); 
                 } else {
                     alert(response.error || 'No se pudo crear la tarea.');
                 }

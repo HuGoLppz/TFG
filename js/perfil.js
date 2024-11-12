@@ -29,22 +29,24 @@ $(document).ready(function () {
 
     // Mostrar formulario de edición de perfil
     $("#conf-perfil").on("click", function() {
-        $(".perfil-contenedor").css("display", "none");
-        $(".formulario-perfil").css("display", "block");
-        $('.foto-perfil-input').on('change', function(event) {
-            const file = event.target.files[0];
-            const previewImg = $(this).siblings('.file-input-label').find('.preview-img');
-            
-            if (file) {
-              const reader = new FileReader();
-              reader.onload = function(e) {
+        $(".perfil-contenedor").hide();
+        $(".formulario-perfil").show();
+    });
+
+    // Previsualización de la imagen de perfil
+    $('.foto-perfil-input').on('change', function(event) {
+        const file = event.target.files[0];
+        const previewImg = $(this).siblings('.file-input-label').find('.preview-img');
+        
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
                 previewImg.attr('src', e.target.result); // Muestra la imagen seleccionada
-              };
-              reader.readAsDataURL(file);
-            } else {
-              previewImg.attr('src', 'path/to/default-icon.svg'); // Imagen predeterminada si no hay archivo
-            }
-          });
+            };
+            reader.readAsDataURL(file);
+        } else {
+            previewImg.attr('src', '../img/pen.svg'); // Imagen predeterminada si no hay archivo
+        }
     });
 
     // Enviar formulario de actualización de perfil
@@ -58,6 +60,11 @@ $(document).ready(function () {
         formData.append("estudios", $("#estudios").val());
         formData.append("privacidad", $("#privacidad").is(":checked") ? 1 : 0);
 
+        // Agregar archivo de foto de perfil si se seleccionó
+        const fileInput = document.querySelector('.foto-perfil-input');
+        if (fileInput.files[0]) {
+            formData.append("foto_perfil", fileInput.files[0]);
+        }
 
         // Enviar los datos mediante AJAX
         $.ajax({
@@ -69,14 +76,14 @@ $(document).ready(function () {
             dataType: 'json',
             success: function(response) {
                 if (response.success) {
-
+                    alert(response.success);
                 } else {
                     alert(response.error || 'Error al actualizar el perfil.');
                 }
 
                 // Restaurar vista del perfil
-                $(".perfil-contenedor").css("display", "block");
-                $(".formulario-perfil").css("display", "none");
+                $(".perfil-contenedor").show();
+                $(".formulario-perfil").hide();
 
                 // Recargar los datos del perfil después de la actualización
                 location.reload();
@@ -86,4 +93,70 @@ $(document).ready(function () {
             }
         });
     });
+
+    $('#crear_asignatura').on('click', function () {
+        const nuevaAsignatura = $('#nueva_asignatura').val().trim();
+
+        if (nuevaAsignatura) {
+            $.ajax({
+                url: '../php/profile.php',
+                type: 'POST',
+                data: { crear_asignatura: nuevaAsignatura },
+                dataType: 'json',
+                success: function (response) {
+                    if (response.success) {
+                        // Añade la nueva asignatura a la lista del usuario
+                        agregarAsignatura(response.asignatura_id, nuevaAsignatura);
+                        $('#nueva_asignatura').val(''); // Limpia el campo
+                    } else {
+                        alert(response.error || 'Error al crear la asignatura.');
+                    }
+                },
+                error: function () {
+                    alert('Hubo un error al crear la asignatura.');
+                }
+            });
+        } else {
+            alert('Por favor, ingresa el nombre de la asignatura.');
+        }
+    });
+
+    // Agregar asignatura seleccionada
+    function agregarAsignatura(id, nombre) {
+        const asignaturaItem = $(`<li data-id="${id}">${nombre} <button class="eliminar-asignatura">Eliminar</button></li>`);
+        asignaturaItem.find('.eliminar-asignatura').on('click', function () {
+            eliminarAsignatura(id, asignaturaItem);
+        });
+        $('#asignaturas_añadidas').append(asignaturaItem);
+
+        $.ajax({
+            url: '../php/profile.php',
+            type: 'POST',
+            data: { agregar_asignatura: id },
+            dataType: 'json',
+            success: function (response) {
+                if (!response.success) {
+                    alert(response.error || 'Error al añadir la asignatura.');
+                    asignaturaItem.remove(); // Eliminar la asignatura del frontend si hubo un error
+                }
+            }
+        });
+    }
+
+    // Eliminar asignatura del usuario
+    function eliminarAsignatura(id, item) {
+        $.ajax({
+            url: '../php/profile.php',
+            type: 'POST',
+            data: { eliminar_asignatura: id },
+            dataType: 'json',
+            success: function (response) {
+                if (response.success) {
+                    item.remove();
+                } else {
+                    alert(response.error || 'Error al eliminar la asignatura.');
+                }
+            }
+        });
+    }
 });

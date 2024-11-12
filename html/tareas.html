@@ -89,9 +89,24 @@
                     <option value="alta">Alta</option>
                 </select>
                 <br>
-                <button type="submit" class="btn-crear">Crear Tarea</button>
+                <button type="submit" class="btn-crear-tarea">Crear Tarea</button>
             </form>
         </section> 
+        <section class="form-tarea-completar">
+            <img src="../img/x-lg.svg" alt="cerrar ventana" class="cerrar-ventana">
+            <h2>Completa la tarea</h2>
+            <form id="form-completar-tarea">
+                <input type="hidden" id="tarea-id-completar" name="tarea_id">
+                <label for="nota">Nota de la tarea (0.00 - 10.00):</label>
+                <div class="input-container">
+                    <input type="number" id="nota" name="nota" step="0.01" min="0" max="10" placeholder="Ej: 8.75" required>
+                    <span class="input-border"></span>
+                </div>
+                <br>
+                <button type="submit" class="btn-completar-tarea">Marcar como completada</button>
+            </form>
+        </section>
+        
         <footer>
             <p>&copy; 2024 STUDY-PLANNER. Todos los derechos reservados.</p>
         </footer>

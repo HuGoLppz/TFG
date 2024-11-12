@@ -9,16 +9,17 @@ main{
     box-sizing: border-box;
 }
 
-.tareas, .tareas-crear {
+.tareas, .tareas-crear, .form-tarea-completar {
     padding: 20px;
     background-color: var(--color-bg);
     margin-left: 2%;
     margin-right: 2%;
     border-radius: 10px;
     box-shadow: 0px 2px 18px 0px var(--color-shadows);
+    border: 1px solid black;
 }
 
-.tareas-crear{
+.tareas-crear, .form-tarea-completar{
     width: 600px;
     max-height: 500px;
     overflow: scroll;
@@ -105,7 +106,7 @@ main{
     overflow: scroll;
 }
 
-.tareas-crear {
+.tareas-crear, .form-tarea-completar{
     display: none;
     position: fixed;
     top: 46%;
@@ -118,7 +119,7 @@ main{
     margin-top: 15px;
 }
 
-.tareas h2, .tareas-crear h2 {
+.tareas h2, .tareas-crear h2, .form-tarea-completar h2 {
     margin-bottom: 20px;
 }
 

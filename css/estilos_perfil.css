@@ -4,6 +4,21 @@
     margin-top: 20px;
 }
 
+.cont-btn-notificacion{
+  width: 100%;
+}
+
+.btn-notificacion {
+  float: right;
+  height: 35px;
+  transition: transform 0.33s;
+}
+
+.btn-notificacion:hover {
+  transform: translateY(-5px);
+}
+
+
 .perfil-contenedor, .formulario-perfil {
     background-color: var(--color-bg); 
     padding: 20px;
@@ -26,13 +41,14 @@
     overflow: scroll;
 }
 
-.imagen-perfil img {
+.imagen-perfil .img-perfil {
     width: 150px;
     height: 150px;
     border-radius: 50%;
     border: 3px solid var(--color-tarea-border); 
     object-fit: cover;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    margin-top: -10px;
 }
 
 .info-perfil h1 {

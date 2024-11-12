@@ -44,22 +44,54 @@ try {
         $action = $_POST['action'] ?? '';
 
         if ($action === 'completar') {
+            // Obtener los parámetros de la solicitud
             $tarea_id = $_POST['tarea_id'] ?? null;
-
-            if ($tarea_id) {
-                $query = "UPDATE tareas SET estado = 'completada' WHERE tarea_id = :tarea_id AND usuario_id = :usuario_id";
+            $nota = $_POST['nota'] ?? null;
+            $usuario_id = $_POST['usuario_id'] ?? null;  // Se asume que el usuario_id debe ser proporcionado
+            
+            // Validar que los parámetros tarea_id, nota y usuario_id estén presentes
+            if ($tarea_id && $nota !== null && $usuario_id) {
+                
+                // Validar que la nota esté en el rango permitido (0-10) y tenga un formato de dos decimales
+                if (!is_numeric($nota) || $nota < 0 || $nota > 10 || !preg_match('/^\d+(\.\d{1,2})?$/', $nota)) {
+                    echo json_encode(['success' => false, 'error' => 'Nota no válida.']);
+                    exit;
+                }
+        
+                // Consulta para actualizar la tarea a completada
+                $query = "UPDATE Tareas SET estado = 'completada', nota = :nota WHERE tarea_id = :tarea_id AND usuario_id = :usuario_id";
                 $stmt = $conn->prepare($query);
                 $stmt->bindParam(':tarea_id', $tarea_id, PDO::PARAM_INT);
                 $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR); 
+                $stmt->bindParam(':nota', $nota, PDO::PARAM_STR);
                 $success = $stmt->execute();
-
-                echo json_encode(['success' => $success]);
+        
+                // Si la actualización fue exitosa, insertar la calificación en la tabla de Calificaciones
+                if ($success) {
+                    $query2 = "INSERT INTO Calificaciones (usuario_id, tarea_id, asignatura, calificacion, fecha_registro) 
+                               VALUES (:usuario_id, :tarea_id, (SELECT asignatura FROM Tareas WHERE tarea_id = :tarea_id), :calificacion, NOW())";
+                    $stmt2 = $conn->prepare($query2);
+                    $stmt2->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR);
+                    $stmt2->bindParam(':tarea_id', $tarea_id, PDO::PARAM_INT);
+                    $stmt2->bindParam(':calificacion', $nota, PDO::PARAM_STR);
+        
+                    $success2 = $stmt2->execute();
+        
+                    // Devolver respuesta en formato JSON
+                    if ($success2) {
+                        echo json_encode(['success' => true]);
+                    } else {
+                        echo json_encode(['success' => false, 'error' => 'Error al insertar la calificación.']);
+                    }
+                } else {
+                    echo json_encode(['success' => false, 'error' => 'Error al actualizar la tarea.']);
+                }
             } else {
-                echo json_encode(['success' => false, 'error' => 'ID de tarea no proporcionado.']);
+                echo json_encode(['success' => false, 'error' => 'ID de tarea, nota o usuario no proporcionados.']);
             }
             exit;
-
-        } elseif ($action === 'crear') {
+        }
+         elseif ($action === 'crear') {
             $titulo = $_POST['titulo'] ?? '';
             $descripcion = $_POST['descripcion'] ?? '';
             $fecha_entrega = $_POST['fecha_entrega'] ?? '';

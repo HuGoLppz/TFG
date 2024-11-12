@@ -16,7 +16,7 @@
         <header>
             <nav>
                 <ul class="menu-cabecero">
-                    <li><a href="indice.htm">Inicio</a></li>
+                    <li><a href="indice.html">Inicio</a></li>
                     <li><a href="tareas.html">Tareas</a></li>
                     <li><a href="salas.html">Salas de Trabajo</a></li>
                     <li><a href="amigos.html">Lista de amigos</a></li>
@@ -34,10 +34,12 @@
         <!-- Contenedor principal que agrupa los dos contenedores -->
         <main>
             <div class="contenedor-principal">
-                <!-- Contenedor del Perfil de Usuario -->
-                <div class="perfil-contenedor">
+                    <div class="perfil-contenedor">
+                        <div class="cont-btn-notificacion">
+                            <img src="../img/bell.svg" alt="notificacion" class="btn-notificacion">
+                        </div>
                     <div class="imagen-perfil">
-                        <img alt="Imagen de Perfil" id="imagen-perfil">
+                        <img alt="Imagen de Perfil" id="imagen-perfil" class="img-perfil">
                     </div>
                     <div class="info-perfil">
                         <h2 id="nombre-usuario"></h2>
@@ -75,7 +77,16 @@
                     <label for="privacidad">Privacidad:</label>
                     <input type="checkbox" id="privacidad" name="privacidad" value="1">
                     <span>(Marcar para mantener el perfil privado)</span>
-                    <br><br>
+                    <br>
+                    <br>
+                    <label for="nueva_asignatura">Crear nueva asignatura:</label>
+                        <div class="input-container">
+                            <input type="text" id="nueva_asignatura" placeholder="Nombre de la nueva asignatura">
+                            <button type="button" id="crear_asignatura">Crear y Añadir</button>
+                        </div>
+                    <br>
+                    <label>Asignaturas añadidas:</label>
+                    <ul id="asignaturas_añadidas"></ul>                    
                     <button type="submit" id="enviar-formulario">Modificar perfil</button>
                 </div>
 

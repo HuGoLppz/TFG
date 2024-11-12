@@ -1,4 +1,4 @@
--- Borrar la base de datos si existe y luego crearla
+-- Eliminar la base de datos si ya existe
 DROP DATABASE IF EXISTS study_planner;
 CREATE DATABASE study_planner;
 
@@ -21,6 +21,8 @@ DROP TABLE IF EXISTS Calificaciones;
 DROP TABLE IF EXISTS Notificaciones;
 DROP TABLE IF EXISTS Pomodoro;
 DROP TABLE IF EXISTS Progreso_Academico;
+DROP TABLE IF EXISTS Usuarios_Asignaturas;
+DROP TABLE IF EXISTS Asignaturas;
 DROP TABLE IF EXISTS Tareas;
 DROP TABLE IF EXISTS Amigos;
 DROP TABLE IF EXISTS Usuarios;
@@ -47,6 +49,23 @@ CREATE TABLE Amigos (
     PRIMARY KEY (usuario_id, amigo_id),
     FOREIGN KEY (usuario_id) REFERENCES Usuarios(usuario_id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (amigo_id) REFERENCES Usuarios(usuario_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- CREACIÓN DE ASIGNATURAS
+CREATE TABLE Asignaturas (
+    asignatura_id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_asignatura VARCHAR(100) NOT NULL,
+    descripcion TEXT
+);
+
+-- RELACIÓN MUCHOS A MUCHOS ENTRE USUARIOS Y ASIGNATURAS
+CREATE TABLE Usuarios_Asignaturas (
+    usuario_id VARCHAR(9),
+    asignatura_id INT,
+    fecha_inscripcion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (usuario_id, asignatura_id),
+    FOREIGN KEY (usuario_id) REFERENCES Usuarios(usuario_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (asignatura_id) REFERENCES Asignaturas(asignatura_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- CREACIÓN DE TAREAS
@@ -166,6 +185,7 @@ CREATE TABLE Progreso_Academico (
     fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (usuario_id) REFERENCES Usuarios(usuario_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
 
 -- ACTUALIZACIÓN DE PROGRESO AUTOMÁTICO DESPUÉS DE UNA CALIFICACIÓN
 DELIMITER //
