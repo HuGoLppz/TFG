@@ -6,7 +6,6 @@ if (!isset($_SESSION['usuario_id'])) {
     echo json_encode(['success' => false, 'error' => 'Usuario no autenticado.']);
     exit;
 }
-
 $conn = conectar();
 if (!$conn) {
     echo json_encode(['success' => false, 'error' => 'Error de conexión a la base de datos.']);
@@ -90,9 +89,21 @@ try {
             }
             exit;
         }
+        elseif ($action === 'listarAsignaturas') {
+            $query = "SELECT a.asignatura_id, a.nombre_asignatura 
+                      FROM Usuarios_Asignaturas ua
+                      JOIN Asignaturas a ON ua.asignatura_id = a.asignatura_id
+                      WHERE ua.usuario_id = :usuario_id";
+            $stmt = $conn->prepare($query);
+            $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR);
+            $stmt->execute();
+            $asignaturas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            echo json_encode(['success' => true, 'data' => $asignaturas]);
+            exit;
+        }
         
-        
-         elseif ($action === 'crear') {
+        elseif ($action === 'crear') {
             $titulo = $_POST['titulo'] ?? '';
             $descripcion = $_POST['descripcion'] ?? '';
             $fecha_entrega = $_POST['fecha_entrega'] ?? '';

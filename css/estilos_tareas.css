@@ -80,6 +80,15 @@ main{
     margin-bottom: 10px;
 }
 
+.input-container select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+
 #calendar {
     margin-top: 0px;
     top: 7.5%;

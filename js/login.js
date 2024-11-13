@@ -16,7 +16,7 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.success) {
                     alert(response.message);
-                    window.location.href = "../index.html";  
+                    window.location.href = "home.html";  
                 } else {
                     alert(response.message);  
                 }

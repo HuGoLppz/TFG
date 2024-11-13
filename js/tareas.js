@@ -1,9 +1,30 @@
 $(document).ready(function() {
     $(".btn-volver").hide();
-
+    
     $(".btn-crear").on("click", function() {
-        $(".tareas-crear").toggle(); 
-        $(".tareas").css("opacity", $(".tareas-crear").is(":visible") ? 0.5 : 1);
+    $(".tareas-crear").toggle(); 
+    $(".tareas").css("opacity", $(".tareas-crear").is(":visible") ? 0.5 : 1);
+        $.ajax({
+            url: '../php/tareas.php',
+            method: 'GET',
+            data: { action: 'listarAsignaturas' }, 
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    const asignaturas = response.data;
+                    const selectAsignatura = $('#asignatura');
+                    selectAsignatura.empty(); 
+                    asignaturas.forEach(function(asignatura) {
+                        selectAsignatura.append(`<option value="${asignatura.asignatura_id}">${asignatura.nombre_asignatura}</option>`);
+                    });
+                } else {
+                    alert(response.error || 'Error al cargar las asignaturas.');
+                }
+                },
+            error: function() {
+                alert('Error en la solicitud de asignaturas.');
+            }
+        });
     });
 
     $(".btn-crear2, .cerrar-ventana").on("click", function() {
@@ -157,6 +178,7 @@ $(document).ready(function() {
                 alert('Error al crear la tarea.');
             }
         });
+        
     });
 
     var calendarEl = document.getElementById('calendar');
