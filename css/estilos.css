@@ -1,17 +1,13 @@
-/* Reset de márgenes y paddings */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/*Ocultar barra de scroll*/
 ::-webkit-scrollbar {
     display: none;
-    /*scroll-behavior: smooth;*/
 }
 
-/* Definición de la paleta de colores en root */
 :root {
     --color-white: white;
     --color-black: #333;
@@ -36,7 +32,6 @@
     --color-shadows:var(--color-shadow);
 }
 
-/* Estilo para el cuerpo */
 body {
     font-family: "Poppins", sans-serif;
     font-weight: 400;
@@ -48,14 +43,12 @@ body {
     padding: 0;
 }
 
-/* Contenedor principal */
 .container {
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Altura mínima igual a la altura del viewport */
+    min-height: 100vh; 
 }
 
-/* Barra de navegación */
 header {
     background-color: var(--color-nav-bg);
     padding: 10px 0;
@@ -138,15 +131,83 @@ nav ul li a:hover {
     transition: transform 0.3s ease, top 0.3s ease;
 }
 
-/* Contenido principal para llenar el espacio */
 main {
     flex: 1;
 }
 
-/* Pie de página */
 footer {
     text-align: center;
     padding: 10px;
     background-color: var(--color-nav-bg);
     color: var(--color-nav-text);
+}
+
+.input-container {
+    position: relative;
+    width: 100%;
+    --border-before-color: var(--color-text); 
+    --border-after-color: var(--color-nav-hover); 
+}
+
+input[type="text"], input[type="date"], textarea {
+    background-color: transparent;
+    width: 100%;
+    padding: 0.5em 0.5em;
+    border: none;
+    border-bottom: 1px solid var(--border-before-color);
+    font-size: 1rem;
+    color: var(--color-text);
+    box-sizing: border-box;
+}
+
+textarea {
+    width: 100%; 
+    min-height: 100px; 
+    max-height: 300px;
+    resize: none;
+    padding: 0.5em;
+    border: 1px solid var(--color-text);
+    border-radius: 4px;
+    background-color: var(--color-tarea-bg);
+    color: var(--color-text);
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+  
+  /* Borde animado */
+.input-border {
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    background-color: var(--border-after-color);
+    bottom: 0;
+    left: 0;
+    transition: width 0.3s ease;
+}
+  
+input[type="text"]:hover, input[type="date"]:hover, textarea:hover {
+    background-color: var(--input-hovered-color, rgba(85, 85, 85, 0.1));
+}
+  
+input[type="text"]:focus, input[type="date"]:focus, textarea:focus {
+    outline: none;
+}
+  
+input[type="text"]:focus ~ .input-border, input[type="date"]:focus ~ .input-border, textarea:focus ~ .input-border {
+    width: 100%;
+} 
+
+button {
+    background-color: var(--color-btn-bg);
+    color: var(--color-nav-text);
+    padding: 8px 15px;
+    border: none;
+    cursor: pointer;
+    transition: 0.20s;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: var(--color-btn-hover);
+    transition: 0.33s;
 }

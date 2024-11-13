@@ -121,72 +121,7 @@ ul{
     background-color: #f0f0f0;
 }
 
-.input-container {
-    position: relative;
-    width: 100%;
-    --border-before-color: var(--color-text); /* Color inicial del borde */
-    --border-after-color: var(--color-nav-hover); /* Color de foco del borde */
-  }
-  
-  /* Estilo del input con fondo transparente */
-  input[type="text"],
-  input[type="date"],
-  textarea {
-    background-color: transparent;
-    width: 100%;
-    padding: 0.5em 0.5em;
-    border: none;
-    border-bottom: 1px solid var(--border-before-color);
-    font-size: 1rem;
-    color: var(--color-text);
-    box-sizing: border-box;
-  }
-
-  textarea {
-    width: 100%; 
-    min-height: 100px; 
-    max-height: 300px;
-    resize: none;
-    padding: 0.5em;
-    border: 1px solid var(--color-text);
-    border-radius: 4px;
-    background-color: var(--color-tarea-bg);
-    color: var(--color-text);
-    font-size: 1rem;
-    box-sizing: border-box;
-  }
-  
-  /* Borde animado */
-  .input-border {
-    position: absolute;
-    width: 0%;
-    height: 2px;
-    background-color: var(--border-after-color);
-    bottom: 0;
-    left: 0;
-    transition: width 0.3s ease;
-  }
-  
-  /* Hover y focus */
-  input[type="text"]:hover,
-  input[type="date"]:hover,
-  textarea:hover {
-    background-color: var(--input-hovered-color, rgba(85, 85, 85, 0.1));
-  }
-  
-  input[type="text"]:focus,
-  input[type="date"]:focus,
-  textarea:focus {
-    outline: none;
-  }
-  
-  input[type="text"]:focus ~ .input-border,
-  input[type="date"]:focus ~ .input-border,
-  textarea:focus ~ .input-border {
-    width: 100%;
-  } 
-
-  .cerrar-ventana{
+.cerrar-ventana{
     float: right;
     height: 25px;
     cursor: pointer;

@@ -1,0 +1,192 @@
+.bienvenida {
+    text-align: center;
+    background-color: var(--color-nav-hover);
+    color: var(--color-text);
+    padding: 30px;
+}
+
+.bienvenida h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.bienvenida p {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.informacion {
+    margin-top: 20px !important;
+    width: 100%;
+    margin: auto;
+    position: relative;
+}
+
+.informacion > div {
+    z-index: 10;
+}
+
+.tareas, .salas, .companero {
+    width: 66.66666% !important;
+    margin-left: 16.5%;
+    padding: 20px;
+    background-color: var(--color-bg);
+    border-radius: 20px;
+    box-shadow: 0px 2px 18px 0px var(--color-shadows); 
+    overflow: scroll;
+    max-height: 500px;
+}
+
+.tareas  a, .salas  a, .companero  a{
+    color:var(--color-text);
+    text-decoration: none;
+}
+
+.tareas h2, .salas h2, .companero h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.tareas ul, .salas ul, .companero ul {
+    list-style: none;
+    padding: 0;
+}
+
+.tarea , .amigo, .sala{
+    background-color: var(--color-tarea-bg);
+    padding: 15px;
+    margin-bottom: 15px;
+    border-left: 5px solid var(--color-tarea-border);
+    border-radius: 5px;
+}
+
+.tarea h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.tarea p {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.companero img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 1px solid var(--color-tarea-border);
+    margin-top: 10px;
+}
+
+.slick-slider {
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+    -webkit-user-select: none;
+    user-select: none;
+    margin-top: 200px;
+}
+
+.slick-list {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    padding-bottom: 50px !important;
+    padding-top: 50px !important;
+}
+
+.slick-list:focus {
+    outline: none;
+}
+
+.slick-track {
+    position: relative;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.slick-slide {
+    display: none;
+    float: left;
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.slick-center {
+    transform: scale(1.1); 
+    z-index: 1; 
+}
+
+.slick-slide:not(.slick-center) {
+    opacity: 0.5; 
+}
+
+.slick-prev, .slick-next {
+    display: none;
+    font-size: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--color-slider-btn-bg);
+    color: var(--color-nav-text);
+    border: none;
+    z-index: 1;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.slick-initialized .slick-slide {
+    display: block;
+}
+
+.slick-dots {
+    z-index: 50;
+    width: 100%;
+    margin-top: -30px !important;
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin-bottom: 5px;
+    z-index: 30;
+}
+
+.slick-dots li {
+    margin: 0 5px;
+}
+
+.slick-prev:hover, .slick-next:hover {
+    background-color: var(--color-slider-btn-bg);
+}
+
+.slick-prev {
+    display: none;
+    left: -45px;
+}
+
+.slick-next {
+    display: none;
+    right: -45px;
+}
+
+.calificaciones {
+    width: 80% !important;
+    margin-left: 10%;
+    padding: 20px;
+    background-color: var(--color-bg);
+    border-radius: 20px;
+    box-shadow: 0px 2px 18px 0px var(--color-shadows); 
+    overflow: scroll;
+    min-height: 500px;
+    margin-bottom: 20px;
+}
+
+.calificaciones h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    text-align: center;
+    color: var(--color-text); 
+}

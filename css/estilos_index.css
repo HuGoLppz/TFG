@@ -1,0 +1,65 @@
+.cont{
+    background-color: black;
+}
+.cont h1 {
+    text-align: center;
+    font-size: 5em;
+    color: white;
+    margin-bottom: 20px;
+}
+
+.cont .intro{
+    clip-path: ellipse(60% 100% at 50% 0);
+    background: linear-gradient(to bottom, black, rgb(60, 0, 100), rgb(133, 0, 211), rgb(180, 100, 250), white);
+    height: 800px;
+    padding-top: 150px;
+}
+
+.cont .intro p {
+    text-align: justify;
+    color: white;
+    max-width: 800px;
+    margin-bottom: 20px;
+    margin-left: 50%;
+    transform: translateX(-50%);
+}
+
+.cont .table-info {
+    width: 100%;
+    max-width: 600px;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.cont .table-info th, .cont .table-info td {
+    padding: 12px;
+    border: 1px solid var(--color-light-gray);
+    text-align: left;
+}
+
+.btn-login, .btn-registro {
+    margin: 10px;
+    margin: 75px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    background-color: black;
+}
+
+.cont .contenido {
+    width: 100%;
+    min-height: 600px;
+}
+
+.cont .contenido p{
+    color: var(--color-bg);
+}
+
+.botones {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.botones > a {
+    margin: 25px;
+}
