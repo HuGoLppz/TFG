@@ -47,7 +47,7 @@ try {
             // Obtener los parámetros de la solicitud
             $tarea_id = $_POST['tarea_id'] ?? null;
             $nota = $_POST['nota'] ?? null;
-            $usuario_id = $_POST['usuario_id'] ?? null;  // Se asume que el usuario_id debe ser proporcionado
+            $usuario_id = $_SESSION['usuario_id'] ?? null; // Obtener el usuario_id desde la sesión
             
             // Validar que los parámetros tarea_id, nota y usuario_id estén presentes
             if ($tarea_id && $nota !== null && $usuario_id) {
@@ -58,12 +58,11 @@ try {
                     exit;
                 }
         
-                // Consulta para actualizar la tarea a completada
-                $query = "UPDATE Tareas SET estado = 'completada', nota = :nota WHERE tarea_id = :tarea_id AND usuario_id = :usuario_id";
+                // Consulta para actualizar el estado de la tarea a 'completada'
+                $query = "UPDATE Tareas SET estado = 'completada' WHERE tarea_id = :tarea_id AND usuario_id = :usuario_id";
                 $stmt = $conn->prepare($query);
                 $stmt->bindParam(':tarea_id', $tarea_id, PDO::PARAM_INT);
                 $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR); 
-                $stmt->bindParam(':nota', $nota, PDO::PARAM_STR);
                 $success = $stmt->execute();
         
                 // Si la actualización fue exitosa, insertar la calificación en la tabla de Calificaciones
@@ -91,6 +90,8 @@ try {
             }
             exit;
         }
+        
+        
          elseif ($action === 'crear') {
             $titulo = $_POST['titulo'] ?? '';
             $descripcion = $_POST['descripcion'] ?? '';

@@ -6,8 +6,6 @@ CREATE DATABASE study_planner;
 USE study_planner;
 
 -- Eliminar triggers y funciones si existen
-DROP TRIGGER IF EXISTS actualizar_progreso_trigger;
-DROP PROCEDURE IF EXISTS actualizar_progreso;
 DROP FUNCTION IF EXISTS generar_id_usuario;
 DROP FUNCTION IF EXISTS generar_id_sala;
 
@@ -185,25 +183,6 @@ CREATE TABLE Progreso_Academico (
     fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (usuario_id) REFERENCES Usuarios(usuario_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
-
--- ACTUALIZACIÓN DE PROGRESO AUTOMÁTICO DESPUÉS DE UNA CALIFICACIÓN
-DELIMITER //
-CREATE PROCEDURE actualizar_progreso()
-BEGIN
-    INSERT INTO Progreso_Academico (usuario_id, asignatura, media_calificaciones, tareas_completadas, fecha_actualizacion)
-    VALUES (NEW.usuario_id, NEW.asignatura, NEW.calificacion, 1, CURRENT_TIMESTAMP)
-    ON DUPLICATE KEY UPDATE
-        media_calificaciones = (Progreso_Academico.media_calificaciones * Progreso_Academico.tareas_completadas + NEW.calificacion) / (Progreso_Academico.tareas_completadas + 1),
-        tareas_completadas = Progreso_Academico.tareas_completadas + 1,
-        fecha_actualizacion = CURRENT_TIMESTAMP;
-END //
-DELIMITER ;
-
-CREATE TRIGGER actualizar_progreso_trigger
-AFTER INSERT ON Calificaciones
-FOR EACH ROW
-CALL actualizar_progreso();
 
 -- Generación de ID de usuario
 DELIMITER //
