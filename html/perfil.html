@@ -78,18 +78,25 @@
                     <input type="checkbox" id="privacidad" name="privacidad" value="1">
                     <span>(Marcar para mantener el perfil privado)</span>
                     <br>
-                    <br>
+                    <br>  
+                    <div class="cont-botones-formulario">
+                        <button type="submit" id="enviar-formulario">Modificar perfil</button>
+                        <button type="submit" id="mostrar-cont-asignaturas">Editar asignaturas del usuario</button>
+                    </div>                
+                </div>
+                <div class="cont-asignaturas">
                     <label for="nueva_asignatura">Crear nueva asignatura:</label>
                         <div class="input-container">
                             <input type="text" id="nueva_asignatura" placeholder="Nombre de la nueva asignatura">
-                            <button type="button" id="crear_asignatura">Crear y Añadir</button>
+                             <span class="input-border"></span>
                         </div>
+                        <br>
+                        <button type="button" id="crear_asignatura">Crear y Añadir</button>
                     <br>
                     <label>Asignaturas añadidas:</label>
-                    <ul id="asignaturas_añadidas"></ul>                    
-                    <button type="submit" id="enviar-formulario">Modificar perfil</button>
+                    <ul id="asignaturas_añadidas"></ul>  
+                    <button type="button" id="volver-editar">Volver a editar</button>
                 </div>
-
                                 
                 <!-- Contenedor de Datos de Usuario -->
                 <div class="datos-perfil">

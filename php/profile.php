@@ -43,47 +43,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         echo json_encode(['success' => true, 'asignaturas' => $asignaturas]);
         exit();
     }
-    /*
-    |---NO SE USA ESTA FUNCIÓN---|
-
-    if (isset($_GET['buscar_asignatura'])) {
-        // Buscar asignaturas según un término de búsqueda
-        $query = "%" . $_GET['buscar_asignatura'] . "%";
-        $stmt = $conn->prepare("SELECT asignatura_id, nombre_asignatura FROM Asignaturas WHERE nombre_asignatura LIKE :query");
-        $stmt->bindParam(':query', $query, PDO::PARAM_STR);
-        $stmt->execute();
-        $sugerencias = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        echo json_encode(['success' => true, 'sugerencias' => $sugerencias]);
-        exit();
-    }
-    
-    */
 }
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['crear_asignatura'])) {
         $nombreAsignatura = trim($_POST['crear_asignatura']);
-
+    
         $stmt = $conn->prepare("SELECT asignatura_id FROM Asignaturas WHERE nombre_asignatura = :nombre_asignatura LIMIT 1");
         $stmt->bindParam(':nombre_asignatura', $nombreAsignatura, PDO::PARAM_STR);
         $stmt->execute();
         $asignaturaExistente = $stmt->fetch(PDO::FETCH_ASSOC);
-
+    
         if ($asignaturaExistente) {
-            echo json_encode(['success' => 'Asignatura ya existente añadida.', 'asignatura_id' => $asignaturaExistente['asignatura_id']]);
+            $asignaturaId = $asignaturaExistente['asignatura_id'];
         } else {
             $stmt = $conn->prepare("INSERT INTO Asignaturas (nombre_asignatura) VALUES (:nombre_asignatura)");
             $stmt->bindParam(':nombre_asignatura', $nombreAsignatura, PDO::PARAM_STR);
             if ($stmt->execute()) {
-                $nuevaAsignaturaId = $conn->lastInsertId();
-                echo json_encode(['success' => 'Asignatura creada y añadida con éxito.', 'asignatura_id' => $nuevaAsignaturaId]);
+                $asignaturaId = $conn->lastInsertId(); 
             } else {
                 echo json_encode(['error' => 'Error al crear la asignatura.']);
+                exit();
             }
+        }
+    
+        $stmt = $conn->prepare("INSERT IGNORE INTO Usuarios_Asignaturas (usuario_id, asignatura_id) VALUES (:usuario_id, :asignatura_id)");
+        $stmt->bindParam(':usuario_id', $id, PDO::PARAM_STR);
+        $stmt->bindParam(':asignatura_id', $asignaturaId, PDO::PARAM_INT);
+    
+        if ($stmt->execute()) {
+            echo json_encode(['success' => 'Asignatura creada y añadida con éxito.', 'asignatura_id' => $asignaturaId]);
+        } else {
+            echo json_encode(['error' => 'Error al vincular la asignatura con el usuario.']);
         }
         exit();
     }
+    
 
     if (isset($_POST['agregar_asignatura'])) {
         $asignatura_id = $_POST['agregar_asignatura'];
@@ -101,10 +97,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['eliminar_asignatura'])) {
         $asignatura_id = $_POST['eliminar_asignatura'];
         $stmt = $conn->prepare("DELETE FROM Usuarios_Asignaturas WHERE usuario_id = :usuario_id AND asignatura_id = :asignatura_id");
+        $stmt2 = $conn->prepare("DELETE FROM Asignaturas WHERE asignatura_id = :asignatura_id");
         $stmt->bindParam(':usuario_id', $id, PDO::PARAM_STR);
         $stmt->bindParam(':asignatura_id', $asignatura_id, PDO::PARAM_INT);
         if ($stmt->execute()) {
             echo json_encode(['success' => 'Asignatura eliminada con éxito']);
+            $stmt2->bindParam(':usuario_id', $id, PDO::PARAM_STR);
+            $stmt2->bindParam(':asignatura_id', $asignatura_id, PDO::PARAM_INT);
         } else {
             echo json_encode(['error' => 'Error al eliminar la asignatura']);
         }
