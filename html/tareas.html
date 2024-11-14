@@ -71,10 +71,9 @@
                 
                 <label for="asignatura">Asignatura:</label>
                 <div class="input-container">
-                    <select id="asignatura" name="asignatura">
-                        <option value="">Cargando asignaturas...</option>
+                        <select id="asignatura" name="asignatura">
+                        <span class="input-border"></span>
                     </select>
-                    <span class="input-border"></span>
                 </div>
                 <br>
                 
@@ -86,11 +85,14 @@
                 <br>
                 
                 <label for="urgencia">Urgencia:</label>
-                <select id="urgencia" name="urgencia">
-                    <option value="baja">Baja</option>
-                    <option value="media">Media</option>
-                    <option value="alta">Alta</option>
-                </select>
+                <div class="input-container">
+                    <select id="urgencia" name="urgencia">
+                        <span class="input-border"></span>
+                        <option value="baja">Baja</option>
+                        <option value="media">Media</option>
+                        <option value="alta">Alta</option>
+                    </select>
+                </div>
                 <br>
                 
                 <button type="submit" class="btn-crear-tarea">Crear Tarea</button>

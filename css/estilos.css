@@ -145,11 +145,14 @@ footer {
 .input-container {
     position: relative;
     width: 100%;
-    --border-before-color: var(--color-text); 
-    --border-after-color: var(--color-nav-hover); 
+    --border-before-color: var(--color-text);
+    --border-after-color: var(--color-nav-hover);
 }
 
-input[type="text"], input[type="date"], textarea {
+input[type="text"],
+input[type="date"],
+textarea,
+select {
     background-color: transparent;
     width: 100%;
     padding: 0.5em 0.5em;
@@ -161,8 +164,8 @@ input[type="text"], input[type="date"], textarea {
 }
 
 textarea {
-    width: 100%; 
-    min-height: 100px; 
+    width: 100%;
+    min-height: 100px;
     max-height: 300px;
     resize: none;
     padding: 0.5em;
@@ -173,8 +176,7 @@ textarea {
     font-size: 1rem;
     box-sizing: border-box;
 }
-  
-  /* Borde animado */
+
 .input-border {
     position: absolute;
     width: 0%;
@@ -184,18 +186,31 @@ textarea {
     left: 0;
     transition: width 0.3s ease;
 }
-  
-input[type="text"]:hover, input[type="date"]:hover, textarea:hover {
-    background-color: var(--input-hovered-color, rgba(85, 85, 85, 0.1));
-}
-  
-input[type="text"]:focus, input[type="date"]:focus, textarea:focus {
+
+input[type="text"]:focus,
+input[type="date"]:focus,
+textarea:focus,
+select:focus {
     outline: none;
 }
-  
-input[type="text"]:focus ~ .input-border, input[type="date"]:focus ~ .input-border, textarea:focus ~ .input-border {
+
+input[type="text"]:focus ~ .input-border,
+input[type="date"]:focus ~ .input-border,
+textarea:focus ~ .input-border,
+select:focus ~ .input-border {
     width: 100%;
-} 
+}
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><polygon points='0,0 20,0 10,10' fill='%23{border-before-color}'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 0.5em center;
+    background-size: 0.65em;
+    padding-right: 1.5em;
+}
 
 button {
     background-color: var(--color-btn-bg);

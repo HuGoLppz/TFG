@@ -45,25 +45,21 @@ try {
         if ($action === 'completar') {
             $tarea_id = $_POST['tarea_id'] ?? null;
             $nota = $_POST['nota'] ?? null;
-            $usuario_id = $_SESSION['usuario_id'] ?? null; // Obtener el usuario_id desde la sesión
+            $usuario_id = $_SESSION['usuario_id'] ?? null; 
             
-            // Validar que los parámetros tarea_id, nota y usuario_id estén presentes
             if ($tarea_id && $nota !== null && $usuario_id) {
                 
-                // Validar que la nota esté en el rango permitido (0-10) y tenga un formato de dos decimales
                 if (!is_numeric($nota) || $nota < 0 || $nota > 10 || !preg_match('/^\d+(\.\d{1,2})?$/', $nota)) {
                     echo json_encode(['success' => false, 'error' => 'Nota no válida.']);
                     exit;
                 }
         
-                // Consulta para actualizar el estado de la tarea a 'completada'
                 $query = "UPDATE Tareas SET estado = 'completada' WHERE tarea_id = :tarea_id AND usuario_id = :usuario_id";
                 $stmt = $conn->prepare($query);
                 $stmt->bindParam(':tarea_id', $tarea_id, PDO::PARAM_INT);
                 $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR); 
                 $success = $stmt->execute();
         
-                // Si la actualización fue exitosa, insertar la calificación en la tabla de Calificaciones
                 if ($success) {
                     $query2 = "INSERT INTO Calificaciones (usuario_id, tarea_id, asignatura, calificacion, fecha_registro) 
                                VALUES (:usuario_id, :tarea_id, (SELECT asignatura FROM Tareas WHERE tarea_id = :tarea_id), :calificacion, NOW())";
@@ -74,7 +70,6 @@ try {
         
                     $success2 = $stmt2->execute();
         
-                    // Devolver respuesta en formato JSON
                     if ($success2) {
                         echo json_encode(['success' => true]);
                     } else {
@@ -88,21 +83,26 @@ try {
             }
             exit;
         }
-        elseif ($action === 'listarAsignaturas') {
-            $query = "SELECT a.asignatura_id, a.nombre_asignatura 
-                      FROM Usuarios_Asignaturas ua
-                      JOIN Asignaturas a ON ua.asignatura_id = a.asignatura_id
-                      WHERE ua.usuario_id = :usuario_id";
-            $stmt = $conn->prepare($query);
-            $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR);
-            $stmt->execute();
-            $asignaturas = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            
-            echo json_encode(['success' => true, 'data' => $asignaturas]);
+        if ($action === 'listarAsignaturas') {
+            try {
+                $query = "SELECT a.asignatura_id, a.nombre_asignatura 
+                          FROM Usuarios_Asignaturas ua
+                          JOIN Asignaturas a ON ua.asignatura_id = a.asignatura_id
+                          WHERE ua.usuario_id = :usuario_id";
+                $stmt = $conn->prepare($query);
+                $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR);
+                $stmt->execute();
+                $asignaturas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                echo json_encode(['success' => true, 'data' => $asignaturas]);
+            } catch (PDOException $e) {
+                error_log("Error específico en listarAsignaturas: " . $e->getMessage());
+                echo json_encode(['success' => false, 'error' => 'Error de ejecución: ' . $e->getMessage()]);
+            }
             exit;
         }
         
-        elseif ($action === 'crear') {
+        
+        if ($action === 'crear') {
             $titulo = $_POST['titulo'] ?? '';
             $descripcion = $_POST['descripcion'] ?? '';
             $fecha_entrega = $_POST['fecha_entrega'] ?? '';
@@ -137,4 +137,6 @@ try {
     echo json_encode(['success' => false, 'error' => 'Error de ejecución: ' . $e->getMessage()]);
     exit;
 }
+
+
 ?>

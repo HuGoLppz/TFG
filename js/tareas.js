@@ -1,30 +1,11 @@
 $(document).ready(function() {
     $(".btn-volver").hide();
-    
+    cargarTareas();
+
     $(".btn-crear").on("click", function() {
-    $(".tareas-crear").toggle(); 
-    $(".tareas").css("opacity", $(".tareas-crear").is(":visible") ? 0.5 : 1);
-        $.ajax({
-            url: '../php/tareas.php',
-            method: 'GET',
-            data: { action: 'listarAsignaturas' }, 
-            dataType: 'json',
-            success: function(response) {
-                if (response.success) {
-                    const asignaturas = response.data;
-                    const selectAsignatura = $('#asignatura');
-                    selectAsignatura.empty(); 
-                    asignaturas.forEach(function(asignatura) {
-                        selectAsignatura.append(`<option value="${asignatura.asignatura_id}">${asignatura.nombre_asignatura}</option>`);
-                    });
-                } else {
-                    alert(response.error || 'Error al cargar las asignaturas.');
-                }
-                },
-            error: function() {
-                alert('Error en la solicitud de asignaturas.');
-            }
-        });
+        $(".tareas-crear").toggle(); 
+        $(".tareas").css("opacity", $(".tareas-crear").is(":visible") ? 0.5 : 1);
+        cargarAsignaturas();
     });
 
     $(".btn-crear2, .cerrar-ventana").on("click", function() {
@@ -76,7 +57,7 @@ $(document).ready(function() {
     function cargarTareasCompletadas() {
         $.ajax({
             url: '../php/tareas.php',
-            method: 'GET',
+            method: 'GET',  
             data: { action: 'listarCompletado' },
             dataType: 'json',
             success: function(data) {
@@ -101,8 +82,29 @@ $(document).ready(function() {
             }
         });
     }
-
-    cargarTareas();
+    function cargarAsignaturas(){
+        $.ajax({
+            url: '../php/tareas.php',
+            method: 'POST',
+            data: { action: 'listarAsignaturas' }, 
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    const asignaturas = response.data;
+                    const selectAsignatura = $('#asignatura');
+                    selectAsignatura.empty(); 
+                    asignaturas.forEach(function(asignatura) {
+                        selectAsignatura.append(`<option value="${asignatura.asignatura_id}">${asignatura.nombre_asignatura}</option>`);
+                    });
+                } else {
+                    alert(response.error || 'Error al cargar las asignaturas.');
+                }
+                },
+            error: function() {
+                alert('Error en la solicitud de asignaturas.');
+            }
+        });
+    };
 
     $(document).on('click', '.btn-completar', function() {
         const tareaId = $(this).closest('.tarea').data('id');
