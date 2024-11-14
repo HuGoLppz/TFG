@@ -43,7 +43,6 @@ try {
         $action = $_POST['action'] ?? '';
 
         if ($action === 'completar') {
-            // Obtener los parámetros de la solicitud
             $tarea_id = $_POST['tarea_id'] ?? null;
             $nota = $_POST['nota'] ?? null;
             $usuario_id = $_SESSION['usuario_id'] ?? null; // Obtener el usuario_id desde la sesión
