@@ -5,7 +5,7 @@ $(document).ready(function() {
         dataType: 'json',
         success: function(response) {
             if (response.auth) {
-                window.location.href = 'html/indice.html';
+                window.location.href = 'html/home.html';
             } else {
                 window.location.href = 'index.html';
             }

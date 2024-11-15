@@ -6,20 +6,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['user'] ?? '';
     $password = $_POST['password'] ?? '';
 
-    // Validar datos de entrada
     if (empty($name) || empty($password)) {
         echo json_encode(['success' => false, 'message' => 'Usuario y contraseña son requeridos']);
         exit();
     }
 
-    // Conectar a la base de datos
     $conn = conectar();
     if (!$conn) {
         echo json_encode(["success" => false, "message" => "Error de conexión a la base de datos"]);
         exit();
     }
 
-    // Buscar el usuario en la base de datos
     $stmt = $conn->prepare("SELECT usuario_id, password FROM Usuarios WHERE nombre = :name LIMIT 1");
     $stmt->bindParam(':name', $name, PDO::PARAM_STR);
     $stmt->execute();
@@ -27,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($stmt->rowCount() === 1) {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Verificar la contraseña hasheada
         if ($password = $user['password']) {
             $_SESSION['usuario_id'] = $user['usuario_id'];
             $_SESSION['nombre_usuario'] = $name;
