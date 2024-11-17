@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    notasMedias();
     $.ajax({
         url: '../php/profile.php',
         type: 'GET',
@@ -126,7 +127,26 @@ $(document).ready(function () {
             }
         });
     }
+    function notasMedias() {
+        $.ajax({
+            url: '../php/profile.php',
+            type: 'GET',
+            data: { info_notasmedias: true },
+            dataType: 'json',
+            success: function (data) {
+                if (data.success) {
+                    data.medias.forEach(function(a) {
+                        console.log(a);
+                    });
+                } else {
 
+                }
+            },
+            error: function () {
+            }
+        });
+    }
+    
     function listarAsignaturas() {
         $.ajax({
             url: '../php/profile.php',

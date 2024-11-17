@@ -43,6 +43,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         echo json_encode(['success' => true, 'asignaturas' => $asignaturas]);
         exit();
     }
+    
+    if (isset($_GET['info_notasmedias'])) {
+        $stmt = $conn->prepare("SELECT t.asignatura, AVG(c.calificacion) AS promedio_calificaciones
+                                FROM Tareas t JOIN Calificaciones c 
+                                ON t.tarea_id = c.tarea_id
+                                WHERE c.usuario_id = :id GROUP BY t.asignatura;");
+        $stmt->bindParam(':id', $id, PDO::PARAM_STR);
+        $stmt->execute();
+        $asignaturas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode(['success' => true, 'medias' => $asignaturas]);
+        exit();
+    }
 }
 
 

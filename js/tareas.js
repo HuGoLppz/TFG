@@ -94,7 +94,7 @@ $(document).ready(function() {
                     const selectAsignatura = $('#asignatura');
                     selectAsignatura.empty(); 
                     asignaturas.forEach(function(asignatura) {
-                        selectAsignatura.append(`<option value="${asignatura.asignatura_id}">${asignatura.nombre_asignatura}</option>`);
+                        selectAsignatura.append(`<option value="${asignatura.nombre_asignatura}">${asignatura.nombre_asignatura}</option>`);
                     });
                 } else {
                     alert(response.error || 'Error al cargar las asignaturas.');
