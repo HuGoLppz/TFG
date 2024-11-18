@@ -17,9 +17,47 @@ if (!$conn) {
     exit();
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-
-    if (isset($_GET['datos_usuario'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['obtener_estadisticas'])) {
+        $query = "SELECT 
+                    (SELECT COUNT(*) FROM Amigos WHERE usuario_id = ?) AS total_amigos,
+                    (SELECT COUNT(*) FROM Tareas WHERE usuario_id = ? AND estado = 'completada') AS tareas_completadas,
+                    (SELECT COUNT(*) FROM Tareas WHERE usuario_id = ? AND estado != 'completada') AS tareas_sin_completar,
+                    (SELECT AVG(media_calificaciones) FROM Progreso_Academico WHERE usuario_id = ?) AS media_total_asignaturas,
+                    (SELECT COUNT(*) FROM Participantes_Salas WHERE usuario_id = ?) AS total_salas,
+                    (SELECT fecha_registro FROM Usuarios WHERE usuario_id = ?) AS fecha_registro,
+                    (SELECT email FROM Usuarios WHERE usuario_id = ?) AS correo_usuario
+                ";
+    
+        $stmt = $conn->prepare($query);
+        if ($stmt) {
+            $stmt->bind_param('sssssss', $id, $id, $id, $id, $id, $id, $id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+    
+            if ($result && $data = $result->fetch_assoc()) {
+                $estadisticas = [
+                    'total_amigos' => $data['total_amigos'] ?? 0,
+                    'tareas_completadas' => $data['tareas_completadas'] ?? 0,
+                    'tareas_sin_completar' => $data['tareas_sin_completar'] ?? 0,
+                    'media_total_asignaturas' => $data['media_total_asignaturas'] ?? 0,
+                    'total_salas' => $data['total_salas'] ?? 0,
+                    'fecha_registro' => $data['fecha_registro'] ?? 'No disponible',
+                    'correo_usuario' => $data['correo_usuario'] ?? 'No disponible',
+                ];
+    
+                echo json_encode(['success' => true, 'estadisticas' => $estadisticas]);
+            } else {
+                echo json_encode(['success' => false, 'error' => 'Error al obtener las estadísticas.']);
+            }
+            $stmt->close();
+        } else {
+            echo json_encode(['error' => 'Error al preparar la consulta']);
+        }
+        exit();
+    }
+    
+    if (isset($_POST['datos_usuario'])) {
         $stmt = $conn->prepare("SELECT nombre, foto_perfil, descripcion, curso, estudios, usuario_id FROM Usuarios WHERE usuario_id = :id LIMIT 1");
         $stmt->bindParam(':id', $id, PDO::PARAM_STR);
         $stmt->execute();
@@ -33,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         exit();
     }
 
-    if (isset($_GET['listar_asignaturas'])) {
+    if (isset($_POST['listar_asignaturas'])) {
         $stmt = $conn->prepare("SELECT a.asignatura_id, a.nombre_asignatura FROM Asignaturas a
                                 JOIN Usuarios_Asignaturas ua ON a.asignatura_id = ua.asignatura_id
                                 WHERE ua.usuario_id = :id");
@@ -44,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         exit();
     }
     
-    if (isset($_GET['info_notasmedias'])) {
+    if (isset($_POST['info_notasmedias'])) {
         $stmt = $conn->prepare("SELECT t.asignatura, AVG(c.calificacion) AS promedio_calificaciones
                                 FROM Tareas t JOIN Calificaciones c 
                                 ON t.tarea_id = c.tarea_id
@@ -55,10 +93,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         echo json_encode(['success' => true, 'medias' => $asignaturas]);
         exit();
     }
-}
 
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['crear_asignatura'])) {
         $nombreAsignatura = trim($_POST['crear_asignatura']);
     
