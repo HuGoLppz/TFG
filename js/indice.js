@@ -58,6 +58,35 @@ $(document).ready(function() {
             }
         });
         $.ajax({
+            url: '../php/profile.php',
+            type: 'POST',
+            data: { info_notasmedias: true },
+            dataType: 'json',
+            success: function (data) {
+                if (data.success) {
+                    const notasContainer = $('.notas');
+                    notasContainer.empty(); 
+    
+                    data.medias.forEach(function (nota) {
+                        const notaContainer = $('<div class="nota-container"></div>');
+                        const notaLabel = $('<div class="nota-label"></div>').text(nota.asignatura);
+                        const progressBarWrapper = $('<div class="progress-bar-wrapper"></div>');
+                        const progressBar = $('<div class="progress-bar"></div>').css('width', `${(nota.promedio_calificaciones / 10) * 100}%`);
+                        const progressValue = $('<div class="progress-value"></div>').text(nota.promedio_calificaciones);
+    
+                        progressBarWrapper.append(progressBar).append(progressValue);
+                        notaContainer.append(notaLabel).append(progressBarWrapper);
+                        notasContainer.append(notaContainer);
+                    });
+                } else {
+                    $('.notas').text('No se pudieron cargar las calificaciones.');
+                }
+            },
+            error: function () {
+                $('.notas').text('Error al cargar las calificaciones.');
+            }
+        });
+        $.ajax({
             url: '../php/amigos.php',
             type: 'POST',
             data: { accion: 'listar_amigos' },
