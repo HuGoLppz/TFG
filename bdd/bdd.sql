@@ -53,7 +53,7 @@ CREATE TABLE Amigos (
 CREATE TABLE Asignaturas (
     asignatura_id INT AUTO_INCREMENT PRIMARY KEY,
     nombre_asignatura VARCHAR(100) NOT NULL,
-    color varchar(7);
+    color varchar(7),
     descripcion TEXT
 );
 
