@@ -44,6 +44,20 @@ $(document).ready(function () {
         $(".cont-asignaturas").hide();
     });
 
+    $(".cont-btn-notificacion").on("click", function() {
+        $(".datos-perfil").hide();
+        $(".cont-notificaciones").show();
+        $(".cont-btn-notificacion").html('<div class="nuevo-notification-container"><img src="../img/person-circle.svg" class="btn-notificacion"></div>');
+    });
+    
+    $(document).on("click", ".nuevo-notification-container", function() {
+        console.log("a");
+        $(".datos-perfil").show();
+        $(".cont-notificaciones").hide();
+        $(".cont-btn-notificacion").html('<div class="cont-btn-notificacion"><img src="../img/bell.svg" alt="notificacion" class="btn-notificacion"></div>'); 
+    });
+    
+
     $("#enviar-formulario").on("click", function(event) {
         event.preventDefault();
 
@@ -119,27 +133,36 @@ $(document).ready(function () {
                     const estadisticas = response.estadisticas;
     
                     const estadisticasContainer = $('.estadisticas');
+                    if (!estadisticasContainer.length) {
+                        console.error('Contenedor de estadísticas no encontrado.');
+                        return;
+                    }
+    
                     estadisticasContainer.empty();
     
                     const lista = $('<ul></ul>');
                     lista.append(`<li>Amigos totales: ${estadisticas.total_amigos}</li>`);
                     lista.append(`<li>Tareas completadas: ${estadisticas.tareas_completadas}</li>`);
                     lista.append(`<li>Tareas sin completar: ${estadisticas.tareas_sin_completar}</li>`);
-                    lista.append(`<li>Media total de las asignaturas: ${estadisticas.media_total_asignaturas}</li>`);
+                    lista.append(`<li>Media total de las tareas: ${estadisticas.media_total_asignaturas}</li>`);
                     lista.append(`<li>Salas totales: ${estadisticas.total_salas}</li>`);
                     lista.append(`<li>Fecha de registro: ${estadisticas.fecha_registro}</li>`);
                     lista.append(`<li>Correo electrónico: ${estadisticas.correo_usuario}</li>`);
     
                     estadisticasContainer.append(lista);
                 } else {
+                    console.error(response.error || 'No se pudieron obtener las estadísticas.');
                     alert(response.error || 'Error al obtener las estadísticas.');
                 }
             },
             error: function (xhr, status, error) {
+                console.log(xhr.responseText);
+                console.error(error);
                 alert('Hubo un error al cargar las estadísticas.');
             }
         });
     }
+    
 
     function eliminarAsignatura(id, item) {
         $.ajax({

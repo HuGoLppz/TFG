@@ -20,37 +20,50 @@ if (!$conn) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['obtener_estadisticas'])) {
         $query = "SELECT 
-                    (SELECT COUNT(*) FROM Amigos WHERE usuario_id = ?) AS total_amigos,
-                    (SELECT COUNT(*) FROM Tareas WHERE usuario_id = ? AND estado = 'completada') AS tareas_completadas,
-                    (SELECT COUNT(*) FROM Tareas WHERE usuario_id = ? AND estado != 'completada') AS tareas_sin_completar,
-                    (SELECT AVG(media_calificaciones) FROM Progreso_Academico WHERE usuario_id = ?) AS media_total_asignaturas,
-                    (SELECT COUNT(*) FROM Participantes_Salas WHERE usuario_id = ?) AS total_salas,
-                    (SELECT fecha_registro FROM Usuarios WHERE usuario_id = ?) AS fecha_registro,
-                    (SELECT email FROM Usuarios WHERE usuario_id = ?) AS correo_usuario
-                ";
-    
+            (SELECT COUNT(*) FROM Amigos WHERE usuario_id = :id1) AS total_amigos,
+            (SELECT COUNT(*) FROM Tareas WHERE usuario_id = :id2 AND estado = 'completada') AS tareas_completadas,
+            (SELECT COUNT(*) FROM Tareas WHERE usuario_id = :id3 AND estado != 'completada') AS tareas_sin_completar,
+            (SELECT AVG(calificacion) FROM calificaciones WHERE usuario_id = :id4) AS media_total_asignaturas,
+            (SELECT COUNT(*) FROM Participantes_Salas WHERE usuario_id = :id5) AS total_salas,
+            (SELECT fecha_registro FROM Usuarios WHERE usuario_id = :id6) AS fecha_registro,
+            (SELECT email FROM Usuarios WHERE usuario_id = :id7) AS correo_usuario
+        FROM DUAL";
+
         $stmt = $conn->prepare($query);
+
         if ($stmt) {
-            $stmt->bind_param('sssssss', $id, $id, $id, $id, $id, $id, $id);
+            $params = [
+                ':id1' => $id,
+                ':id2' => $id,
+                ':id3' => $id,
+                ':id4' => $id,
+                ':id5' => $id,
+                ':id6' => $id,
+                ':id7' => $id,
+            ];
+
+            foreach ($params as $key => $value) {
+                $stmt->bindValue($key, $value);
+            }
+
             $stmt->execute();
-            $result = $stmt->get_result();
-    
-            if ($result && $data = $result->fetch_assoc()) {
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($result) {
                 $estadisticas = [
-                    'total_amigos' => $data['total_amigos'] ?? 0,
-                    'tareas_completadas' => $data['tareas_completadas'] ?? 0,
-                    'tareas_sin_completar' => $data['tareas_sin_completar'] ?? 0,
-                    'media_total_asignaturas' => $data['media_total_asignaturas'] ?? 0,
-                    'total_salas' => $data['total_salas'] ?? 0,
-                    'fecha_registro' => $data['fecha_registro'] ?? 'No disponible',
-                    'correo_usuario' => $data['correo_usuario'] ?? 'No disponible',
+                    'total_amigos' => $result['total_amigos'] ?? 0,
+                    'tareas_completadas' => $result['tareas_completadas'] ?? 0,
+                    'tareas_sin_completar' => $result['tareas_sin_completar'] ?? 0,
+                    'media_total_asignaturas' => $result['media_total_asignaturas'] ?? 0,
+                    'total_salas' => $result['total_salas'] ?? 0,
+                    'fecha_registro' => $result['fecha_registro'] ?? 'No disponible',
+                    'correo_usuario' => $result['correo_usuario'] ?? 'No disponible',
                 ];
-    
+
                 echo json_encode(['success' => true, 'estadisticas' => $estadisticas]);
             } else {
-                echo json_encode(['success' => false, 'error' => 'Error al obtener las estadísticas.']);
+                echo json_encode(['success' => false, 'error' => 'No se encontraron estadísticas.']);
             }
-            $stmt->close();
         } else {
             echo json_encode(['error' => 'Error al preparar la consulta']);
         }

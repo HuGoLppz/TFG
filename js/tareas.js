@@ -2,6 +2,39 @@ $(document).ready(function() {
     $(".btn-volver").hide();
     cargarTareas();
 
+    const calendarEl = document.getElementById('calendar');
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        firstDay: 1,
+        locale: 'es', 
+        headerToolbar: {
+            left: 'prev,next',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek'
+        },
+        events: async function (fetchInfo, successCallback, failureCallback) {
+            try {
+                const response = await fetch('../php/listar_tareas_calendario.php');
+                const data = await response.json();
+
+                if (data.success) {
+                    successCallback(data.events); 
+                } else {
+                    console.error('Error al cargar eventos:', data.error);
+                    failureCallback();
+                }
+            } catch (error) {
+                console.error('Error de red:', error);
+                failureCallback();
+            }
+        },
+        eventClick: function (info) {
+            alert('Tarea: ' + info.event.title + '\nDescripción: ' + info.event.extendedProps.description);
+        },
+    });
+
+    calendar.render();
+
     $(".btn-crear").on("click", function() {
         $(".tareas-crear").toggle(); 
         $(".tareas").css("opacity", $(".tareas-crear").is(":visible") ? 0.5 : 1);
@@ -182,28 +215,4 @@ $(document).ready(function() {
         });
         
     });
-
-    var calendarEl = document.getElementById('calendar');
-
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'dayGridMonth',
-        locale: 'es',
-        firstDay: 1,
-        headerToolbar: {
-            left: 'prev,next',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay'
-        },
-        events: [
-            {
-                title: 'Evento 1',
-                start: '2024-10-10'
-            },
-            {
-                title: 'Evento 2',
-                start: '2024-10-15',
-            },
-        ]
-    });
-    calendar.render();
 });
