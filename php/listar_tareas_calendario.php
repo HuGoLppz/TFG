@@ -15,7 +15,7 @@ if (!$conn) {
 
 $usuario_id = $_SESSION['usuario_id'];
 
-try {
+try { 
     $query = "SELECT 
                 tarea_id, 
                 titulo, 
