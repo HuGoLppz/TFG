@@ -154,6 +154,7 @@ CREATE TABLE Archivos_Salas (
 -- NOTIFICACIONES Y RECORDATORIOS
 CREATE TABLE Notificaciones (
     notificacion_id INT AUTO_INCREMENT PRIMARY KEY,
+    remitente_id VARCHAR(9),
     usuario_id VARCHAR(9),
     tipo VARCHAR(50), 
     mensaje TEXT NOT NULL,

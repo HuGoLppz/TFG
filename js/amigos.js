@@ -26,7 +26,6 @@ $(document).ready(function() {
 
     listarAmigos(); 
 
-    // Función de búsqueda de amigos
     $('#busqueda').on('input', function() {
         const busqueda = $('#busqueda').val();
         $.ajax({
@@ -60,7 +59,6 @@ $(document).ready(function() {
         });
     });
 
-    // Función para agregar un amigo
     $(document).on('click', '.agregar-amigo', function() {
         const amigo_id = $(this).data('id');
         $.ajax({
@@ -70,7 +68,10 @@ $(document).ready(function() {
             success: function(data) {
                 const respuesta = JSON.parse(data);
                 alert(respuesta.mensaje);
-                listarAmigos(); // Actualizar la lista de amigos tras agregar uno nuevo
+                listarAmigos();
+            },
+            error: function (xhr) {
+                console.log(xhr);
             }
         });
     });

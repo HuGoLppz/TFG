@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 WHERE a.usuario_id = :usuario_id");
         $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR);
         $stmt->execute();
-        $amigos = $stmt->fetchAll();
+        $amigos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode($amigos);
     }
 
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($accion === 'buscar_amigos') {
         $busqueda = $_POST['query'] ?? '';
         $likeBusqueda = "%{$busqueda}%";
-        
+
         $stmt = $conn->prepare("SELECT u.usuario_id, u.nombre 
                                 FROM Usuarios u
                                 WHERE (u.nombre LIKE :likeBusqueda)
@@ -45,12 +45,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bindParam(':likeBusqueda', $likeBusqueda, PDO::PARAM_STR);
         $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR);
         $stmt->execute();
-        
+
         $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode($resultados ?: ["mensaje" => "No se encontraron amigos"]);
     }
-    
-    // Buscar y agregar amigos (opcional: nueva funcionalidad)
+
+    // Buscar y agregar amigos
     if ($accion === 'buscar_agregar') {
         $busqueda = $_POST['busqueda'];
         $likeBusqueda = "%{$busqueda}%";
@@ -63,21 +63,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bindParam(':likeBusqueda', $likeBusqueda, PDO::PARAM_STR);
         $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR);
         $stmt->execute();
-        $usuarios = $stmt->fetchAll();
+        $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode($usuarios ?: ["mensaje" => "No se encontraron usuarios"]);
     }
 
-    // Agregar amigo
+    // Agregar amigo (enviar solicitud de amistad)
     if ($accion === 'agregar_amigo') {
         $nuevo_amigo_id = $_POST['amigo_id'];
-        $stmt = $conn->prepare("INSERT INTO Amigos (usuario_id, amigo_id) VALUES (:usuario_id, :amigo_id)");
+
+        $stmt = $conn->prepare("SELECT nombre FROM Usuarios WHERE usuario_id = :usuario_id");
         $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR);
-        $stmt->bindParam(':amigo_id', $nuevo_amigo_id, PDO::PARAM_STR);
-        
-        if ($stmt->execute()) {
-            echo json_encode(["mensaje" => "Amigo agregado exitosamente"]);
+        $stmt->execute();
+        $nombre_usuario = $stmt->fetchColumn();
+
+        if ($nombre_usuario) {
+            $mensaje = "El usuario {$nombre_usuario} te ha enviado una solicitud de amistad.";
+            $tipo = "Solicitud de amistad";
+
+            $stmt = $conn->prepare("INSERT INTO Notificaciones (usuario_id, remitente_id, tipo, mensaje, leida) 
+                                    VALUES (:amigo_id, :id, :tipo, :mensaje, curdate())");
+            $stmt->bindParam(':amigo_id', $nuevo_amigo_id, PDO::PARAM_STR);
+            $stmt->bindParam(':id', $usuario_id, PDO::PARAM_STR);
+            $stmt->bindParam(':tipo', $tipo, PDO::PARAM_STR);
+            $stmt->bindParam(':mensaje', $mensaje, PDO::PARAM_STR);
+
+            if ($stmt->execute()) {
+                echo json_encode(["mensaje" => "Solicitud de amistad enviada exitosamente"]);
+            } else {
+                echo json_encode(["mensaje" => "Error al enviar la solicitud de amistad"]);
+            }
         } else {
-            echo json_encode(["mensaje" => "Error al agregar amigo"]);
+            echo json_encode(["mensaje" => "Error al obtener la información del usuario"]);
         }
     }
 }

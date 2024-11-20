@@ -47,11 +47,11 @@ $(document).ready(function () {
     $(".cont-btn-notificacion").on("click", function() {
         $(".datos-perfil").hide();
         $(".cont-notificaciones").show();
+        listarNotificaciones();
         $(".cont-btn-notificacion").html('<div class="nuevo-notification-container"><img src="../img/person-circle.svg" class="btn-notificacion"></div>');
     });
     
     $(document).on("click", ".nuevo-notification-container", function() {
-        console.log("a");
         $(".datos-perfil").show();
         $(".cont-notificaciones").hide();
         $(".cont-btn-notificacion").html('<div class="cont-btn-notificacion"><img src="../img/bell.svg" alt="notificacion" class="btn-notificacion"></div>'); 
@@ -92,7 +92,10 @@ $(document).ready(function () {
                 location.reload();
             },
             error: function() {
-                alert('Error al intentar actualizar el perfil.');
+                $(".perfil-contenedor").show();
+                $(".formulario-perfil").hide();
+
+                location.reload();
             }
         });
     });
@@ -156,7 +159,6 @@ $(document).ready(function () {
                 }
             },
             error: function (xhr, status, error) {
-                console.log(xhr.responseText);
                 console.error(error);
                 alert('Hubo un error al cargar las estadísticas.');
             }
@@ -240,6 +242,88 @@ $(document).ready(function () {
             },
             error: function () {
                 alert('Hubo un error al listar las asignaturas.'); 
+            }
+        });
+    }
+
+    function listarNotificaciones() {
+        $.ajax({
+            url: '../php/profile.php',
+            type: 'POST',
+            data: { listar_notificaciones: true },
+            dataType: 'json',
+            success: function (response) {
+                if (response.success) {
+                    const notificacionesContainer = $('.notificaciones');
+                    notificacionesContainer.empty();
+    
+                    response.notificaciones.forEach(function (notificacion) {
+                        const listItem = $('<li class="notificacion-item"></li>');
+                        listItem.append(`
+                            <div>
+                                <p><strong>Tipo:</strong> ${notificacion.tipo}</p>
+                                <p><strong>Mensaje:</strong> ${notificacion.mensaje}</p>
+                                <p><strong>Fecha:</strong> ${notificacion.fecha}</p>
+                                <button class="aceptar-solicitud" data-amigo-id="${notificacion.remitente_id}" data-notificacion-id="${notificacion.notificacion_id}">
+                                    Aceptar solicitud
+                                </button>
+                            </div>
+                        `);
+                        notificacionesContainer.append(listItem);
+                    });
+                    $('.aceptar-solicitud').on('click', function () {
+                        const amigoId = $(this).data('amigo-id');
+                        const notificacionId = $(this).data('notificacion-id');
+                        aceptar_solicitud_amistad(amigoId);
+                        eliminar_notificacion(notificacionId);
+                    });
+                } else {
+                    $('.notificaciones').text(response.error || 'No se encontraron notificaciones.');
+                }
+            },
+            error: function (xhr) {
+                $('.notificaciones').text('Error al cargar las notificaciones.');
+            }
+        });
+    }
+
+    function eliminar_notificacion(a) {
+        $.ajax({
+            url: '../php/profile.php',
+            type: 'POST',
+            data: {
+                accion: 'borrar_notificacion',
+                id_notificacion: a,
+            },
+            dataType: 'json',
+            success: function (response) {
+                if (response.status === 'success') {
+                    listarNotificaciones();
+                } else {
+                    listarNotificaciones();
+                }
+            },
+            error: function (xhr, status, error) {
+                listarNotificaciones();
+            }
+        });
+    }
+    
+
+    function aceptar_solicitud_amistad(a) {
+        $.ajax({
+            url: '../php/profile.php',
+            type: 'POST',
+            data: {
+                accion: 'aceptar_solicitud_amistad',
+                amigo_id: a,
+            },
+            dataType: 'json',
+            success: function (response) {
+                alert(response.mensaje);
+            },
+            error: function (xhr) {
+                alert('Error al procesar la solicitud.');
             }
         });
     }

@@ -170,6 +170,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
+    if(isset($_POST['listar_notificaciones'])){
+        $stmt = $conn->prepare("SELECT * FROM notificaciones WHERE usuario_id = :id");
+        $stmt->bindParam(':id', $id, PDO::PARAM_STR);
+        $stmt->execute();
+        $notificaciones = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode(['success' => true, 'notificaciones' => $notificaciones]);
+        exit();
+    }
+
+    if ($_POST['accion'] === 'aceptar_solicitud_amistad') {
+        $nuevo_amigo_id = $_POST['amigo_id'];
+        
+        $stmt = $conn->prepare("SELECT COUNT(*) FROM Amigos WHERE 
+            (usuario_id = :usuario_id AND amigo_id = :amigo_id) OR 
+            (usuario_id = :amigo_id AND amigo_id = :usuario_id)");
+        $stmt->bindParam(':usuario_id', $id, PDO::PARAM_STR);
+        $stmt->bindParam(':amigo_id', $nuevo_amigo_id, PDO::PARAM_STR);
+        $stmt->execute();
+        $existeRelacion = $stmt->fetchColumn();
+    
+        if ($existeRelacion > 0) {
+            echo json_encode(["mensaje" => "Ya existe una relación de amistad"]);
+            exit();
+        }
+        $stmt = $conn->prepare("INSERT INTO Amigos (usuario_id, amigo_id) 
+                                VALUES (:usuario_id, :amigo_id), (:amigo_id, :usuario_id)");
+        $stmt->bindParam(':usuario_id', $id, PDO::PARAM_STR);
+        $stmt->bindParam(':amigo_id', $nuevo_amigo_id, PDO::PARAM_STR);
+    
+        if ($stmt->execute()) {
+            echo json_encode(["mensaje" => "Amigo agregado exitosamente"]);
+        } else {
+            echo json_encode(["mensaje" => "Error al agregar amigo"]);
+        }
+    exit();
+    }
+        
+    
+    if ($_POST['accion'] === 'borrar_notificacion') {
+        $notificacion_id = $_POST["id_notificacion"];
+        $stmt = $conn->prepare("DELETE FROM notificaciones WHERE usuario_id = :usuario_id AND notificacion_id = :notificacion_id");
+        $stmt->bindParam(':usuario_id', $id, PDO::PARAM_STR);
+        $stmt->bindParam(':notificacion_id', $notificacion_id, PDO::PARAM_INT);
+        $stmt->execute();
+        exit();
+    }
+
     $descripcion = $_POST['descripcion'] ?? '';
     $curso = $_POST['curso'] ?? '';
     $estudios = $_POST['estudios'] ?? '';
