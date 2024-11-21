@@ -87,6 +87,55 @@ $(document).ready(function() {
         });
     }
 
+    $(".cont-salas").on("click", ".btn-ir", function() {
+        const salaId = $(this).data("sala-id"); 
+        obtenerInfoSala(salaId);
+    });
+    
+    function obtenerInfoSala(salaId) {
+        $.ajax({
+            url: '../php/salas.php',
+            type: 'POST',
+            data: { action: 'infoSala', sala_id: salaId },
+            success: function(response) {
+                const data = JSON.parse(response);
+                if (data.success) {
+                    mostrarInfoSala(data.sala, data.participantes);
+                } else {
+                    alert('Error al obtener información de la sala: ' + (data.error || 'Desconocido'));
+                }
+            },
+            error: function() {
+                alert('Hubo un error al conectar con el servidor.');
+            }
+        });
+    }
+    
+    function mostrarInfoSala(sala, participantes) {
+        const contenidoCabeceroSala = $(".cabecero-sala");
+        contenidoCabeceroSala.empty();
+        contenidoCabeceroSala.append(`
+            <h2>${sala.nombre}</h2>
+                <div class="iconos-cabecero-sala">
+                    <img src="../img/book-outline.svg" class="acceso-tarea">
+                    <img src="../img/document-outline.svg" class="acceso-documentos">
+                    <img src="../img/chatbubble-ellipses-outline.svg" class="acceso-chat-grupo">
+                    <img src="../img/settings-outline.svg" class="acceso-ajustes">
+                </div>
+            `);
+        const contenidoSala = $(".contenido-sala");
+        contenidoSala.empty(); 
+        contenidoSala.append(`
+            <p><strong>Descripción:</strong> ${sala.descripcion}</p>
+            <p><strong>Fecha de creación:</strong> ${sala.fecha_creacion}</p>
+            <p><strong>Fecha de entrega:</strong> ${sala.fecha_entrega || 'No definida'}</p>
+            <p><strong>Creador:</strong> ${sala.creador}</p>
+            <h3>Participantes:</h3>
+            <ul>${participantes.map(participante => `<li>${participante.nombre}</li>`).join('')}</ul>
+        `);
+        $(".cabecero-sala").css("display", "flex");
+        contenidoSala.css("display", "block");
+    }
     let amigosSeleccionados = [];
     
     $('#buscar_amigos').on('input', function() {

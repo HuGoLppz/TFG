@@ -41,6 +41,40 @@ try {
     } elseif ($method === 'POST') {
         $action = $_POST['action'] ?? '';
 
+        if ($action === 'infoSala') {
+            $sala_id = $_POST['sala_id'] ?? '';
+        
+            if (empty($sala_id)) {
+                echo json_encode(['success' => false, 'error' => 'ID de la sala no proporcionado.']);
+                exit;
+            }
+        
+            $query = "SELECT Salas.sala_id, Salas.nombre, Salas.descripcion, Salas.fecha_creacion, Usuarios.nombre AS creador
+                      FROM Salas
+                      JOIN Usuarios ON Salas.creador_id = Usuarios.usuario_id
+                      WHERE Salas.sala_id = :sala_id";
+            $stmt = $conn->prepare($query);
+            $stmt->bindParam(':sala_id', $sala_id, PDO::PARAM_STR);
+            $stmt->execute();
+            $sala = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+            if ($sala) {
+                $query_participantes = "SELECT Usuarios.usuario_id, Usuarios.nombre
+                                        FROM Participantes_Salas
+                                        JOIN Usuarios ON Participantes_Salas.usuario_id = Usuarios.usuario_id
+                                        WHERE Participantes_Salas.sala_id = :sala_id";
+                $stmt_participantes = $conn->prepare($query_participantes);
+                $stmt_participantes->bindParam(':sala_id', $sala_id, PDO::PARAM_STR);
+                $stmt_participantes->execute();
+                $participantes = $stmt_participantes->fetchAll(PDO::FETCH_ASSOC);
+        
+                echo json_encode(['success' => true, 'sala' => $sala, 'participantes' => $participantes]);
+            } else {
+                echo json_encode(['success' => false, 'error' => 'Sala no encontrada.']);
+            }
+            exit;
+        }
+        
         if ($action === 'crear') {
             $nombre_sala = $_POST['nombre_sala'] ?? '';
             $descripcion_sala = $_POST['descripcion_sala'] ?? '';
