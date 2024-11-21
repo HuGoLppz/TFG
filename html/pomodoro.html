@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../css/estilos_pomodoro.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="../js/cabecero.js"></script>
+    <script src="../js/pomodoro.js"></script>
 </head>
 <body>
     <div class="container">
@@ -32,8 +33,30 @@
         <main>
             <section class="pomodoro">
                 <h2>Entorno de Estudio - Temporizador Pomodoro</h2>
-                <!-- Contenido de temporizador pomodoro -->
+                <div class="settings">
+                    <label for="study-time">Tiempo de estudio (min):</label>
+                    <input type="number" id="study-time" min="1" max="60" value="25">
+                    <label for="break-time">Tiempo de descanso (min):</label>
+                    <input type="number" id="break-time" min="1" max="30" value="5">
+                    <label for="display-type">Tipo de visualización:</label>
+                    <select id="display-type">
+                        <option value="digital">Cuenta regresiva digital</option>
+                        <option value="analog">Reloj analógico</option>
+                    </select>
+                    <button id="start-timer">Iniciar Temporizador</button>
+                </div>
+                <div class="timer">
+                    <div id="digital-timer" style="display: none;">25:00</div>
+                    <div id="analog-clock" style="display: none;">
+                        <div class="clock">
+                            <div class="hand hour"></div>
+                            <div class="hand minute"></div>
+                            <div class="center"></div>
+                        </div>
+                    </div>
+                </div>
             </section>
+            
         </main>
 
         <footer>

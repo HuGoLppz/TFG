@@ -259,22 +259,43 @@ $(document).ready(function () {
     
                     response.notificaciones.forEach(function (notificacion) {
                         const listItem = $('<li class="notificacion-item"></li>');
-                        listItem.append(`
-                            <div>
-                                <p><strong>Tipo:</strong> ${notificacion.tipo}</p>
-                                <p><strong>Mensaje:</strong> ${notificacion.mensaje}</p>
-                                <p><strong>Fecha:</strong> ${notificacion.fecha}</p>
-                                <button class="aceptar-solicitud" data-amigo-id="${notificacion.remitente_id}" data-notificacion-id="${notificacion.notificacion_id}">
-                                    Aceptar solicitud
-                                </button>
-                            </div>
-                        `);
-                        notificacionesContainer.append(listItem);
+                        if(notificacion.tipo === "Solicitud de amistad"){
+                            listItem.append(`
+                                <div>
+                                    <p><strong>Tipo:</strong> ${notificacion.tipo}</p>
+                                    <p><strong>Mensaje:</strong> ${notificacion.mensaje}</p>
+                                    <p><strong>Fecha:</strong> ${notificacion.fecha}</p>
+                                    <button class="aceptar-solicitud-amistad" data-amigo-id="${notificacion.remitente_id}" data-notificacion-id="${notificacion.notificacion_id}">
+                                        Aceptar solicitud
+                                    </button>
+                                </div>
+                            `);
+                            notificacionesContainer.append(listItem);
+                        }
+                        if(notificacion.tipo === "Solicitud de unión a sala"){
+                            listItem.append(`
+                                <div>
+                                    <p><strong>Tipo:</strong> ${notificacion.tipo}</p>
+                                    <p><strong>Mensaje:</strong> ${notificacion.mensaje}</p>
+                                    <p><strong>Fecha:</strong> ${notificacion.fecha}</p>
+                                    <button class="aceptar-solicitud-sala" data-sala-id="${notificacion.remitente_id}" data-notificacion-id="${notificacion.notificacion_id}">
+                                        Aceptar solicitud
+                                    </button>
+                                </div>
+                            `);
+                            notificacionesContainer.append(listItem);
+                        }
                     });
-                    $('.aceptar-solicitud').on('click', function () {
-                        const amigoId = $(this).data('amigo-id');
+                    $('.aceptar-solicitud-amistad').on('click', function () {
+                        const amigoID = $(this).data('amigo-id');
                         const notificacionId = $(this).data('notificacion-id');
-                        aceptar_solicitud_amistad(amigoId);
+                        aceptar_solicitud_amistad(amigoID);
+                        eliminar_notificacion(notificacionId);
+                    });
+                    $('.aceptar-solicitud-sala').on('click', function () {
+                        const salaId = $(this).data('sala-id');
+                        const notificacionId = $(this).data('notificacion-id');
+                        aceptar_solicitud_sala(salaId);
                         eliminar_notificacion(notificacionId);
                     });
                 } else {
@@ -308,7 +329,6 @@ $(document).ready(function () {
             }
         });
     }
-    
 
     function aceptar_solicitud_amistad(a) {
         $.ajax({
@@ -324,6 +344,24 @@ $(document).ready(function () {
             },
             error: function (xhr) {
                 alert('Error al procesar la solicitud.');
+            }
+        });
+    }
+
+    function aceptar_solicitud_sala(a) {
+        $.ajax({
+            url: '../php/profile.php',
+            type: 'POST',
+            data: {
+                accion: 'aceptar_solicitud_sala',
+                sala_id: a,
+            },
+            dataType: 'json',
+            success: function (response) {
+                alert(response.mensaje);
+            },
+            error: function (xhr) {
+                console.log(xhr);
             }
         });
     }

@@ -16,7 +16,7 @@ $(document).ready(function() {
         var nombre_sala = $('#nombre_sala').val();
         var descripcion_sala = $('#descripcion_sala').val();
         var fecha_entrega = $('#fecha_entrega').val();
-        var idAmigos = amigosSeleccionados.map(amigo => amigo.id); // IDs de los amigos seleccionados
+        var idAmigos = amigosSeleccionados.map(amigo => amigo.id); 
 
         console.log("IDs de amigos seleccionados: ", idAmigos);
 
@@ -87,10 +87,8 @@ $(document).ready(function() {
         });
     }
 
-    // Variables para manejar los amigos seleccionados y sugerencias de búsqueda
     let amigosSeleccionados = [];
     
-    // Buscar amigos en tiempo real al escribir
     $('#buscar_amigos').on('input', function() {
         const query = $(this).val().trim();
         if (query.length > 0) {
@@ -108,7 +106,6 @@ $(document).ready(function() {
         }
     });
 
-    // Mostrar sugerencias de amigos en el desplegable
     function mostrarSugerencias(amigos) {
         const sugerenciasDiv = $('#sugerencias_amigos');
         sugerenciasDiv.empty().show();
@@ -123,7 +120,6 @@ $(document).ready(function() {
         });
     }
 
-    // Agregar amigo a la lista de invitados
     function agregarAmigo(id, nombre) {
         if (!amigosSeleccionados.some(amigo => amigo.id === id)) {
             amigosSeleccionados.push({ id: id, nombre: nombre });
@@ -132,14 +128,12 @@ $(document).ready(function() {
         }
     }
 
-    // Eliminar amigo de la lista de invitados
     window.eliminarAmigo = function(id) {
         amigosSeleccionados = amigosSeleccionados.filter(amigo => amigo.id !== id);
         $(`input[name="lista_amigos[]"][value="${id}"]`).remove();
         $(`#amigos_invitados li button[onclick="eliminarAmigo(${id})"]`).parent().remove();
     };
 
-    // Ocultar sugerencias cuando se hace clic fuera
     $(document).on('click', function(e) {
         if (!$(e.target).closest('#buscar_amigos, #sugerencias_amigos').length) {
             $('#sugerencias_amigos').hide();

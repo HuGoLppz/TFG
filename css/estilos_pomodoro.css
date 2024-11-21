@@ -1,0 +1,48 @@
+/* Temporizador digital */
+#digital-timer {
+    font-size: 3em;
+    text-align: center;
+    margin: 20px;
+}
+
+/* Reloj analógico */
+#analog-clock {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 20px auto;
+    border: 5px solid #000;
+    border-radius: 50%;
+    background: #f0f0f0;
+}
+
+.clock .hand {
+    position: absolute;
+    width: 2px;
+    background: #000;
+    transform-origin: bottom center;
+    transform: rotate(90deg);
+    transition: transform 0.5s linear;
+}
+
+.hand.hour {
+    height: 50px;
+    top: 50px;
+    left: 99px;
+}
+
+.hand.minute {
+    height: 70px;
+    top: 30px;
+    left: 99px;
+}
+
+.center {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #000;
+    border-radius: 50%;
+    top: 95px;
+    left: 95px;
+}

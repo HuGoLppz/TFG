@@ -19,6 +19,29 @@ try {
     if ($method === 'GET') {
         $action = $_GET['action'] ?? '';
 
+        if ($action === 'detalle') {
+            $tarea_id = $_GET['tarea_id'] ?? null;
+        
+            if ($tarea_id) {
+                $query = "SELECT tarea_id, usuario_id, titulo, descripcion, fecha_entrega, asignatura, estado 
+                          FROM tareas 
+                          WHERE tarea_id = :tarea_id AND usuario_id = :usuario_id";
+                $stmt = $conn->prepare($query);
+                $stmt->bindParam(':tarea_id', $tarea_id, PDO::PARAM_INT);
+                $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR);
+                $stmt->execute();
+                $tarea = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+                if ($tarea) {
+                    echo json_encode(['success' => true, 'data' => $tarea]);
+                } else {
+                    echo json_encode(['success' => false, 'error' => 'Tarea no encontrada.']);
+                }
+            } else {
+                echo json_encode(['success' => false, 'error' => 'ID de tarea no proporcionado.']);
+            }
+            exit;
+        }        
         if ($action === 'listarCompletado') {
             $query = "SELECT tarea_id, usuario_id, titulo, descripcion, fecha_entrega FROM tareas 
                       WHERE estado = 'completada' AND usuario_id = :usuario_id";
