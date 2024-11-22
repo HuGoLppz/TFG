@@ -22,7 +22,6 @@ try {
         $action = $_GET['action'] ?? '';
 
         if ($action === 'listar_participacion') {
-            // Listar salas en las que el usuario participa
             $query = "SELECT Salas.sala_id, Salas.nombre, Salas.descripcion, Salas.fecha_creacion, Salas.creador_id
                       FROM Salas
                       INNER JOIN Participantes_Salas ON Salas.sala_id = Participantes_Salas.sala_id
@@ -40,6 +39,123 @@ try {
         }
     } elseif ($method === 'POST') {
         $action = $_POST['action'] ?? '';
+
+        if ($_POST['action'] === 'listar_archivos') {
+            $sala_id = $_POST['sala_id'];
+        
+            $query = "SELECT archivo_id, nombre_archivo AS nombre, ruta_archivo AS url, fecha_subida 
+                      FROM Archivos_Salas 
+                      WHERE sala_id = :sala_id";
+            $stmt = $conn->prepare($query);
+            $stmt->bindParam(':sala_id', $sala_id, PDO::PARAM_STR);
+        
+            if ($stmt->execute()) {
+                $archivos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+                echo json_encode([
+                    "success" => true,
+                    "archivos" => $archivos,
+                ]);
+            } else {
+                echo json_encode([
+                    "success" => false,
+                    "error" => "Error al obtener la lista de archivos.",
+                ]);
+            }
+        
+            exit;
+        }
+                       
+        if ($_POST['action'] === 'eliminar_archivo') {
+            $archivo_id = $_POST['archivo_id'];
+        
+            $query = "SELECT ruta_archivo FROM Archivos_Salas WHERE archivo_id = :archivo_id";
+            $stmt = $conn->prepare($query);
+            $stmt->bindParam(':archivo_id', $archivo_id, PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                $archivo = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                if ($archivo) {
+                    $archivo_path = $archivo['ruta_archivo'];
+
+                    $deleteQuery = "DELETE FROM Archivos_Salas WHERE archivo_id = :archivo_id";
+                    $deleteStmt = $conn->prepare($deleteQuery);
+                    $deleteStmt->bindParam(':archivo_id', $archivo_id, PDO::PARAM_INT);
+
+                    if ($deleteStmt->execute()) {
+                        if (file_exists($archivo_path) && unlink($archivo_path)) {
+                            echo json_encode(["success" => true]);
+                        } else {
+                            echo json_encode(["success" => false, "error" => "Archivo eliminado de la base de datos, pero no del sistema de archivos."]);
+                        }
+                    } else {
+                        echo json_encode(["success" => false, "error" => "Error al eliminar el archivo de la base de datos."]);
+                    }
+                } else {
+                    echo json_encode(["success" => false, "error" => "Archivo no encontrado."]);
+                }
+            } else {
+                echo json_encode(["success" => false, "error" => "Error al buscar el archivo."]);
+            }
+            exit;
+        }
+                
+        if ($action === 'subir_archivo') {
+            $sala_id = $_POST['sala_id'] ?? '';
+        
+            if (empty($sala_id)) {
+                echo json_encode(['success' => false, 'error' => 'ID de la sala no proporcionado.']);
+                exit;
+            }
+        
+            if (!isset($_FILES['archivo']) || $_FILES['archivo']['error'] !== UPLOAD_ERR_OK) {
+                echo json_encode(['success' => false, 'error' => 'No se pudo subir el archivo.']);
+                exit;
+            }
+        
+            $query_sala = "SELECT sala_id FROM Salas WHERE sala_id = :sala_id";
+            $stmt_sala = $conn->prepare($query_sala);
+            $stmt_sala->bindParam(':sala_id', $sala_id, PDO::PARAM_STR);
+            $stmt_sala->execute();
+        
+            if (!$stmt_sala->fetchColumn()) {
+                echo json_encode(['success' => false, 'error' => 'Sala no encontrada.']);
+                exit;
+            }
+        
+            $ruta_directorio = "../archivos/{$sala_id}";
+            if (!is_dir($ruta_directorio)) {
+                if (!mkdir($ruta_directorio, 0777, true) && !is_dir($ruta_directorio)) {
+                    echo json_encode(['success' => false, 'error' => 'No se pudo crear el directorio de destino.']);
+                    exit;
+                }
+            }
+        
+            $archivo = $_FILES['archivo'];
+            $nombre_archivo = basename($archivo['name']);
+            $ruta_destino = $ruta_directorio . '/' . uniqid('archivo_', true) . '_' . $nombre_archivo;
+        
+            if (move_uploaded_file($archivo['tmp_name'], $ruta_destino)) {
+                $query_archivo = "INSERT INTO Archivos_Salas (sala_id, usuario_id, nombre_archivo, ruta_archivo) 
+                                  VALUES (:sala_id, :usuario_id, :nombre_archivo, :ruta_archivo)";
+                $stmt_archivo = $conn->prepare($query_archivo);
+                $stmt_archivo->bindParam(':sala_id', $sala_id, PDO::PARAM_STR);
+                $stmt_archivo->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR);
+                $stmt_archivo->bindParam(':nombre_archivo', $nombre_archivo, PDO::PARAM_STR);
+                $stmt_archivo->bindParam(':ruta_archivo', $ruta_destino, PDO::PARAM_STR);
+        
+                if ($stmt_archivo->execute()) {
+                    echo json_encode(['success' => true, 'message' => 'Archivo subido correctamente.']);
+                } else {
+                    unlink($ruta_destino);
+                    echo json_encode(['success' => false, 'error' => 'Error al registrar el archivo en la base de datos.']);
+                }
+            } else {
+                echo json_encode(['success' => false, 'error' => 'Error al mover el archivo al directorio de destino.']);
+            }
+            exit;
+        }        
 
         if ($action === 'infoSala') {
             $sala_id = $_POST['sala_id'] ?? '';

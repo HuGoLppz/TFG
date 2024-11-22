@@ -68,18 +68,18 @@ $(document).ready(function () {
 
     $(document).on("click", ".btn-info-tarea", function () {
         const tareaId = $(this).closest(".tarea").data("id"); 
-        obtenerDetalleTarea(tareaId); // Llamamos a la función para cargar la información
+        obtenerDetalleTarea(tareaId); 
     });
     
     function obtenerDetalleTarea(tareaId) {
         $.ajax({
             url: "../php/tareas.php",
             method: "GET",
-            data: { action: "detalle", tarea_id: tareaId }, // Pasamos el ID de la tarea al backend
+            data: { action: "detalle", tarea_id: tareaId }, 
             dataType: "json",
             success: function (response) {
                 if (response.success) {
-                    mostrarDetalleTarea(response.data); // Mostramos la información de la tarea
+                    mostrarDetalleTarea(response.data); 
                 } else {
                     alert(response.error || "No se pudo obtener el detalle de la tarea.");
                 }
@@ -101,7 +101,7 @@ $(document).ready(function () {
             <p><strong>Estado:</strong> ${data.estado || "Pendiente"}</p>
         `);
     
-        $(".detalle-tarea").css("display", "block"); // Mostramos la sección de detalle
+        $(".detalle-tarea").css("display", "block"); 
     }    
 
     function cargarTareas() {
@@ -151,6 +151,7 @@ $(document).ready(function () {
                                 <div class="tarea" data-id="${tarea.tarea_id}">
                                     <h3>${tarea.titulo}</h3>
                                     <p>Fecha de entrega: ${tarea.fecha_entrega}</p>
+                                    <button class="btn-info-tarea">Ver información de la tarea</button>
                                 </div>
                             </li>
                         `);

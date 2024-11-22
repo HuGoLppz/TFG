@@ -1,168 +1,250 @@
-$(document).ready(function() {
+$(document).ready(function () {
+    inicializarEventos();
     listarSalas();
-    
-    $(".crear-sala").on("click", function() {
-        $(".menu-crear-sala").css("display", "block");
-    });
 
-    $(".cerrar-ventana").on("click", function(){
-        $(".menu-crear-sala").css("display", "none");
-    });
+    let amigosSeleccionados = [];
 
-    $(".btn-crear-sala").on("click", function(event) {
-        event.preventDefault(); 
-        $(".menu-crear-sala").css("display", "none");
+    function inicializarEventos() {
+        $(".crear-sala").on("click", function () {
+            $(".menu-crear-sala").show();
+        });
 
-        var nombre_sala = $('#nombre_sala').val();
-        var descripcion_sala = $('#descripcion_sala').val();
-        var fecha_entrega = $('#fecha_entrega').val();
-        var idAmigos = amigosSeleccionados.map(amigo => amigo.id); 
+        $(".cerrar-ventana").on("click", function () {
+            $(".menu-crear-sala").hide();
+        });
 
-        console.log("IDs de amigos seleccionados: ", idAmigos);
+        $(".btn-crear-sala").on("click", function (event) {
+            event.preventDefault();
+            crearSala();
+        });
 
-        if (!nombre_sala || !descripcion_sala || !fecha_entrega || idAmigos.length === 0) {
-            alert('Por favor, completa todos los campos y selecciona al menos un amigo.');
+        $("#buscar_amigos").on("input", function () {
+            buscarAmigos($(this).val().trim());
+        });
+
+        $(document).on("click", function (e) {
+            if (!$(e.target).closest("#buscar_amigos, #sugerencias_amigos").length) {
+                $("#sugerencias_amigos").hide();
+            }
+        });
+
+        $(".cont-salas").on("click", ".btn-ir", function () {
+            const salaId = $(this).data("sala-id");
+            obtenerInfoSala(salaId);
+        });
+
+        $(".cabecero-sala").on("click", ".acceso-tarea", function () {
+            const salaId = $(this).data("sala-id");
+            obtenerInfoSala(salaId);
+        });
+        
+
+        $(".cabecero-sala").on("click", ".acceso-documentos", function () {
+            mostrarGestionDocumentos($(this).data("sala-id"));
+            listarArchivos($(this).data("sala-id"));
+        });
+    }
+
+    function crearSala() {
+        $(".menu-crear-sala").hide();
+
+        const nombreSala = $("#nombre_sala").val();
+        const descripcionSala = $("#descripcion_sala").val();
+        const fechaEntrega = $("#fecha_entrega").val();
+        const idAmigos = amigosSeleccionados.map((amigo) => amigo.id);
+
+        if (!nombreSala || !descripcionSala || !fechaEntrega || idAmigos.length === 0) {
+            alert("Por favor, completa todos los campos y selecciona al menos un amigo.");
             return;
         }
 
         $.ajax({
-            url: '../php/salas.php',
-            type: 'POST',
+            url: "../php/salas.php",
+            type: "POST",
             data: {
-                action: 'crear',
-                nombre_sala: nombre_sala,
-                descripcion_sala: descripcion_sala,
-                fecha_entrega: fecha_entrega,
-                idAmigos: idAmigos 
+                action: "crear",
+                nombre_sala: nombreSala,
+                descripcion_sala: descripcionSala,
+                fecha_entrega: fechaEntrega,
+                idAmigos: idAmigos,
             },
-            success: function(response) {
-                console.log(response);
-                var data = JSON.parse(response);
+            success: function (response) {
+                const data = JSON.parse(response);
 
                 if (data.success) {
-                    alert('Sala creada exitosamente!');
+                    alert("Sala creada exitosamente!");
                     listarSalas();
                 } else {
-                    alert('Error al crear la sala: ' + (data.error || 'Desconocido'));
+                    alert("Error al crear la sala: " + (data.error || "Desconocido"));
                 }
             },
-            error: function() {
-                alert('Hubo un error al conectar con el servidor.');
-            }
+            error: function () {
+                alert("Hubo un error al conectar con el servidor.");
+            },
         });
-    });
+    }
 
     function listarSalas() {
         $.ajax({
-            url: '../php/salas.php',
-            type: 'GET',
-            data: { action: 'listar_participacion' },
-            success: function(response) {
-                console.log(response);
-                var data = JSON.parse(response);
+            url: "../php/salas.php",
+            type: "GET",
+            data: { action: "listar_participacion" },
+            success: function (response) {
+                const data = JSON.parse(response);
 
                 if (data.success) {
-                    var salas = data.salas;
-                    var htmlContent = '';
-
-                    salas.forEach(function(sala) {
-                        htmlContent += `
+                    const salas = data.salas;
+                    const htmlContent = salas
+                        .map((sala) => `
                             <li>
                                 <div class="sala">
                                     <h3>${sala.nombre}</h3>
-                                    <p>Fecha de entrega: ${sala.fecha_entrega ? sala.fecha_entrega : 'No definida'}</p>
+                                    <p>Fecha de entrega: ${sala.fecha_entrega || "No definida"}</p>
                                     <button class="btn-ir" data-sala-id="${sala.sala_id}">Ir a la sala</button>
                                 </div>
-                            </li>`;
-                    });
+                            </li>`)
+                        .join("");
 
                     $(".cont-salas ul").html(htmlContent);
                 } else {
-                    alert('Error al listar salas: ' + (data.error || 'Desconocido'));
+                    alert("Error al listar salas: " + (data.error || "Desconocido"));
                 }
             },
-            error: function() {
-                alert('Hubo un error al conectar con el servidor.');
-            }
+            error: function () {
+                alert("Hubo un error al conectar con el servidor.");
+            },
         });
     }
 
-    $(".cont-salas").on("click", ".btn-ir", function() {
-        const salaId = $(this).data("sala-id"); 
-        obtenerInfoSala(salaId);
-    });
-    
     function obtenerInfoSala(salaId) {
         $.ajax({
-            url: '../php/salas.php',
-            type: 'POST',
-            data: { action: 'infoSala', sala_id: salaId },
-            success: function(response) {
+            url: "../php/salas.php",
+            type: "POST",
+            data: { action: "infoSala", sala_id: salaId },
+            success: function (response) {
                 const data = JSON.parse(response);
+
                 if (data.success) {
                     mostrarInfoSala(data.sala, data.participantes);
                 } else {
-                    alert('Error al obtener información de la sala: ' + (data.error || 'Desconocido'));
+                    alert("Error al obtener información de la sala: " + (data.error || "Desconocido"));
                 }
             },
-            error: function() {
-                alert('Hubo un error al conectar con el servidor.');
-            }
+            error: function () {
+                alert("Hubo un error al conectar con el servidor.");
+            },
+        });
+    }
+
+    function mostrarInfoSala(sala, participantes) {
+        $(".cabecero-sala").html(`
+            <h2>${sala.nombre}</h2>
+            <div class="iconos-cabecero-sala">
+                <img src="../img/book-outline.svg" class="acceso-tarea" data-sala-id="${sala.sala_id}">
+                <img src="../img/document-outline.svg" class="acceso-documentos" data-sala-id="${sala.sala_id}">
+                <img src="../img/chatbubble-ellipses-outline.svg" class="acceso-chat-grupo">
+                <img src="../img/settings-outline.svg" class="acceso-ajustes">
+            </div>`).show();
+            $(".cabecero-sala").css("display", "flex");
+
+        $(".contenido-sala").html(`
+            <p><strong>Descripción:</strong> ${sala.descripcion}</p>
+            <p><strong>Fecha de creación:</strong> ${sala.fecha_creacion}</p>
+            <p><strong>Creador:</strong> ${sala.creador}</p>
+            <h3>Participantes:</h3>
+            <ul>${participantes.map((p) => `<li>${p.nombre}</li>`).join("")}</ul>`).show();
+    }
+
+    function buscarAmigos(query) {
+        if (query.length === 0) {
+            $("#sugerencias_amigos").empty().hide();
+            return;
+        }
+
+        $.ajax({
+            url: "../php/amigos.php",
+            type: "POST",
+            data: { accion: "buscar_amigos", query },
+            success: function (data) {
+                const amigos = JSON.parse(data);
+                mostrarSugerenciasAmigos(amigos);
+            },
+        });
+    }
+
+    function listarArchivos(salaId) {
+        $.ajax({
+            url: "../php/salas.php",
+            type: "POST",
+            data: { action: "listar_archivos", sala_id: salaId },
+            success: function (response) {
+                console.log(response); 
+                const data = JSON.parse(response);
+            
+                if (data && data.success) {
+                    const archivos = data.archivos;
+                    const listaArchivos = $("#lista-archivos");
+                    listaArchivos.empty();
+            
+                    if (archivos.length > 0) {
+                        archivos.forEach((archivo) => {
+                            listaArchivos.append(`
+                                <li>
+                                    <a href="${archivo.url}" target="_blank">${archivo.nombre}</a>
+                                    <button class="btn-eliminar-archivo" data-archivo-id="${archivo.archivo_id}">Eliminar</button>
+                                </li>
+                            `);
+                        });
+                    } else {
+                        listaArchivos.append("<li>No hay archivos disponibles.</li>");
+                    }
+            
+                    $(".btn-eliminar-archivo").on("click", function () {
+                        const archivoId = $(this).data("archivo-id");
+                        eliminarArchivo(archivoId, salaId);
+                    });
+                } else {
+                    alert("Error al listar archivos: " + (data.error || "Desconocido"));
+                }
+            },            
+            error: function () {
+                alert("Error al conectar con el servidor.");
+            },
         });
     }
     
-    function mostrarInfoSala(sala, participantes) {
-        const contenidoCabeceroSala = $(".cabecero-sala");
-        contenidoCabeceroSala.empty();
-        contenidoCabeceroSala.append(`
-            <h2>${sala.nombre}</h2>
-                <div class="iconos-cabecero-sala">
-                    <img src="../img/book-outline.svg" class="acceso-tarea">
-                    <img src="../img/document-outline.svg" class="acceso-documentos">
-                    <img src="../img/chatbubble-ellipses-outline.svg" class="acceso-chat-grupo">
-                    <img src="../img/settings-outline.svg" class="acceso-ajustes">
-                </div>
-            `);
-        const contenidoSala = $(".contenido-sala");
-        contenidoSala.empty(); 
-        contenidoSala.append(`
-            <p><strong>Descripción:</strong> ${sala.descripcion}</p>
-            <p><strong>Fecha de creación:</strong> ${sala.fecha_creacion}</p>
-            <p><strong>Fecha de entrega:</strong> ${sala.fecha_entrega || 'No definida'}</p>
-            <p><strong>Creador:</strong> ${sala.creador}</p>
-            <h3>Participantes:</h3>
-            <ul>${participantes.map(participante => `<li>${participante.nombre}</li>`).join('')}</ul>
-        `);
-        $(".cabecero-sala").css("display", "flex");
-        contenidoSala.css("display", "block");
-    }
-    let amigosSeleccionados = [];
+    function eliminarArchivo(archivoId, salaId) {
+        console.log("Hola");
+        $.ajax({
+            url: "../php/salas.php",
+            type: "POST",
+            data: { action: "eliminar_archivo", archivo_id: archivoId },
+            success: function (response) {
+                const data = JSON.parse(response);
     
-    $('#buscar_amigos').on('input', function() {
-        const query = $(this).val().trim();
-        if (query.length > 0) {
-            $.ajax({
-                url: '../php/amigos.php',
-                type: 'POST',
-                data: { accion: 'buscar_amigos', query: query },
-                success: function(data) {
-                    const amigos = JSON.parse(data);
-                    mostrarSugerencias(amigos);
+                if (data.success) {
+                    alert("Archivo eliminado correctamente.");
+                    listarArchivos(salaId); 
+                } else {
+                    alert("Error al eliminar archivo: " + (data.error || "Desconocido"));
                 }
-            });
-        } else {
-            $('#sugerencias_amigos').empty().hide();
-        }
-    });
+            },
+            error: function () {
+                alert("Error al conectar con el servidor.");
+            },
+        });
+    }
+    
 
-    function mostrarSugerencias(amigos) {
-        const sugerenciasDiv = $('#sugerencias_amigos');
+    function mostrarSugerenciasAmigos(amigos) {
+        const sugerenciasDiv = $("#sugerencias_amigos");
         sugerenciasDiv.empty().show();
-        amigos.forEach(amigo => {
+
+        amigos.forEach((amigo) => {
             const amigoDiv = $(`<div data-id="${amigo.usuario_id}">${amigo.nombre}</div>`);
-            amigoDiv.on('click', function() {
+            amigoDiv.on("click", function () {
                 agregarAmigo(amigo.usuario_id, amigo.nombre);
-                $('#buscar_amigos').val('');
+                $("#buscar_amigos").val("");
                 sugerenciasDiv.hide();
             });
             sugerenciasDiv.append(amigoDiv);
@@ -170,27 +252,65 @@ $(document).ready(function() {
     }
 
     function agregarAmigo(id, nombre) {
-        if (!amigosSeleccionados.some(amigo => amigo.id === id)) {
-            amigosSeleccionados.push({ id: id, nombre: nombre });
-            $('#amigos_invitados').append(`<li>${nombre} <button type="button" onclick="eliminarAmigo(${id})">Eliminar</button></li>`);
-            $('#crearSalaForm').append(`<input type="hidden" name="lista_amigos[]" value="${id}">`);
+        if (!amigosSeleccionados.some((amigo) => amigo.id === id)) {
+            amigosSeleccionados.push({ id, nombre });
+            $("#amigos_invitados").append(
+                `<li>${nombre} <button type="button" onclick="eliminarAmigo(${id})">Eliminar</button></li>`
+            );
+            $("#crearSalaForm").append(`<input type="hidden" name="lista_amigos[]" value="${id}">`);
         }
     }
 
-    window.eliminarAmigo = function(id) {
-        amigosSeleccionados = amigosSeleccionados.filter(amigo => amigo.id !== id);
+    window.eliminarAmigo = function (id) {
+        amigosSeleccionados = amigosSeleccionados.filter((amigo) => amigo.id !== id);
         $(`input[name="lista_amigos[]"][value="${id}"]`).remove();
         $(`#amigos_invitados li button[onclick="eliminarAmigo(${id})"]`).parent().remove();
     };
 
-    $(document).on('click', function(e) {
-        if (!$(e.target).closest('#buscar_amigos, #sugerencias_amigos').length) {
-            $('#sugerencias_amigos').hide();
-        }
-    });
+    function mostrarGestionDocumentos(salaId) {
+        console.log(salaId);
+        $(".contenido-sala").html(`
+            <h3>Gestión de documentos</h3>
+            <div class="subir-archivo">
+                <input type="file" id="archivo">
+                <button id="btn-subir" data-sala-id="${salaId}">Subir archivo</button>
+            </div>
+            <h4>Archivos subidos:</h4>
+            <ul id="lista-archivos">
+                <li>No hay archivos aún.</li>
+            </ul>`);
 
-    $(".cont-salas").on("click", ".btn-ir", function() {
-        $(".cabecero-sala").css("display", "flex");
-        $(".contenido-sala").css("display", "block");
-    });
+        $("#btn-subir").on("click", function () {
+            const archivo = $("#archivo")[0].files[0];
+            if (!archivo) {
+                alert("Por favor, selecciona un archivo para subir.");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("archivo", archivo);
+            formData.append("action", "subir_archivo");
+            formData.append("sala_id", salaId);
+
+            $.ajax({
+                url: "../php/salas.php",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    const data = JSON.parse(response);
+                    if (data.success) {
+                        alert("Archivo subido correctamente.");
+                        listarArchivos(salaId);
+                    } else {
+                        alert("Error: " + data.error);
+                    }
+                },
+                error: function () {
+                    alert("Error al conectar con el servidor.");
+                },
+            });
+        });
+    }
 });
