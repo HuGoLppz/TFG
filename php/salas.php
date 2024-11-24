@@ -155,6 +155,66 @@ try {
                 echo json_encode(['success' => false, 'error' => 'Error al mover el archivo al directorio de destino.']);
             }
             exit;
+        }     
+
+        if ($action === 'enviar_mensaje') {
+            $sala_id = $_POST['sala_id'] ?? '';
+            $mensaje = $_POST['mensaje'] ?? '';
+        
+            if (empty($sala_id) || empty($mensaje)) {
+                echo json_encode(['success' => false, 'error' => 'Datos incompletos.']);
+                exit;
+            }
+        
+            $query_sala = "SELECT sala_id FROM Salas WHERE sala_id = :sala_id";
+            $stmt_sala = $conn->prepare($query_sala);
+            $stmt_sala->bindParam(':sala_id', $sala_id, PDO::PARAM_STR);
+            $stmt_sala->execute();
+        
+            if (!$stmt_sala->fetchColumn()) {
+                echo json_encode(['success' => false, 'error' => 'Sala no encontrada.']);
+                exit;
+            }
+        
+            $query_mensaje = "INSERT INTO Mensajes_Salas (sala_id, usuario_id, mensaje, fecha_envio) 
+                              VALUES (:sala_id, :usuario_id, :mensaje, NOW())";
+            $stmt_mensaje = $conn->prepare($query_mensaje);
+            $stmt_mensaje->bindParam(':sala_id', $sala_id, PDO::PARAM_STR);
+            $stmt_mensaje->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR);
+            $stmt_mensaje->bindParam(':mensaje', $mensaje, PDO::PARAM_STR);
+        
+            if ($stmt_mensaje->execute()) {
+                echo json_encode(['success' => true]);
+            } else {
+                echo json_encode(['success' => false, 'error' => 'Error al guardar el mensaje.']);
+            }
+            exit;
+        }        
+        
+        if ($_POST['action'] === 'listar_mensajes') {
+            $sala_id = $_POST['salaId'] ?? '';
+            
+            if (empty($sala_id)) {
+                echo json_encode(['success' => false, 'error' => 'ID de la sala no proporcionado.']);
+                exit;
+            }
+            
+            $query = "SELECT Mensajes_Salas.mensaje_id, Mensajes_Salas.mensaje, Mensajes_Salas.fecha_envio, 
+                             Usuarios.usuario_id, Usuarios.nombre AS nombre_usuario
+                      FROM Mensajes_Salas
+                      JOIN Usuarios ON Mensajes_Salas.usuario_id = Usuarios.usuario_id
+                      WHERE Mensajes_Salas.sala_id = :sala_id
+                      ORDER BY Mensajes_Salas.fecha_envio ASC";
+            $stmt = $conn->prepare($query);
+            $stmt->bindParam(':sala_id', $sala_id, PDO::PARAM_STR);
+            
+            if ($stmt->execute()) {
+                $mensajes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                echo json_encode(['success' => true, 'mensajes' => $mensajes]);
+            } else {
+                echo json_encode(['success' => false, 'error' => 'Error al obtener los mensajes de la sala.']);
+            }
+            exit;
         }        
 
         if ($action === 'infoSala') {

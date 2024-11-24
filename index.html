@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>STUDY-PLANNER</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <!---<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>--->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
     <script src="js/index.js"></script>
     <script src="js/session.js"></script>
     <script src="js/cabecero.js"></script>
@@ -16,13 +16,25 @@
 </head>
 <body>
     <div class="cont">
+        <div class="toggle-switch">
+            <label class="switch-label">
+              <input type="checkbox" class="checkbox">
+              <span class="slider"></span>
+            </label>
+          </div>  
         <section class="intro">
             <h1>Bienvenido a STUDY-PLANNER</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sit amet arcu ac justo sollicitudin 
-               tempor quis ut lectus. Duis ac justo in velit vehicula blandit. Vivamus euismod lorem non lacus 
-               accumsan, ac dapibus turpis posuere.</p>
-            <p>Integer a venenatis nibh, vel sollicitudin libero. Fusce sagittis nisl vitae sapien tristique, ac cursus 
-               arcu fermentum. Curabitur consequat risus nec nulla malesuada posuere.</p>
+            <div class="cont-logo">
+                <div class="circulo-logo">
+                    <img src="img/LOGO.svg" alt="logo" class="logo">
+                </div>
+            </div>
+            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod
+                tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis
+                nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis
+                autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore
+                eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent
+                luptatum zzril delenit augue duis dolore te feugait nulla facilisi.</p>
         <div class="botones">
             <a href="html/login.html"><button class="btn-comenzar">Iniciar sesión</button></a>
             <a href="html/registro.html"><button class="btn-comenzar">Registrarse</button></a>

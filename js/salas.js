@@ -43,6 +43,20 @@ $(document).ready(function () {
             mostrarGestionDocumentos($(this).data("sala-id"));
             listarArchivos($(this).data("sala-id"));
         });
+
+        $(".cabecero-sala").on("click", ".acceso-chat-grupo", function () {
+            mostrarChat($(this).data("sala-id"));
+        });
+
+        $(".contenido-sala").on("click", ".btn-env-mensaje", function () {
+            const salaId = $(this).data("sala-id");
+            enviarMensaje(salaId);
+        });
+        
+
+        $(".cabecero-sala").on("click", ".acceso-ajustes", function () {
+            
+        });
     }
 
     function crearSala() {
@@ -142,8 +156,8 @@ $(document).ready(function () {
             <div class="iconos-cabecero-sala">
                 <img src="../img/book-outline.svg" class="acceso-tarea" data-sala-id="${sala.sala_id}">
                 <img src="../img/document-outline.svg" class="acceso-documentos" data-sala-id="${sala.sala_id}">
-                <img src="../img/chatbubble-ellipses-outline.svg" class="acceso-chat-grupo">
-                <img src="../img/settings-outline.svg" class="acceso-ajustes">
+                <img src="../img/chatbubble-ellipses-outline.svg" class="acceso-chat-grupo" data-sala-id="${sala.sala_id}">
+                <img src="../img/settings-outline.svg" class="acceso-ajustes" data-sala-id="${sala.sala_id}">
             </div>`).show();
             $(".cabecero-sala").css("display", "flex");
 
@@ -155,8 +169,8 @@ $(document).ready(function () {
             <ul>${participantes.map((p) => `<li>${p.nombre}</li>`).join("")}</ul>`).show();
     }
 
-    function buscarAmigos(query) {
-        if (query.length === 0) {
+    function buscarAmigos(a) {
+        if (a.length === 0) {
             $("#sugerencias_amigos").empty().hide();
             return;
         }
@@ -164,7 +178,7 @@ $(document).ready(function () {
         $.ajax({
             url: "../php/amigos.php",
             type: "POST",
-            data: { accion: "buscar_amigos", query },
+            data: { accion: "buscar_amigos", a },
             success: function (data) {
                 const amigos = JSON.parse(data);
                 mostrarSugerenciasAmigos(amigos);
@@ -313,4 +327,89 @@ $(document).ready(function () {
             });
         });
     }
+
+    function enviarMensaje(salaId) {
+        console.log($("#texto_mensaje").val().trim())
+        const mensaje = $("#texto_mensaje").val().trim();
+    
+        // Verificar si el mensaje es válido (no undefined, no null, y no una cadena vacía)
+        if (!mensaje || typeof mensaje !== "string" || mensaje.trim() === "") {
+            alert("El mensaje no puede estar vacío.");
+            return;
+        }
+    
+        // Si pasa la validación, enviar el mensaje al servidor
+        $.ajax({
+            url: "../php/salas.php",
+            type: "POST",
+            data: {
+                action: "enviar_mensaje",
+                sala_id: salaId,
+                mensaje: mensaje.trim(),  // Aplica trim() solo si el mensaje es válido
+            },
+            success: function (response) {
+                const data = JSON.parse(response);
+    
+                if (data.success) {
+                    $("#mensaje-input").val("");  // Limpiar el campo de entrada
+                    mostrarChat(salaId);  // Actualiza el chat con los nuevos mensajes
+                } else {
+                    alert("Error al enviar el mensaje: " + (data.error || "Desconocido"));
+                }
+            },
+            error: function () {
+                alert("Error al conectar con el servidor.");
+            },
+        });
+    }    
+
+    function mostrarChat(salaId) {
+        $(".contenido-sala").html(`
+            <h3>Chat del grupo</h3>
+            <h4>Mensajes:</h4>
+            <ul id="lista-mensajes">
+                <li>Cargando mensajes...</li>
+            </ul>
+            <div class="form">
+                <div class="input-container">
+                    <input class = "input" type="text" id="texto_mensaje" placeholder="Envia un mensaje">
+                    <span class="input-border"></span>
+                </div>
+                <span class="input-border"></span>
+                <button class="btn-env-mensaje" data-sala-id="${salaId}">Enviar</button>
+            </div>
+        `);
+    
+        $.ajax({
+            url: "../php/salas.php",
+            type: "POST",
+            data: { action: "listar_mensajes", salaId: salaId },
+            success: function (response) {
+                const data = JSON.parse(response);
+                if (data.success) {
+                    const mensajes = data.mensajes;
+                    const listaMensajes = $("#lista-mensajes");
+                    listaMensajes.empty(); 
+                    if (mensajes.length > 0) {
+                        mensajes.forEach(mensaje => {
+                            listaMensajes.append(`
+                                <li>
+                                    <strong>${mensaje.nombre_usuario}:</strong> 
+                                    ${mensaje.mensaje}
+                                    <span class="fecha">${new Date(mensaje.fecha_envio).toLocaleString()}</span>
+                                </li>
+                            `);
+                        });
+                    } else {
+                        listaMensajes.append("<li>No hay mensajes en esta sala.</li>");
+                    }
+                } else {
+                    alert(data.error || "Error al obtener los mensajes.");
+                }
+            },
+            error: function () {
+                alert("Error al conectar con el servidor.");
+            },
+        });
+    }   
 });
