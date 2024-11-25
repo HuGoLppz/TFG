@@ -14,6 +14,10 @@ $(document).ready(function () {
             });
             $(".cont-logo, .circulo-logo").css("background-color", "#1f1f1f");
             $(".logo").css("filter", "invert(1)");
+            $(".logo").css({ 
+                "transform": "translateX(-50%) rotate(180deg)", // Unir transformaciones
+                "transition": "transform 0.5s" // Asegurar la transición afecta solo a transform
+            });
         } else {
             // Volver a modo claro
             $("body").css("background-color", "#ffffff");
@@ -27,8 +31,13 @@ $(document).ready(function () {
             });
             $(".cont-logo, .circulo-logo").css("background-color", "rgb(134, 149, 232)");
             $(".logo").css("filter", "invert(0)");
+            $(".logo").css({ 
+                "transform": "translateX(-50%) rotate(0deg)", // Unir transformaciones
+                "transition": "transform 0.5s" // Asegurar la transición afecta solo a transform
+            });
         }
     });
+    
 
     /* Animación con GSAP para el contenedor circulo-logo */
     gsap.from(".circulo-logo", {

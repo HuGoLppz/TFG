@@ -66,6 +66,7 @@
         transform: translateY(-200px);
         text-align: center;
         margin-left: 0px;
+        max-width: 100%;
     }
     .cont .intro p {
         width: 90%;
@@ -115,13 +116,20 @@
 }
 @media only screen and (min-width: 1025px) and (max-width: 1810px) {
     .cont h1{
-        font-size: 3.5em;
+        font-size: 3.2em;
+        margin-left: 50PX;
+        transform: translateY(-150px);
+    }
+    .cont-logo{
+        transform: translateY(-150px);
     }
     .circulo-logo{
-        transform: translateX(1100px)translateY(-175px);
+        transform: translateX(1000px)translateY(-175px);
     }
     .cont .intro p {
-        width: 1000px;
+        margin-top: -125px;   
+        width: 900px;
+        margin-left: 50PX;
     }
 }
       
