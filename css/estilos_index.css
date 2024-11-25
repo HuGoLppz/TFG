@@ -5,12 +5,11 @@
     margin-top: 150px;
     transform: translateY(30px);
     font-weight: 800;
+    margin-top: 350px;
 }
-
 
 .cont .intro{    
     height: 100%;
-    padding-top: 150px;
 }
 
 .cont p, .intro p {
@@ -42,14 +41,14 @@
 }
 
 .cont-logo{
-    background-color: rgb(134, 149, 232);
+    background-color: rgb(134, 158, 255);
     height: 50px;
 }
 
 .circulo-logo{
     height: 400px;
     border-radius: 50%;
-    background-color: rgb(134, 149, 232);
+    background-color: rgb(134, 158, 255);
     width: 400px;
     transform: translateX(1400px)translateY(-175px);
 }

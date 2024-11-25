@@ -12,7 +12,7 @@ $(document).ready(function () {
                 "color": "#ffffff",
                 "border": "1px solid #ffffff"
             });
-            $(".cont-logo, .circulo-logo").css("background-color", "#1f1f1f");
+            $(".cont-logo, .circulo-logo").css("background-color", "rgb(42, 53, 86)");
             $(".logo").css("filter", "invert(1)");
             $(".logo").css({
                 "transform": "translateX(-50%) rotate(180deg)",
