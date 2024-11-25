@@ -14,9 +14,9 @@ $(document).ready(function () {
             });
             $(".cont-logo, .circulo-logo").css("background-color", "#1f1f1f");
             $(".logo").css("filter", "invert(1)");
-            $(".logo").css({ 
-                "transform": "translateX(-50%) rotate(180deg)", // Unir transformaciones
-                "transition": "transform 0.5s" // Asegurar la transición afecta solo a transform
+            $(".logo").css({
+                "transform": "translateX(-50%) rotate(180deg)",
+                "transition": "transform 0.5s"
             });
         } else {
             // Volver a modo claro
@@ -31,60 +31,44 @@ $(document).ready(function () {
             });
             $(".cont-logo, .circulo-logo").css("background-color", "rgb(134, 149, 232)");
             $(".logo").css("filter", "invert(0)");
-            $(".logo").css({ 
-                "transform": "translateX(-50%) rotate(0deg)", // Unir transformaciones
-                "transition": "transform 0.5s" // Asegurar la transición afecta solo a transform
+            $(".logo").css({
+                "transform": "translateX(-50%) rotate(0deg)",
+                "transition": "transform 0.5s"
             });
         }
     });
-    
-
-    /* Animación con GSAP para el contenedor circulo-logo */
+    $(".cont h1").css("opacity", "0");
     gsap.from(".circulo-logo", {
-        x: -500,        // Comienza desde la izquierda fuera de la pantalla
-        rotation: 360,  // Da una vuelta completa
-        duration: 1,    // Dura 1 segundo
+        x: -500,        
+        rotation: 360,  
+        duration: 1,    
         ease: "power2.out",
         onComplete: function () {
-            // Cuando termine la animación del círculo, empieza la animación del h1
             animarH1();
         }
     });
 
-    /* Animación con GSAP para letras de h1 */
     function animarH1() {
-        const h1Element = $(".cont h1");
+        const h1Element = $(".cont h1").css("opacity", "1");
         const text = h1Element.text();
-
-        // Divide el texto en letras individuales y reemplaza el contenido del h1
-        h1Element.html("");
+        h1Element.html(""); 
         text.split("").forEach((char) => {
-            const span = $("<span>").text(char === " " ? "\u00A0" : char); // Manejar espacios
+            const span = $("<span>").text(char === " " ? "\u00A0" : char); 
             h1Element.append(span);
         });
 
-        // Animar las letras con GSAP
-        gsap.to(".cont h1", {
-            opacity: 1, // Hacer que el h1 sea visible
-            duration: 0.5, // Duración para aparecer
-            delay: 1, // Retraso para que espere hasta que termine la animación del círculo
+        gsap.from(".cont h1 span", {
+            opacity: 0, 
+            y: 10,     
+            duration: 0.05,  
+            stagger: 0.03,  
+            ease: "power2.out", 
             onComplete: function () {
-                // Después de que el h1 sea visible, animamos las letras
-                gsap.from(".cont h1 span", {
-                    opacity: 0,
-                    y: 10,
-                    duration: 0.05, // Duración de cada animación individual
-                    stagger: 0.05,  // Espaciado entre las animaciones
-                    ease: "power2.out",
-                    onComplete: function () {
-                        // Cuando termine la animación del h1, comienza la de los párrafos
-                        gsap.fromTo(".cont p",
-                            { opacity: 0, y: 30 }, // Estado inicial
-                            { opacity: 1, y: 0, duration: 1, stagger: 0.2, ease: "power2.out" } // Animación
-                        );
-                    }
-                });
+                gsap.fromTo(".cont p",
+                    { opacity: 0, y: 0 }, 
+                    { opacity: 1, y: 0, duration: 1, stagger: 0.2, ease: "power2.out" }
+                );
             }
         });
-    }
+    }    
 });

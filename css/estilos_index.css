@@ -5,15 +5,15 @@
     margin-top: 150px;
     transform: translateY(30px);
     font-weight: 800;
-    opacity: 0;
 }
 
+
 .cont .intro{    
-    height: 800px;
+    height: 100%;
     padding-top: 150px;
 }
 
-.cont .intro p {
+.cont p, .intro p {
     text-align: justify;
     margin-left: 100px;
     font-size: 24px;

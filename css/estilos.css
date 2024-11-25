@@ -238,7 +238,6 @@ button:hover {
   }
   
   .switch-label {
-    transform: rotate(180deg);
     position: absolute;
     width: 100%;
     height: 50px;
@@ -274,20 +273,19 @@ button:hover {
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    -webkit-box-shadow: inset 12px -4px 0px 0px var(--light);
-    box-shadow: inset 12px -4px 0px 0px var(--light);
     background-color: var(--dark);
+    background-color: var(--light);
     -webkit-transition: 0.3s;
     transition: 0.3s;
-    transform: rotate(180deg);
   }
   
   .checkbox:checked ~ .slider::before {
     -webkit-transform: translateX(50px);
     -ms-transform: translateX(50px);
     transform: translateX(50px);
-    background-color: var(--dark);
     -webkit-box-shadow: none;
     box-shadow: none;
+    -webkit-box-shadow: inset 12px -4px 0px 0px var(--light);
+    box-shadow: inset 12px -4px 0px 0px var(--dark);
   }
   
