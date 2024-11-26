@@ -113,16 +113,12 @@
     height: 100%;
     transition: transform 0.3s ease;
 }
-/*
+
 .slick-center {
-    transform: scale(1.1); 
+    transform: scale(1.05); 
     z-index: 1; 
 }
 
-.slick-slide:not(.slick-center) {
-    opacity: 0.5; 
-}
-*/
 .slick-prev, .slick-next {
     display: none;
     font-size: 0;
@@ -184,13 +180,11 @@
     justify-content: space-between;
     align-items: flex-start;
     background-color: var(--color-nav-hover);
-    border: 1px solid black;
     margin: 5px;
 }
 
 .notas {
     width: 100%; 
-    border: 1px solid black;
 }
 
 .media-chart {
@@ -203,11 +197,10 @@
 }
 
 .calificaciones, .notificaciones {
-    width: 50%; /* Ambos divs ocupan aproximadamente la mitad del ancho */
+    width: 50%;
     padding: 20px;
     margin-bottom: 20px;
-    box-sizing: border-box; /* Asegura que padding no afecte el ancho total */
-    border: 1px solid black;
+    box-sizing: border-box; 
 }
 
 .calificaciones h3, .notificaciones h3 {

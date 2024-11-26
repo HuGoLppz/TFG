@@ -4,7 +4,8 @@ $(document).ready(function() {
         arrows: false,
         dots: false,
         infinite: true,
-        slidesToShow: 2,
+        centerPadding: '300px',  
+        slidesToShow: 1,
         slidesToScroll: 1,
         autoplay: true,
         autoplaySpeed: 3000,
@@ -12,6 +13,7 @@ $(document).ready(function() {
         centerMode: true,
         pauseOnHover: true,
     });
+    
     var val = 0;
     $.ajax({
         url: '../php/session.php',
@@ -147,6 +149,13 @@ $(document).ready(function() {
                     const mediaAritmetica = totalNotas > 0 ? (sumaNotas / totalNotas) : 0;
                     console.log(mediaAritmetica);
                     const mostrarMediaPorcentaje = (mediaAritmetica * 10).toFixed(2); 
+                    console.log(mostrarMediaPorcentaje);
+                    var a = 10;
+                    if (mostrarMediaPorcentaje >= 100) {
+                        a = 0;
+                    } else {
+                        a = 10;
+                    }                    
                     const ctx = $('#mediaChart')[0].getContext('2d');
                     const mediaChart = new Chart(ctx, {
                         type: 'doughnut',
@@ -156,7 +165,7 @@ $(document).ready(function() {
                                 data: [mediaAritmetica, 10 - mediaAritmetica],
                                 backgroundColor: ['white', 'rgba(134,158,255,1)'],
                                 borderWidth: 0,
-                                borderRadius: 10
+                                borderRadius: a,
                             }]
                         },
                         options: {
