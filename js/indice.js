@@ -68,48 +68,56 @@ $(document).ready(function() {
                 if (response.success) {
                     const notificacionesContainer = $('.notis');
                     notificacionesContainer.empty();
-    
-                    response.notificaciones.forEach(function (notificacion) {
-                        const listItem = $('<li class="notificacion-item"></li>');
-                        if(notificacion.tipo === "Solicitud de amistad"){
-                            listItem.append(`
-                                <div>
-                                    <p><strong>Tipo:</strong> ${notificacion.tipo}</p>
-                                    <p><strong>Mensaje:</strong> ${notificacion.mensaje}</p>
-                                    <p><strong>Fecha:</strong> ${notificacion.fecha}</p>
-                                    <button class="aceptar-solicitud-amistad" data-amigo-id="${notificacion.remitente_id}" data-notificacion-id="${notificacion.notificacion_id}">
-                                        Aceptar solicitud
-                                    </button>
-                                </div>
-                            `);
+        
+                    if (response.notificaciones.length > 0) {
+                        response.notificaciones.forEach(function (notificacion) {
+                            const listItem = $('<li class="notificacion-item"></li>');
+        
+                            if (notificacion.tipo === "Solicitud de amistad") {
+                                listItem.append(`
+                                    <div>
+                                        <h4>${notificacion.tipo}</h4>
+                                        <p>${notificacion.mensaje}</p>
+                                        <p><strong>Fecha:</strong> ${notificacion.fecha}</p>
+                                        <button class="aceptar-solicitud-amistad" data-amigo-id="${notificacion.remitente_id}" data-notificacion-id="${notificacion.notificacion_id}">
+                                            Aceptar solicitud
+                                        </button>
+                                    </div>
+                                `);
+                            } else if (notificacion.tipo === "Solicitud de unión a sala") {
+                                listItem.append(`
+                                    <div>
+                                        <h4>${notificacion.tipo}</h4> 
+                                        <p>${notificacion.mensaje}</p>
+                                        <p><strong>Fecha:</strong> ${notificacion.fecha}</p>
+                                        <button class="aceptar-solicitud-sala" data-sala-id="${notificacion.remitente_id}" data-notificacion-id="${notificacion.notificacion_id}">
+                                            Aceptar solicitud
+                                        </button>
+                                    </div>
+                                `);
+                            }
+        
                             notificacionesContainer.append(listItem);
-                        }
-                        if(notificacion.tipo === "Solicitud de unión a sala"){
-                            listItem.append(`
-                                <div>
-                                    <p><strong>Tipo:</strong> ${notificacion.tipo}</p>
-                                    <p><strong>Mensaje:</strong> ${notificacion.mensaje}</p>
-                                    <p><strong>Fecha:</strong> ${notificacion.fecha}</p>
-                                    <button class="aceptar-solicitud-sala" data-sala-id="${notificacion.remitente_id}" data-notificacion-id="${notificacion.notificacion_id}">
-                                        Aceptar solicitud
-                                    </button>
-                                </div>
-                            `);
-                            notificacionesContainer.append(listItem);
-                        }
-                    });
-                    $('.aceptar-solicitud-amistad').on('click', function () {
-                        const amigoID = $(this).data('amigo-id');
-                        const notificacionId = $(this).data('notificacion-id');
-                        aceptar_solicitud_amistad(amigoID);
-                        eliminar_notificacion(notificacionId);
-                    });
-                    $('.aceptar-solicitud-sala').on('click', function () {
-                        const salaId = $(this).data('sala-id');
-                        const notificacionId = $(this).data('notificacion-id');
-                        aceptar_solicitud_sala(salaId);
-                        eliminar_notificacion(notificacionId);
-                    });
+                        });
+        
+                        // Asignar eventos a los botones después de añadir los elementos al DOM
+                        $('.aceptar-solicitud-amistad').on('click', function () {
+                            const amigoID = $(this).data('amigo-id');
+                            const notificacionId = $(this).data('notificacion-id');
+                            aceptar_solicitud_amistad(amigoID);
+                            eliminar_notificacion(notificacionId);
+                        });
+        
+                        $('.aceptar-solicitud-sala').on('click', function () {
+                            const salaId = $(this).data('sala-id');
+                            const notificacionId = $(this).data('notificacion-id');
+                            aceptar_solicitud_sala(salaId);
+                            eliminar_notificacion(notificacionId);
+                        });
+        
+                    } else {
+                        notificacionesContainer.append('<h2>No hay notificaciones</h2>');
+                    }
                 } else {
                     $('.notificaciones').text(response.error || 'No se encontraron notificaciones.');
                 }
@@ -117,7 +125,7 @@ $(document).ready(function() {
             error: function (xhr) {
                 $('.notificaciones').text('Error al cargar las notificaciones.');
             }
-        });
+        });        
         $.ajax({
             url: '../php/profile.php',
             type: 'POST',
@@ -134,17 +142,24 @@ $(document).ready(function() {
                     data.medias.forEach(function (nota) {
                         sumaNotas += parseFloat(nota.promedio_calificaciones);
                         totalNotas++;
-        
+                        sumaNotas.toFixed(2);
+                        
                         const notaContainer = $('<div class="nota-container"></div>');
                         const notaLabel = $('<div class="nota-label"></div>').text(nota.asignatura);
                         const progressBarWrapper = $('<div class="progress-bar-wrapper"></div>');
                         const progressBar = $('<div class="progress-bar"></div>').css('width', `${(nota.promedio_calificaciones / 10) * 100}%`);
-                        const progressValue = $('<div class="progress-value"></div>').text(nota.promedio_calificaciones);
-        
+                        
+                        let progressValueText = parseFloat(nota.promedio_calificaciones) === 10 ? 
+                                                '10' : 
+                                                parseFloat(nota.promedio_calificaciones).toFixed(2);
+                    
+                        const progressValue = $('<div class="progress-value"></div>').text(progressValueText);
+                    
                         progressBarWrapper.append(progressBar).append(progressValue);
                         notaContainer.append(notaLabel).append(progressBarWrapper);
                         notasContainer.append(notaContainer);
                     });
+                    
         
                     const mediaAritmetica = totalNotas > 0 ? (sumaNotas / totalNotas) : 0;
                     console.log(mediaAritmetica);

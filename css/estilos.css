@@ -8,6 +8,24 @@
     display: none;
 }
 
+@font-face {
+    font-family: 'Poppins';
+    src: url('./font/Poppins/Poppins-Regular.ttf') format('truetype'),
+         url('./font/Poppins/Poppins-Regular.woff') format('woff'),
+         url('./font/Poppins/Poppins-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('./font/Poppins/Poppins-Bold.ttf') format('truetype'),
+         url('./font/Poppins/Poppins-Bold.woff') format('woff'),
+         url('./font/Poppins/Poppins-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: italic;
+}
+
 :root {
     --color-white: white;
     --color-black: #333;

@@ -44,8 +44,8 @@
 }
 
 .imagen-perfil .img-perfil {
-    width: 150px;
-    height: 150px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     border: 3px solid var(--color-tarea-border); 
     object-fit: cover;
