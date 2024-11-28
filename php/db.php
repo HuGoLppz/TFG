@@ -1,9 +1,9 @@
 <?php
 function conectar() {
     $dbname = 'study_planner';
-    $host = 'localhost';
-    $username = 'root';
-    $password = '';
+    $host = 'study-planner.c9gyyawk4lx6.eu-west-3.rds.amazonaws.com';
+    $username = 'admin';
+    $password = 'studyplanner';
     $charset = 'utf8';
 
     try {
