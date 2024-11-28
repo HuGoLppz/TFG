@@ -12,21 +12,6 @@ main{
     height: 40vw;
 }
 
-button {
-    padding: 10px 20px;
-    font-size: 1.2em;
-    background-color: var(--color-btn-bg);
-    color: var(--color-nav-text);
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: var(--color-btn-hover);
-    transition: 0.25s;
-}
-
 .cont-salas{
     height: 85%;
     overflow: scroll;
