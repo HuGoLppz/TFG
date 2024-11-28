@@ -29,9 +29,9 @@
 :root {
     --color-white: white;
     --color-black: #333;
-    --color-light-gray: #555;
+    --color-light-gray: #d9d9d9;
     --color-purple: rgba(134,158,255,1);
-    --color-bg-gray: #f4f4f9;
+    --color-bg-gray: #ededed;
     --color-absolute-black:black;
     --color-shadow: rgba(134,158,255,0.9);
     
@@ -198,11 +198,12 @@ textarea {
 .input-border {
     position: absolute;
     width: 0%;
-    height: 2px;
+    height: 4px;
     background-color: var(--border-after-color);
     bottom: 0;
     left: 0;
-    transition: width 0.3s ease;
+    transition: width 0.5s ease;
+    transform: translateY(1.5px);
 }
 
 input[type="text"]:focus,
@@ -231,18 +232,27 @@ select {
 }
 
 button {
-    background-color: var(--color-btn-bg);
-    color: var(--color-nav-text);
-    padding: 8px 15px;
-    border: none;
-    cursor: pointer;
-    transition: 0.20s;
+    color: black;
+    padding: 8px;
     border-radius: 5px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor:context-menu;
+    transition: all 0.15s ease-in-out;
+    border: 2px solid var(--color-purple);
+    transform: translateY(-2px) translateX(-1px);
+    box-shadow: 2px 5px 0 0 var(--color-purple);
 }
-
+  
 button:hover {
-    background-color: var(--color-btn-hover);
-    transition: 0.33s;
+    transform: translateY(-1px) translateX(-0.5px);
+    box-shadow: 1px 2.5px 0 0 var(--color-purple);
+
+}
+  
+button:active {
+    transform: translateY(0px) translateX(0px);
+    box-shadow: 0 0 0 0 var(--color-purple);
 }
 
 .toggle-switch {

@@ -116,7 +116,7 @@ $(document).ready(function() {
                         });
         
                     } else {
-                        notificacionesContainer.append('<h2>No hay notificaciones</h2>');
+                        notificacionesContainer.append('<h2 style="text-align:center">No hay notificaciones</h2>');
                     }
                 } else {
                     $('.notificaciones').text(response.error || 'No se encontraron notificaciones.');
