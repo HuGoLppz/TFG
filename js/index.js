@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    /*swich color*/
     $(".checkbox").on("change", function () {
         if ($(this).is(":checked")) {
             // Activar modo oscuro

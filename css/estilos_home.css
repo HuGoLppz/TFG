@@ -1,7 +1,7 @@
 .bienvenida {
     text-align: center;
-    background-color: var(--color-nav-hover);
-    color: var(--color-text);
+    background-color: var(--color-purple);
+    color: var(--color-black);
     padding: 30px;
     padding-bottom: 50px;
 }
@@ -29,7 +29,7 @@
     width: 80% !important;
     margin-left: 10%;
     padding: 20px;
-    background-color: var(--color-bg);
+    background-color: var(--color-white);
     border-radius: 20px;
     /*box-shadow: 0px 2px 18px 0px var(--color-shadows); */
     box-shadow: 5px 8px 0px var(--color-purple);
@@ -39,7 +39,7 @@
 }
 
 .tareas  a, .salas  a, .companero  a{
-    color:var(--color-text);
+    color:var(--color-black);
     text-decoration: none;
 }
 
@@ -54,12 +54,12 @@
 }
 
 .tarea , .amigo, .sala{
-    background-color: var(--color-tarea-bg);
+    background-color: var(--color-bg-gray);
     padding: 15px;
     margin-bottom: 15px;
     border-radius: 5px;
     /*border: 2px solid var(--color-tarea-border);*/
-    border-left: 8px solid var(--color-tarea-border);
+    border-left: 8px solid var(--color-purple);
 }
 
 .tarea h3 {
@@ -76,7 +76,7 @@
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    border: 1px solid var(--color-tarea-border);
+    border: 1px solid var(--color-purple);
     margin-top: 10px;
 }
 
@@ -173,14 +173,14 @@
 .varios {
     display: flex; 
     align-items: flex-start; 
-    background-color: var(--color-nav-hover);
+    background-color: var(--color-purple);
 }
 
 .calificacion {
     display: flex; 
     align-items: flex-start;
     justify-content: space-between;
-    background-color: var(--color-nav-hover);
+    background-color: var(--color-purple);
 }
 
 .notas {
@@ -215,7 +215,7 @@
     font-size: 24px;
     margin-bottom: 10px;
     text-align: center;
-    color: var(--color-text); 
+    color: var(--color-black);
 }
 
 .nota-label {
@@ -260,7 +260,7 @@
 }
 
 .notis .notificacion-item {
-    background-color: var(--color-tarea-bg);
+    background-color: var(--color-bg-gray);
     padding: 15px;
     margin-bottom: 15px;
     border-radius: 5px;

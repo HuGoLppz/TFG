@@ -10,11 +10,11 @@ main{
 
 .tareas, .tareas-crear, .form-tarea-completar, .detalle-tarea {
     padding: 20px;
-    background-color: var(--color-bg);
+    background-color: var(--color-white);
     margin-left: 2%;
     margin-right: 2%;
     border-radius: 10px;
-    box-shadow: 0px 2px 18px 0px var(--color-shadows);
+    box-shadow: 0px 2px 18px 0px var(--color-purple);
 }
 
 .tareas-crear, .form-tarea-completar, .detalle-tarea{
@@ -33,7 +33,7 @@ main{
 .tareas-cont{
     overflow: scroll;
     height: 500px;
-    padding: 10px;
+    padding: 5px;
     border-top: 2px solid var(--color-purple);
     border-bottom: 2px solid var(--color-purple);
 }
@@ -66,10 +66,10 @@ main{
 }
 
 .tareas .tarea {
-    background-color: var(--color-tarea-bg);
+    background-color: var(--color-bg-gray);
     padding: 15px;
     margin-bottom: 15px;
-    border-left: 5px solid var(--color-tarea-border);
+    border-left: 5px solid var(--color-purple);
     border-radius: 5px;
 }
 
@@ -93,7 +93,7 @@ main{
 
 .fc {
     text-transform: uppercase;
-    background-color: var(--color-bg); 
+    background-color: var(--color-white); 
     box-shadow: 0px 2px 18px 0px rgba(0,0,0,0.3);
 }
 
@@ -102,10 +102,10 @@ main{
 }
 
 .fc-toolbar {
-    background-color: var(--color-nav-bg); 
+    background-color: var(--color-black); 
     padding: 10px;
-    color: var(--color-nav-text);
-    border-bottom: 2px solid var(--color-btn-hover);
+    color: var(--color-white);
+    border-bottom: 2px solid var(--color-black);
 }
 
 .fc-toolbar .fc-button {
@@ -152,16 +152,12 @@ main{
 }
 
 .fc-event {
-    background-color: var(--color-slider-dot-active); 
-    border: 1px solid var(--color-tarea-border); 
-    color: var(--color-nav-text);
+    background-color: var(--color-purple); 
+    border: 1px solid var(--color-purple); 
+    color: var(--color-black);
     border-radius: 4px;
     padding: 5px;
     font-size: 14px;
-}
-
-.fc-event:hover {
-    background-color: var(--color-tarea-border); 
 }
 
 .fc-event-title {

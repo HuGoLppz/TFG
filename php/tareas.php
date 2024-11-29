@@ -19,12 +19,36 @@ try {
     if ($method === 'GET') {
         $action = $_GET['action'] ?? '';
 
+        if ($action === 'listar_calendario') {
+            $query = "SELECT tarea_id, titulo, descripcion, fecha_entrega, asignatura, estado FROM Tareas  WHERE usuario_id = :usuario_id";
+            $stmt = $conn->prepare($query);
+            $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR);
+            $stmt->execute();
+            $Tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+            $eventos = [];
+            foreach ($Tareas as $tarea) {
+                $eventos[] = [
+                    "title" => $tarea['titulo'],
+                    "start" => $tarea['fecha_entrega'],  
+                    "end" => $tarea['fecha_entrega'],    
+                    "extendedProps" => [
+                        "descripcion" => $tarea['descripcion'],
+                        "asignatura" => $tarea['asignatura'],
+                        "estado" => $tarea['estado']
+                    ]
+                ];
+            }
+            echo json_encode(["success" => true, "events" => $eventos]);
+            exit;
+        }
+        
         if ($action === 'detalle') {
             $tarea_id = $_GET['tarea_id'] ?? null;
         
             if ($tarea_id) {
                 $query = "SELECT tarea_id, usuario_id, titulo, descripcion, fecha_entrega, asignatura, estado 
-                          FROM tareas 
+                          FROM Tareas 
                           WHERE tarea_id = :tarea_id AND usuario_id = :usuario_id";
                 $stmt = $conn->prepare($query);
                 $stmt->bindParam(':tarea_id', $tarea_id, PDO::PARAM_INT);
@@ -43,22 +67,23 @@ try {
             exit;
         }        
         if ($action === 'listarCompletado') {
-            $query = "SELECT tarea_id, usuario_id, titulo, descripcion, fecha_entrega FROM tareas 
-                      WHERE estado = 'completada' AND usuario_id = :usuario_id";
+            $query = "SELECT t.tarea_id, t.usuario_id, t.titulo, t.descripcion, t.fecha_entrega, c.calificacion FROM Tareas t 
+                      JOIN Calificaciones c ON t.tarea_id = c.tarea_id
+                      WHERE t.estado = 'completada' AND t.usuario_id = :usuario_id";
             $stmt = $conn->prepare($query);
             $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR); 
             $stmt->execute();
-            $tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            echo json_encode($tareas);
+            $Tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            echo json_encode($Tareas);
             exit;
         } else {
-            $query = "SELECT tarea_id, usuario_id, titulo, descripcion, fecha_entrega FROM tareas 
+            $query = "SELECT tarea_id, usuario_id, titulo, descripcion, fecha_entrega FROM Tareas 
                       WHERE estado = 'pendiente' AND usuario_id = :usuario_id";
             $stmt = $conn->prepare($query);
             $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR); 
             $stmt->execute();
-            $tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            echo json_encode($tareas);
+            $Tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            echo json_encode($Tareas);
             exit;
         }
 
@@ -134,7 +159,7 @@ try {
             $urgencia = $_POST['urgencia'] ?? '';
             $id = $usuario_id;
 
-            $query = "INSERT INTO tareas (usuario_id, titulo, descripcion, fecha_entrega, asignatura, tipo_actividad, urgencia, estado) 
+            $query = "INSERT INTO Tareas (usuario_id, titulo, descripcion, fecha_entrega, asignatura, tipo_actividad, urgencia, estado) 
                       VALUES (:usuario_id, :titulo, :descripcion, :fecha_entrega, :asignatura, :tipo_actividad, :urgencia, 'pendiente')";
             $stmt = $conn->prepare($query);
             $stmt->bindParam(':usuario_id', $id, PDO::PARAM_STR); 

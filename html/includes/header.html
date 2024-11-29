@@ -1,0 +1,25 @@
+<header>
+    <nav>
+        <ul class="menu-cabecero">
+            <li><a href="home.html">Inicio</a></li>
+            <li><a href="tareas.html">Tareas</a></li>
+            <li><a href="salas.html">Salas de Trabajo</a></li>
+            <li><a href="amigos.html">Lista de amigos</a></li>
+            <li><a href="pomodoro.html">Entorno de estudio</a></li>
+            <li><a href="perfil.html">Perfil</a></li>
+        </ul>
+        <div class="btn-cabecero">
+            <span class="line line-1"></span>
+            <span class="line line-2"></span>
+            <span class="line line-3"></span>
+        </div>
+    </nav>
+</header>
+<script>
+    $(".btn-cabecero").click(function() {
+        $(".line-1").toggleClass("hide");
+        $(".line-2").toggleClass("rotate-45");
+        $(".line-3").toggleClass("rotate--45");
+        $(".menu-cabecero").slideToggle(); 
+    });
+</script>

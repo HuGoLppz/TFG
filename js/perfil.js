@@ -151,6 +151,7 @@ $(document).ready(function () {
                     lista.append(`<li>Salas totales: ${estadisticas.total_salas}</li>`);
                     lista.append(`<li>Fecha de registro: ${estadisticas.fecha_registro}</li>`);
                     lista.append(`<li>Correo electrónico: ${estadisticas.correo_usuario}</li>`);
+                    lista.append(`<li>Pomodoro: ${estadisticas.contador_pomodoro}</li>`);
     
                     estadisticasContainer.append(lista);
                 } else {

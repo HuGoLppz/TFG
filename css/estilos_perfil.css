@@ -18,12 +18,11 @@
   transform: translateY(-5px);
 }
 
-
 .perfil-contenedor, .formulario-perfil, .cont-asignaturas {
-    background-color: var(--color-bg); 
+    background-color: var(--color-white); 
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0px 2px 18px 0px var(--color-shadows); 
+    box-shadow: 0px 2px 18px 0px var(--color-purple); 
     width: 20%;
     min-width: 300px; 
     flex-direction: column;
@@ -47,7 +46,7 @@
     width: 200px;
     height: 200px;
     border-radius: 50%;
-    border: 3px solid var(--color-tarea-border); 
+    border: 3px solid var(--color-purple); 
     object-fit: cover;
     margin-bottom: 10px;
     margin-top: -10px;
@@ -55,13 +54,13 @@
 
 .info-perfil h1 {
     font-size: 24px;
-    color: var(--color-text); 
+    color: var(--color-black); 
     margin-bottom: 10px;
 }
 
 .info-perfil p {
     font-size: 16px;
-    color: var(--color-text); 
+    color: var(--color-black); 
     line-height: 1.5;
     margin-bottom: 20px;
 }
@@ -71,10 +70,10 @@
 }
 
 .datos-perfil, .cont-notificaciones{
-    background-color: var(--color-bg); 
+    background-color: var(--color-white); 
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0px 2px 18px 0px var(--color-shadows); 
+    box-shadow: 0px 2px 18px 0px var(--color-purple); 
     width: 80%;
     min-width: 300px; 
     margin: 20px;
@@ -120,7 +119,7 @@
     justify-content: center;
     width: 100%;
     height: 100%;
-    background-color: var(--color-btn-bg);
+    background-color: var(--color-black);
     border-radius: 50%; 
     cursor: pointer;
     overflow: hidden;
@@ -137,15 +136,14 @@ ul{
 }
 
 .asignatura{
-    background-color: var(--color-tarea-bg);
+    background-color: var(--color-bg-gray);
     padding: 15px;
     margin-bottom: 12.5px;
     margin-top: 12.5px;
-    border-left: 5px solid var(--color-tarea-border);
+    border-left: 5px solid var(--color-purple);
     border-radius: 5px;
 }
   
-/* Estilos para las barras de progreso */
 .nota-container {
     margin-bottom: 15px;
 }
@@ -166,8 +164,8 @@ ul{
 
 .progress-bar {
     height: 100%;
-    background-color: var(--color-purple); /* Color de la barra */
-    width: 0; /* Se ajustará dinámicamente */
+    background-color: var(--color-purple);
+    width: 0;
     transition: width 0.5s ease;
 }
 

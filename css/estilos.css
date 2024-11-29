@@ -29,33 +29,17 @@
 :root {
     --color-white: white;
     --color-black: #333;
-    --color-light-gray: #d9d9d9;
     --color-purple: rgba(134,158,255,1);
     --color-bg-gray: #ededed;
     --color-absolute-black:black;
-    --color-shadow: rgba(134,158,255,0.9);
-    
-    --color-bg: var(--color-white);
-    --color-text: var(--color-black);
-    --color-nav-bg: var(--color-black);
-    --color-nav-text: var(--color-white);
-    --color-nav-hover: var(--color-purple);
-    --color-btn-bg: var(--color-black);
-    --color-btn-hover: var(--color-light-gray);
-    --color-tarea-bg: var(--color-bg-gray);
-    --color-tarea-border: var(--color-purple);
-    --color-slider-btn-bg: var(--color-absolute-black); 
-    --color-slider-dot: var(--color-light-gray);
-    --color-slider-dot-active: var(--color-purple);
-    --color-shadows:var(--color-shadow);
 }
 
 body {
     font-family: "Poppins", sans-serif;
     font-weight: 400;
     font-style: normal;
-    background-color: var(--color-bg);
-    color: var(--color-text);
+    background-color: var(--color-white);
+    color: var(--color-black);
     line-height: 1.6;
     margin: 0;
     padding: 0;
@@ -68,7 +52,7 @@ body {
 }
 
 header {
-    background-color: var(--color-nav-bg);
+    background-color: var(--color-black);
     padding: 10px 0;
     height: 50px;
 }
@@ -85,14 +69,14 @@ nav ul li {
 }
 
 nav ul li a {
-    color: var(--color-nav-text);
+    color: var(--color-white);
     text-decoration: none;
     font-size: 18px;
     transition: 0.33s;
 }
 
 nav ul li a:hover {
-    color: var(--color-nav-hover);
+    color: var(--color-purple);
     transition: 0.33s;
 }
 
@@ -109,7 +93,7 @@ nav ul li a:hover {
 }
 
 .line {
-    background-color: var(--color-nav-text);
+    background-color: var(--color-white);
     height: 3px;
     width: 30px;
     position: absolute;
@@ -118,7 +102,7 @@ nav ul li a:hover {
 
 .btn-cabezero:hover > .line {
     transition: 0.33s;
-    background-color: var(--color-nav-hover);
+    background-color: var(--color-white);
 }
 
 .line-1 {
@@ -156,15 +140,15 @@ main {
 footer {
     text-align: center;
     padding: 10px;
-    background-color: var(--color-nav-bg);
-    color: var(--color-nav-text);
+    background-color: var(--color-black);
+    color: var(--color-white);
 }
 
 .input-container {
     position: relative;
     width: 100%;
-    --border-before-color: var(--color-text);
-    --border-after-color: var(--color-nav-hover);
+    --border-before-color: var(--color-black);
+    --border-after-color: var(--color-purple);
 }
 
 input[type="text"],
@@ -187,9 +171,9 @@ textarea {
     max-height: 300px;
     resize: none;
     padding: 0.5em;
-    border: 1px solid var(--color-text);
+    border: 1px solid var(--color-black);
     border-radius: 4px;
-    background-color: var(--color-tarea-bg);
+    background-color: var(--color-white);
     color: var(--color-text);
     font-size: 1rem;
     box-sizing: border-box;
@@ -316,4 +300,30 @@ button:active {
     -webkit-box-shadow: inset 12px -4px 0px 0px var(--light);
     box-shadow: inset 12px -4px 0px 0px var(--dark);
   }
+
+  .loader {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-image: url(../img/LOGO.svg);
+    background-repeat: no-repeat;
+    box-shadow: rgba(134, 158, 255, 0.4) 0px 2px 4px, rgba(134, 158, 255, 0.3) 0px 7px 13px -3px, rgba(134, 158, 255, 0.2) 0px -3px 0px inset;
+    animation: rotate 2.0s infinite linear;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+  
+@keyframes rotate {
+    100% {
+      transform: rotate(1turn);
+    }
+}
+  
   

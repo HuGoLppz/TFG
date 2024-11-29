@@ -1,14 +1,25 @@
 $(document).ready(function() {
-    $(".btn-cabecero").click(function() {
-        $(".line-1").toggleClass("hide");
-        $(".line-2").toggleClass("rotate-45");
-        $(".line-3").toggleClass("rotate--45");
-        $(".menu-cabecero").slideToggle(); 
+    $('#loader').fadeIn();
+    $('.container').css("display", "none");
+    /*Cabecero y pie de página*/
+    $("#header").load("includes/header.html");
+    $("#footer").load("includes/footer.html");
+    /*Loader*/
+    $("#loader").load("includes/loader.html");
+    /*Cambio de colores*/
+    $(document).ajaxStart(function() {
+        $('#loader').fadeIn();
+        console.log("Hola");
+    });
+    
+    $(document).ajaxStop(function() {
+        $('#loader').fadeOut();
+        $('.container').css("display", "flex");
+        console.log("Adios");
     });
 
     $(".checkbox").on("change", function () {
         if ($(this).is(":checked")) {
-            // Activar modo oscuro
             $("body").css("background-color", "#121212");
             $(".cont").css("color", "#ffffff");
             $(".cont h1").css("color", "#ffffff");
@@ -25,7 +36,6 @@ $(document).ready(function() {
                 "transition": "transform 0.5s"
             });
         } else {
-            // Volver a modo claro
             $("body").css("background-color", "#ffffff");
             $(".cont").css("color", "#000000");
             $(".cont h1").css("color", "#000000");

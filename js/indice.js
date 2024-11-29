@@ -162,9 +162,7 @@ $(document).ready(function() {
                     
         
                     const mediaAritmetica = totalNotas > 0 ? (sumaNotas / totalNotas) : 0;
-                    console.log(mediaAritmetica);
                     const mostrarMediaPorcentaje = (mediaAritmetica * 10).toFixed(2); 
-                    console.log(mostrarMediaPorcentaje);
                     var a = 10;
                     if (mostrarMediaPorcentaje >= 100) {
                         a = 0;

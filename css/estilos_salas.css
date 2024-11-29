@@ -1,19 +1,19 @@
 main{
     display: flex;
-    align-items: center;
+    justify-content: space-between;
 }
 .salas{
     width: 30%;
     margin: 20px;
     padding: 20px;
-    background-color: var(--color-bg);
+    background-color: var(--color-white);
     border-radius: 20px;
-    box-shadow: 0px 2px 18px 0px var(--color-shadows); 
-    height: 40vw;
+    box-shadow: 0px 2px 18px 0px var(--color-purple); 
+    height: 600px;
 }
 
 .cont-salas{
-    height: 85%;
+    height: 490px;
     overflow: scroll;
 }
 
@@ -22,26 +22,22 @@ ul{
 }
 
 .sala{
-    background-color: var(--color-tarea-bg);
+    background-color: var(--color-bg-gray);
     padding: 15px;
     margin-bottom: 12.5px;
     margin-top: 12.5px;
-    border-left: 5px solid var(--color-tarea-border);
+    border-left: 5px solid var(--color-purple);
     border-radius: 5px;
-}
-
-.crear-sala{
-    margin-top: 15px;
 }
 
 .salas-select{
     width: 70%;
     margin: 20px;
     padding: 20px;
-    background-color: var(--color-bg);
+    background-color: var(--color-white);
     border-radius: 20px;
-    box-shadow: 0px 2px 18px 0px var(--color-shadows);
-    height: 40vw;
+    box-shadow: 0px 2px 18px 0px var(--color-purple);
+    height: 600px;
 }
 
 .menu-crear-sala{
@@ -51,9 +47,9 @@ ul{
     top: 46%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: var(--color-bg);
+    background-color: var(--color-white);
     border-radius: 20px;
-    box-shadow: 0px 2px 18px 0px var(--color-shadows); 
+    box-shadow: 0px 2px 18px 0px var(--color-purple); 
     width: 600px;
     max-height: 500px;
     overflow: scroll;
@@ -81,10 +77,6 @@ ul{
     max-height: 30px;
     transition: 0.15s;
     margin-top: -5px;
-}
-
-.contenido-sala{
-    display: none;
 }
 
 .sugerencias-amigos {
