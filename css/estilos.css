@@ -31,8 +31,19 @@
     --color-black: #333;
     --color-purple: rgba(134,158,255,1);
     --color-bg-gray: #ededed;
-    --color-absolute-black:black;
+    --color-absolute-black: black;
+    --color-nav: #333;
+    --color-nav-font: white;
 }
+
+body.dark-theme {
+    --color-white: black;                 
+    --color-black: white;                
+    --color-purple: rgb(42, 53, 86);    
+    --color-bg-gray: #333;               
+    --color-absolute-black: #fff;      
+}
+
 
 body {
     font-family: "Poppins", sans-serif;
@@ -52,7 +63,7 @@ body {
 }
 
 header {
-    background-color: var(--color-black);
+    background-color: var(--color-nav);
     padding: 10px 0;
     height: 50px;
 }
@@ -69,7 +80,7 @@ nav ul li {
 }
 
 nav ul li a {
-    color: var(--color-white);
+    color: var(--color-nav-font);
     text-decoration: none;
     font-size: 18px;
     transition: 0.33s;
@@ -93,7 +104,7 @@ nav ul li a:hover {
 }
 
 .line {
-    background-color: var(--color-white);
+    background-color: var(--color-nav-font);
     height: 3px;
     width: 30px;
     position: absolute;
@@ -138,10 +149,20 @@ main {
 }
 
 footer {
+    width: 100%;
+    padding: 20px;
+    background-color: var(--color-nav);
+    color: var(--color-nav-font);
+}
+
+.footer-container {
+    display: flex;
+    align-items: center;
+}
+
+footer > .bloque-texto-footer {
     text-align: center;
-    padding: 10px;
-    background-color: var(--color-black);
-    color: var(--color-white);
+    margin-left: 50% !important;
 }
 
 .input-container {
@@ -216,7 +237,8 @@ select {
 }
 
 button {
-    color: black;
+    color: var(--color-black);
+    background-color: var(--color-white);
     padding: 8px;
     border-radius: 5px;
     font-size: 14px;
@@ -240,23 +262,24 @@ button:active {
 }
 
 .toggle-switch {
-    position: relative;
+    position: absolute;
     width: 100px;
     height: 50px;
     --light: #d8dbe0;
     --dark: #28292c;
     --link: rgb(27, 129, 112);
     --link-hover: rgb(24, 94, 82);
-  }
+    right: 10px;
+}
   
   .switch-label {
+    border: 2px solid var(--color-white);
     position: absolute;
     width: 100%;
     height: 50px;
     background-color: var(--dark);
     border-radius: 25px;
     cursor: pointer;
-    border: 3px solid var(--dark);
   }
   
   .checkbox {

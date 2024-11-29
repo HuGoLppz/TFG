@@ -1,19 +1,6 @@
 $(document).ready(function() {
-    // Carrusel del index
-    $('.informacion').slick({
-        arrows: false,
-        dots: false,
-        infinite: true,
-        centerPadding: '300px',  
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        autoplay: true,
-        autoplaySpeed: 3000,
-        speed: 250,
-        centerMode: true,
-        pauseOnHover: true,
-    });
-    
+    carrusel();  
+
     var val = 0;
     $.ajax({
         url: '../php/session.php',
@@ -285,5 +272,21 @@ $(document).ready(function() {
     $(document).on('click', '.btn-ir-tarea', function() {
         window.location.href = "../html/tareas.html";
     });
+
+    function carrusel(){
+        $('.informacion').slick({
+            arrows: false,
+            dots: false,
+            infinite: true,
+            centerPadding: '300px',  
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            autoplay: true,
+            autoplaySpeed: 3000,
+            speed: 250,
+            centerMode: true,
+            pauseOnHover: true,
+        });
+    }   
 
 });

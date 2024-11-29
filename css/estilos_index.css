@@ -41,7 +41,7 @@
 }
 
 .cont-logo{
-    background-color: rgb(134, 158, 255);
+    background-color: var(--color-purple);
     height: 50px;
 }
 
@@ -54,9 +54,8 @@
 }
 
 .toggle-switch{
-    position: absolute;
-    right: 10px;
-    top: 10px;
+    position: absolute !important;
+    top: 10px !important;
 }
 
 @media only screen and (max-width: 767px) {

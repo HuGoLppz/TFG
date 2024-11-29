@@ -1,3 +1,24 @@
 <footer>
-    <p>&copy; 2024 STUDY-PLANNER. Todos los derechos reservados.</p>
+    <div class="footer-container">
+        <div class="bloque-texto-footer">
+            <p>&copy; 2024 STUDY-PLANNER. Todos los derechos reservados.</p>
+        </div>
+        <div class="toggle-switch">
+            <label class="switch-label">
+                <input type="checkbox" class="checkbox">
+                <span class="slider"></span>
+            </label>
+        </div>
+    </div>
 </footer>
+<script>
+     $(document).ready(function () {
+        $(".checkbox").on("change", function () {
+            if ($(this).is(":checked")) {
+                $("body").addClass("dark-theme");
+            } else {
+                $("body").removeClass("dark-theme");
+            }
+        });
+    });
+</script>
