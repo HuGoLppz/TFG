@@ -33,6 +33,11 @@ $(document).ready(function () {
         obtenerDetalleTarea(tareaId); 
     });
 
+    $(document).on("click", ".fc-event", function () {
+        const tareaId = $(this).closest(".tarea").data("id"); 
+        obtenerDetalleTarea(tareaId); 
+    });
+
     $(document).on("click", ".btn-completar", function () {
         const tareaId = $(this).closest(".tarea").data("id");
         $("#tarea-id-completar").val(tareaId);
@@ -135,12 +140,13 @@ $(document).ready(function () {
             <p>${data.descripcion}</p>
             <p><strong>Fecha de entrega:</strong> ${data.fecha_entrega}</p>
             <p><strong>Asignatura:</strong> ${data.asignatura || "No especificada"}</p>
-            <p><strong>Estado:</strong> ${data.estado || "Pendiente"}</p>
-            <p><strong>Calificación:</strong> ${data.calificacion || "Pendiente"}</p>
+            <p><strong>Estado:</strong> ${data.estado === 'completada' ? "Completada" : "Pendiente"}</p>
+            <p><strong>Calificación:</strong> ${data.calificacion !== null ? data.calificacion : "Pendiente"}</p>
         `);
     
-        $(".detalle-tarea").css("display", "block"); 
-    }    
+        $(".detalle-tarea").css("display", "block");
+    }
+       
 
     function cargarTareas() {
         $.ajax({
@@ -201,6 +207,7 @@ $(document).ready(function () {
             },
         });
     }
+    
 
     function cargarAsignaturas() {
         $.ajax({
@@ -239,6 +246,10 @@ $(document).ready(function () {
                 center: "title",
                 right: "dayGridMonth,timeGridWeek",
             },
+            buttonText: {
+                dayGridMonth: "Mes",
+                timeGridWeek: "Sem",
+            },
             events: async function (fetchInfo, successCallback, failureCallback) {
                 try {
                     const response = await fetch("../php/tareas.php?action=listar_calendario");
@@ -261,17 +272,36 @@ $(document).ready(function () {
                     info.el.style.color = 'white';
                 }
             },
-            eventClick: function (info) {
-                const data = {
-                    titulo: info.event.title,
-                    descripcion: info.event.extendedProps.descripcion,
-                    fecha_entrega: info.event.start.toISOString().split("T")[0],
-                    asignatura: info.event.extendedProps.asignatura,
-                    estado: info.event.extendedProps.estado,
-                };
-                mostrarDetalleTarea(data);
-            },
+            eventClick: async function (info) {
+                try {
+                    const tarea_id = info.event.extendedProps.id;
+                    if (!tarea_id) {
+                        console.error("El evento no tiene un ID válido.");
+                        return;
+                    }
+                    const responseTarea = await fetch(`../php/tareas.php?action=detalle&tarea_id=${tarea_id}`);
+                    const dataTarea = await responseTarea.json();
+            
+                    if (dataTarea.success) {
+                        const data = {
+                            titulo: info.event.title,
+                            descripcion: info.event.extendedProps.descripcion,
+                            fecha_entrega: info.event.start.toISOString().split("T")[0],
+                            asignatura: info.event.extendedProps.asignatura,
+                            estado: info.event.extendedProps.estado,
+                            calificacion: dataTarea.data.calificacion, 
+                        };
+                        mostrarDetalleTarea(data);
+                    } else {
+                        console.error("Error al cargar el detalle de la tarea:", dataTarea.error);
+                    }
+                } catch (error) {
+                    console.error("Error al obtener el detalle de la tarea:", error);
+                }
+            }
         });
         calendar.render();
-    }    
+    }
+    
+    
 });

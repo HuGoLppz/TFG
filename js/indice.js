@@ -163,7 +163,7 @@ $(document).ready(function() {
                             labels: ['Media', 'Restante'],
                             datasets: [{
                                 data: [mediaAritmetica, 10 - mediaAritmetica],
-                                backgroundColor: ['white', 'rgba(134,158,255,1)'],
+                                backgroundColor: ['white', 'transparent'],
                                 borderWidth: 0,
                                 borderRadius: a,
                             }]

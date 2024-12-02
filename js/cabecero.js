@@ -1,12 +1,16 @@
 $(document).ready(function() {
+    /*
     $('#loader').show(); 
     $('.container').css("display", "none");
+    */
+
+    $('#loader').css('display', 'none');
 
     $("#header").load("includes/header.html");
     $("#footer").load("includes/footer.html");
     /* Loader */
     $("#loader").load("includes/loader.html");
-
+/*
     $(document).ajaxStart(function() {
         $('#loader').show();  
     });
@@ -15,7 +19,7 @@ $(document).ready(function() {
         $('#loader').hide();  
         $('.container').css("display", "flex");
     });
-
+*/
 
     $(".checkbox").on("change", function () {
         console.log("Holi");

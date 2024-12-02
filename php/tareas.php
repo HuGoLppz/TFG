@@ -33,6 +33,7 @@ try {
                     "start" => $tarea['fecha_entrega'],  
                     "end" => $tarea['fecha_entrega'],    
                     "extendedProps" => [
+                        "id" => $tarea['tarea_id'],
                         "descripcion" => $tarea['descripcion'],
                         "asignatura" => $tarea['asignatura'],
                         "estado" => $tarea['estado']
@@ -47,9 +48,11 @@ try {
             $tarea_id = $_GET['tarea_id'] ?? null;
         
             if ($tarea_id) {
-                $query = "SELECT tarea_id, usuario_id, titulo, descripcion, fecha_entrega, asignatura, estado 
-                          FROM Tareas 
-                          WHERE tarea_id = :tarea_id AND usuario_id = :usuario_id";
+                $query = "SELECT t.tarea_id, t.usuario_id, t.titulo, t.descripcion, t.fecha_entrega, t.asignatura, t.estado, 
+                                 c.calificacion 
+                          FROM Tareas t
+                          LEFT JOIN Calificaciones c ON t.tarea_id = c.tarea_id
+                          WHERE t.tarea_id = :tarea_id AND t.usuario_id = :usuario_id";
                 $stmt = $conn->prepare($query);
                 $stmt->bindParam(':tarea_id', $tarea_id, PDO::PARAM_INT);
                 $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR);
@@ -65,7 +68,8 @@ try {
                 echo json_encode(['success' => false, 'error' => 'ID de tarea no proporcionado.']);
             }
             exit;
-        }        
+        }
+             
         if ($action === 'listarCompletado') {
             $query = "SELECT t.tarea_id, t.usuario_id, t.titulo, t.descripcion, t.fecha_entrega, c.calificacion FROM Tareas t 
                       JOIN Calificaciones c ON t.tarea_id = c.tarea_id
@@ -185,6 +189,4 @@ try {
     echo json_encode(['success' => false, 'error' => 'Error de ejecución: ' . $e->getMessage()]);
     exit;
 }
-
-
 ?>

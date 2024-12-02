@@ -235,3 +235,46 @@ BEGIN
     RETURN nuevo_id;
 END //
 DELIMITER;
+
+DELIMITER //
+
+-- Función para insertar notificación cuando falta 1 día para la entrega de una tarea
+CREATE PROCEDURE generar_notificaciones_tareas()
+BEGIN
+    DECLARE tarea_id INT;
+    DECLARE usuario_id VARCHAR(9);
+    DECLARE titulo_tarea VARCHAR(255);
+    
+    DECLARE cursor_tareas CURSOR FOR
+    SELECT tarea_id, usuario_id, titulo 
+    FROM Tareas 
+    WHERE DATE(fecha_entrega) = CURDATE() + INTERVAL 1 DAY;
+
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+    
+    OPEN cursor_tareas;
+    leer_tareas: LOOP
+        FETCH cursor_tareas INTO tarea_id, usuario_id, titulo_tarea;
+        IF done THEN
+            LEAVE leer_tareas;
+        END IF;
+        INSERT INTO Notificaciones (
+            remitente_id, usuario_id, tipo, mensaje
+        )
+        VALUES (
+            tarea_id,
+            usuario_id,
+            CONCAT('La entrega de "', titulo_tarea, '" es hoy'),
+            CONCAT( titulo_tarea, '" debe ser entregada hoy.')
+        );
+    END LOOP;
+    CLOSE cursor_tareas;
+END //
+DELIMITER ;
+
+CREATE EVENT generar_notificaciones_diarias
+ON SCHEDULE EVERY 1 DAY
+STARTS CURRENT_TIMESTAMP + INTERVAL 1 DAY
+DO
+CALL generar_notificaciones_tareas();
+

@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('.container').css("display", "none");
+    /*$('.container').css("display", "none");*/
     notasMedias();
     obtenerEstadisticas();
     $.ajax({
