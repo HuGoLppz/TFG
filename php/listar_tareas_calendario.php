@@ -22,7 +22,7 @@ try {
                 descripcion, 
                 fecha_entrega, 
                 estado 
-              FROM tareas 
+              FROM Tareas 
               WHERE usuario_id = :usuario_id";
     
     $stmt = $conn->prepare($query);

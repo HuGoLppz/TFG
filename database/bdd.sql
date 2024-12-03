@@ -234,7 +234,7 @@ BEGIN
     END WHILE;
     RETURN nuevo_id;
 END //
-DELIMITER;
+DELIMITER ;
 
 DELIMITER //
 

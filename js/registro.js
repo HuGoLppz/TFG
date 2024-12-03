@@ -24,6 +24,9 @@ $(document).ready(function() {
                 }
             },
             error: function(xhr, status, error) {
+                console.log(xhr);
+                console.log(status);
+                console.log(error);
                 alert('Hubo un problema con la solicitud. Intenta de nuevo más tarde.');
             }
         });

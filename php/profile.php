@@ -210,7 +210,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($_POST['accion'] === 'aceptar_solicitud_sala') {
         $nuevo_sala_id = $_POST['sala_id'];
-        $stmt = $conn->prepare("INSERT INTO Participantes_salas (sala_id, usuario_id) VALUES (:sala_id, :usuario_id)");
+        $stmt = $conn->prepare("INSERT INTO Participantes_Salas (sala_id, usuario_id) VALUES (:sala_id, :usuario_id)");
         $stmt->bindParam(':usuario_id', $id, PDO::PARAM_STR);
         $stmt->bindParam(':sala_id', $nuevo_sala_id, PDO::PARAM_STR);
     
@@ -224,7 +224,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($_POST['accion'] === 'borrar_notificacion') {
         $notificacion_id = $_POST["id_notificacion"];
-        $stmt = $conn->prepare("DELETE FROM notificaciones WHERE usuario_id = :usuario_id AND notificacion_id = :notificacion_id");
+        $stmt = $conn->prepare("DELETE FROM Notificaciones WHERE usuario_id = :usuario_id AND notificacion_id = :notificacion_id");
         $stmt->bindParam(':usuario_id', $id, PDO::PARAM_STR);
         $stmt->bindParam(':notificacion_id', $notificacion_id, PDO::PARAM_INT);
         $stmt->execute();
