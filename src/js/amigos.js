@@ -1,12 +1,17 @@
 $(document).ready(function() {
     function listarAmigos() {
+        const valorBusqueda = $('#busqueda-nuevos').val();
+
         $.ajax({
             url: '../php/amigos.php',
             type: 'POST',
-            data: { accion: 'listar_amigos' },
-            success: function(data) {
+            data: { 
+                accion: 'listar_amigos',
+                valor: valorBusqueda
+            },
+            success: function (data) {
                 const amigos = JSON.parse(data);
-                $('#lista-amigos').empty();
+                $('#lista-amigos').empty(); // Limpiar lista antes de actualizar.
                 amigos.forEach(amigo => {
                     $('#lista-amigos').append(`
                         <li>
@@ -20,9 +25,17 @@ $(document).ready(function() {
                         </li>
                     `);
                 });
+            },
+            error: function () {
+                $('#lista-amigos').html('<p>Error al cargar la lista de amigos.</p>');
             }
         });
     }
+
+    $('#busqueda-nuevos').on('input', function () {
+        listarAmigos();
+        console.log($('#busqueda-nuevos').val())
+    });
 
     listarAmigos(); 
 

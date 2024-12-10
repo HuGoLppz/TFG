@@ -9,6 +9,7 @@ function conectar() {
     $charset = 'utf8';
     */
     /*Conexión con la bdd local*/
+    
     $dbname = 'study_planner';
     $host = 'localhost';
     $username = 'root';

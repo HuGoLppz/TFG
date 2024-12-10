@@ -212,7 +212,7 @@ $(document).ready(function() {
         $.ajax({
             url: '../php/amigos.php',
             type: 'POST',
-            data: { accion: 'listar_amigos' },
+            data: { accion: 'listar_amigos2' },
             success: function(data) {
                 const amigos = JSON.parse(data);
                 $('#lista-amigos').empty();
