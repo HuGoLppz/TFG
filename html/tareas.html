@@ -18,11 +18,12 @@
         <div id="header"></div>
         <main>
             <section class="tareas">
+                <button class="openFiltros">Filtrar</button>
                 <h2>Tus Tareas</h2>
-                <div class="tareas-cont">
-                    <ul>
-                    </ul>
-                </div>
+                    <div class="tareas-cont">
+                        <ul>
+                        </ul>
+                    </div>
                 <button class="btn-crear">Crear nueva tarea</button>
                 <button class="btn-historial">Revisar tareas ya completadas</button>
                 <button class="btn-volver">Revisar tareas no completadas</button>
@@ -102,6 +103,26 @@
             <div class="detalle-contenido">
                 
             </div>
+        </section>
+        <section class="form-filtro">
+            <img src="../img/x-lg.svg" alt="cerrar ventana" class="cerrar-ventana">
+            <h2>Filtros para tareas</h2>
+            <form id="form-completar-tarea">
+                <label for="Nombre">Nombre de la tarea</label>
+                <div class="input-container">
+                    <input type="text" id="nombre_filtro" name="nombre" placeholder="Ej: Examen de física" required>
+                    <span class="input-border"></span>
+                </div>
+                <br>
+                <label for="asignatura">Asignatura:</label>
+                <div class="input-container">
+                        <select id="asignatura" name="asignatura">
+                        <span class="input-border"></span>
+                    </select>
+                </div>
+                <br>
+                <button type="submit" class="btn-completar-filtro">Buscar</button>
+            </form>
         </section>
         <div id="footer"></div>
     </div>

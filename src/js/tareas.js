@@ -3,6 +3,11 @@ $(document).ready(function () {
     cargarTareas();
     calendario();
 
+    $('.openFiltros').on("click", function(){
+        console.log("hola");
+        $('.form-filtro').css("display", "block");
+    });
+
     $(".btn-crear").on("click", function () {
         $(".tareas-crear").toggle();
         $(".tareas").css("opacity", $(".tareas-crear").is(":visible") ? 0.5 : 1);
@@ -13,6 +18,7 @@ $(document).ready(function () {
     $(".btn-crear2, .cerrar-ventana").on("click", function () {
         $(".tareas-crear, .form-tarea-completar").hide();
         $(".detalle-tarea").css("display", "none");
+        $('.form-filtro').css("display", "none");
         $(".tareas").css("opacity", 1);
     });
 
@@ -123,7 +129,7 @@ $(document).ready(function () {
                 if (response.success) {
                     mostrarDetalleTarea(response.data); 
                 } else {
-                    alert(response.error || "No se pudo obtener el detalle de la tarea.");
+                    //alert("No se pudo obtener el detalle de la tarea.");
                 }
             },
             error: function () {
@@ -157,6 +163,9 @@ $(document).ready(function () {
                 if (data.error) {
                     alert(data.error);
                 } else {
+                    $(".openFiltros").attr("id", "filtroTareas");
+                    $('.tareas > h2').empty();
+                    $(".tareas > h2").append('Tus tareas sin completar');
                     $(".tareas-cont ul").empty();
                     data.forEach(function (tarea) {
                         $(".tareas ul").append(`
@@ -188,7 +197,10 @@ $(document).ready(function () {
                 if (data.error) {
                     alert(data.error);
                 } else {
+                    $(".openFiltros").attr("id", "filtroCompletado");
                     $(".tareas ul").empty();
+                    $('.tareas > h2').empty();
+                    $(".tareas > h2").append('Tus tareas completadas');
                     data.forEach(function (tarea) {
                         $(".tareas ul").append(`
                             <li>
