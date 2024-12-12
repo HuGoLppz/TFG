@@ -71,20 +71,55 @@ try {
         }
              
         if ($action === 'listarCompletado') {
-            $query = "SELECT t.tarea_id, t.usuario_id, t.titulo, t.descripcion, t.fecha_entrega, c.calificacion FROM Tareas t 
-                      JOIN Calificaciones c ON t.tarea_id = c.tarea_id
-                      WHERE t.estado = 'completada' AND t.usuario_id = :usuario_id";
+            $nombre = isset($_GET['nombre']) ? "%" . $_GET['nombre'] . "%" : "%"; // Filtro de nombre
+            $asignatura = isset($_GET['asignatura']) ? $_GET['asignatura'] : ""; // Filtro de asignatura
+        
+            $query = "SELECT t.tarea_id, t.usuario_id, t.titulo, t.descripcion, t.fecha_entrega, c.calificacion 
+                      FROM Tareas t 
+                      JOIN Calificaciones c ON t.tarea_id = c.tarea_id 
+                      WHERE t.estado = 'completada' 
+                      AND t.usuario_id = :usuario_id
+                      AND t.titulo LIKE :nombre";
+        
+            if (!empty($asignatura)) {
+                $query .= " AND t.asignatura = :asignatura";
+            }
+        
             $stmt = $conn->prepare($query);
-            $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR); 
+            $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR);
+            $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
+        
+            if (!empty($asignatura)) {
+                $stmt->bindParam(':asignatura', $asignatura, PDO::PARAM_STR);
+            }
+        
             $stmt->execute();
             $Tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             echo json_encode($Tareas);
             exit;
-        } else {
-            $query = "SELECT tarea_id, usuario_id, titulo, descripcion, fecha_entrega FROM Tareas 
-                      WHERE estado = 'pendiente' AND usuario_id = :usuario_id";
+        }
+        if ($action === 'listarPendiente') {
+            $nombre = isset($_GET['nombre']) ? "%" . $_GET['nombre'] . "%" : "%";
+            $asignatura = isset($_GET['asignatura']) ? $_GET['asignatura'] : "";
+        
+            $query = "SELECT tarea_id, usuario_id, titulo, descripcion, fecha_entrega 
+                      FROM Tareas 
+                      WHERE estado = 'pendiente' 
+                      AND usuario_id = :usuario_id
+                      AND titulo LIKE :nombre";
+        
+            if (!empty($asignatura)) {
+                $query .= " AND asignatura = :asignatura";
+            }
+        
             $stmt = $conn->prepare($query);
-            $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR); 
+            $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR);
+            $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
+        
+            if (!empty($asignatura)) {
+                $stmt->bindParam(':asignatura', $asignatura, PDO::PARAM_STR);
+            }
+        
             $stmt->execute();
             $Tareas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             echo json_encode($Tareas);

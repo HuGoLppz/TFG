@@ -1,11 +1,30 @@
 $(document).ready(function () {
     $(".btn-volver").hide();
+    $(".openFiltros2").hide();
     cargarTareas();
     calendario();
+    cargarAsignaturas();
 
-    $('.openFiltros').on("click", function(){
-        console.log("hola");
-        $('.form-filtro').css("display", "block");
+    $(".btn-completar-filtro").on("click", function () {
+        cargarTareas();
+        $(".form-filtro").hide();
+        $("#nombre_filtro").val("");
+    });
+
+    $(".btn-completar-filtro2").on("click", function () {
+        cargarTareasCompletadas();
+        $(".form-filtro2").hide();
+        $("#nombre_filtro2").val("");
+    });
+
+    $(".openFiltros").on("click", function () {
+        $(".form-filtro").toggle();
+        cargarAsignaturas();
+    });
+
+    $(".openFiltros2").on("click", function () {
+        $(".form-filtro2").toggle();
+        cargarAsignaturas();
     });
 
     $(".btn-crear").on("click", function () {
@@ -19,6 +38,7 @@ $(document).ready(function () {
         $(".tareas-crear, .form-tarea-completar").hide();
         $(".detalle-tarea").css("display", "none");
         $('.form-filtro').css("display", "none");
+        $('.form-filtro2').css("display", "none");
         $(".tareas").css("opacity", 1);
     });
 
@@ -26,22 +46,26 @@ $(document).ready(function () {
         $(".btn-volver").show();
         $(this).hide();
         cargarTareasCompletadas();
+        $(".openFiltros2").toggle();
+        $(".openFiltros").hide();
     });
 
     $(".btn-volver").on("click", function () {
         $(".btn-historial").show();
         $(this).hide();
         cargarTareas();
+        $(".openFiltros2").hide();
+        $(".openFiltros").toggle();
     });
 
     $(document).on("click", ".btn-info-tarea", function () {
-        const tareaId = $(this).closest(".tarea").data("id"); 
-        obtenerDetalleTarea(tareaId); 
+        const tareaId = $(this).closest(".tarea").data("id");
+        obtenerDetalleTarea(tareaId);
     });
 
     $(document).on("click", ".fc-event", function () {
-        const tareaId = $(this).closest(".tarea").data("id"); 
-        obtenerDetalleTarea(tareaId); 
+        const tareaId = $(this).closest(".tarea").data("id");
+        obtenerDetalleTarea(tareaId);
     });
 
     $(document).on("click", ".btn-completar", function () {
@@ -123,11 +147,11 @@ $(document).ready(function () {
         $.ajax({
             url: "../php/tareas.php",
             method: "GET",
-            data: { action: "detalle", tarea_id: tareaId }, 
+            data: { action: "detalle", tarea_id: tareaId },
             dataType: "json",
             success: function (response) {
                 if (response.success) {
-                    mostrarDetalleTarea(response.data); 
+                    mostrarDetalleTarea(response.data);
                 } else {
                     //alert("No se pudo obtener el detalle de la tarea.");
                 }
@@ -137,10 +161,10 @@ $(document).ready(function () {
             },
         });
     }
-    
+
     function mostrarDetalleTarea(data) {
         const detalleTarea = $(".detalle-contenido");
-    
+
         detalleTarea.html(`
             <h3>${data.titulo}</h3>
             <p>${data.descripcion}</p>
@@ -149,16 +173,24 @@ $(document).ready(function () {
             <p><strong>Estado:</strong> ${data.estado === 'completada' ? "Completada" : "Pendiente"}</p>
             <p><strong>Calificación:</strong> ${data.calificacion !== null ? data.calificacion : "Pendiente"}</p>
         `);
-    
+
         $(".detalle-tarea").css("display", "block");
     }
-       
+
 
     function cargarTareas() {
+        const nombre = $("#nombre_filtro").val() || '';
+        const asignatura = $("#asignatura2").val() || '';
+
         $.ajax({
             url: "../php/tareas.php",
             method: "GET",
-            dataType: "json",
+            data: {
+                action: "listarPendiente",
+                nombre: nombre,
+                asignatura: asignatura,
+            },
+            dataType: 'json',
             success: function (data) {
                 if (data.error) {
                     alert(data.error);
@@ -188,10 +220,17 @@ $(document).ready(function () {
     }
 
     function cargarTareasCompletadas() {
+        const nombre = $("#nombre_filtro2").val() || '';
+        const asignatura = $("#asignatura3").val() || '';
+        console.log(nombre, asignatura);
         $.ajax({
             url: "../php/tareas.php",
             method: "GET",
-            data: { action: "listarCompletado" },
+            data: {
+                action: "listarCompletado",
+                nombre: nombre,
+                asignatura: asignatura,
+            },
             dataType: "json",
             success: function (data) {
                 if (data.error) {
@@ -219,7 +258,8 @@ $(document).ready(function () {
             },
         });
     }
-    
+
+
 
     function cargarAsignaturas() {
         $.ajax({
@@ -230,10 +270,36 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.success) {
                     const asignaturas = response.data;
-                    const selectAsignatura = $("#asignatura");
-                    selectAsignatura.empty();
+
+                    // Llenar el select en el formulario de creación
+                    const selectAsignaturaCrear = $("#asignatura");
+                    selectAsignaturaCrear.empty();
                     asignaturas.forEach(function (asignatura) {
-                        selectAsignatura.append(
+                        selectAsignaturaCrear.append(
+                            `<option value="${asignatura.nombre_asignatura}">${asignatura.nombre_asignatura}</option>`
+                        );
+                    });
+
+                    // Llenar el select en el formulario de filtros
+                    const selectAsignaturaFiltro = $("#asignatura2");
+                    selectAsignaturaFiltro.empty();
+                    selectAsignaturaFiltro.append(
+                        `<option value="">Todas las asignaturas</option>`
+                    );
+                    asignaturas.forEach(function (asignatura) {
+                        selectAsignaturaFiltro.append(
+                            `<option value="${asignatura.nombre_asignatura}">${asignatura.nombre_asignatura}</option>`
+                        );
+                    });
+
+                    // Llenar el select en el formulario de filtros
+                    const selectAsignaturaFiltro2 = $("#asignatura3");
+                    selectAsignaturaFiltro2.empty();
+                    selectAsignaturaFiltro2.append(
+                        `<option value="">Todas las asignaturas</option>`
+                    );
+                    asignaturas.forEach(function (asignatura) {
+                        selectAsignaturaFiltro2.append(
                             `<option value="${asignatura.nombre_asignatura}">${asignatura.nombre_asignatura}</option>`
                         );
                     });
@@ -246,6 +312,7 @@ $(document).ready(function () {
             },
         });
     }
+
 
     function calendario() {
         const calendarEl = document.getElementById("calendar");
@@ -266,7 +333,7 @@ $(document).ready(function () {
                 try {
                     const response = await fetch("../php/tareas.php?action=listar_calendario");
                     const data = await response.json();
-    
+
                     if (data.success) {
                         successCallback(data.events);
                     } else {
@@ -293,7 +360,7 @@ $(document).ready(function () {
                     }
                     const responseTarea = await fetch(`../php/tareas.php?action=detalle&tarea_id=${tarea_id}`);
                     const dataTarea = await responseTarea.json();
-            
+
                     if (dataTarea.success) {
                         const data = {
                             titulo: info.event.title,
@@ -301,7 +368,7 @@ $(document).ready(function () {
                             fecha_entrega: info.event.start.toISOString().split("T")[0],
                             asignatura: info.event.extendedProps.asignatura,
                             estado: info.event.extendedProps.estado,
-                            calificacion: dataTarea.data.calificacion, 
+                            calificacion: dataTarea.data.calificacion,
                         };
                         mostrarDetalleTarea(data);
                     } else {
@@ -314,6 +381,6 @@ $(document).ready(function () {
         });
         calendar.render();
     }
-    
-    
+
+
 });
