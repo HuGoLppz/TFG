@@ -5,36 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Perfil de Usuario - STUDY-PLANNER</title>
-    <link rel="stylesheet" href="../css/estilos.css">
-    <link rel="stylesheet" href="../css/estilos_perfil.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="../js/cabecero.js"></script>
-    <script src="../js/perfil-amigo.js"></script>
+    <link rel="stylesheet" href="../styles/estilos.css">
+    <link rel="stylesheet" href="../styles/css/estilos_perfil.css">
+    <script src="../src/libs/jquery.min.js"></script>
+    <script src="../src/js/cabecero.js"></script>
+    <script src="../src/js/perfil-amigo.js"></script>
 </head>
 <body>
+    <div id="loader"></div>
     <div class="container">
-        <header>
-            <nav>
-                <ul class="menu-cabecero">
-                    <li><a href="home.htm">Inicio</a></li>
-                    <li><a href="tareas.html">Tareas</a></li>
-                    <li><a href="salas.html">Salas de Trabajo</a></li>
-                    <li><a href="amigos.html">Lista de amigos</a></li>
-                    <li><a href="pomodoro.html">Entorno de estudio</a></li>
-                    <li><a href="">Perfil</a></li>
-                </ul>
-                <div class="btn-cabecero">
-                    <span class="line line-1"></span>
-                    <span class="line line-2"></span>
-                    <span class="line line-3"></span>
-                </div>
-            </nav>
-        </header>
-        
-        <!-- Contenedor principal que agrupa los dos contenedores -->
+        <div id="header"></div>
         <main>
             <div class="contenedor-principal">
-                <!-- Contenedor del Perfil de Usuario -->
                 <div class="perfil-contenedor">
                     <div class="imagen-perfil">
                         <img alt="Imagen de Perfil" id="imagen-perfil" class="img-perfil">
@@ -47,13 +29,18 @@
                     </div>
                 </div>
                 <div class="datos-perfil">
-                    
+                    <div class="datos-notas">
+                        <h3>Calificaciones de tus Asignaturas</h3>
+                        <div class="notas"></div>
+                    </div>
+                    <div class="datos-estadisticas">
+                        <h3>Estadísticas</h3>
+                        <div class="estadisticas"></div>
+                    </div>
                 </div>
             </div>
         </main>
-        <footer>
-            <p>&copy; 2024 STUDY-PLANNER. Todos los derechos reservados.</p>
-        </footer>
+        <div id="footer"></div>
     </div>
 </body>
 

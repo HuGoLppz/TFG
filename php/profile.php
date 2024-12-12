@@ -23,10 +23,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             (SELECT COUNT(*) FROM Amigos WHERE usuario_id = :id1) AS total_amigos,
             (SELECT COUNT(*) FROM Tareas WHERE usuario_id = :id2 AND estado = 'completada') AS tareas_completadas,
             (SELECT COUNT(*) FROM Tareas WHERE usuario_id = :id3 AND estado != 'completada') AS tareas_sin_completar,
-            (SELECT AVG(calificacion) FROM calificaciones WHERE usuario_id = :id4) AS media_total_asignaturas,
+            (SELECT AVG(calificacion) FROM Calificaciones WHERE usuario_id = :id4) AS media_total_asignaturas,
             (SELECT COUNT(*) FROM Participantes_Salas WHERE usuario_id = :id5) AS total_salas,
             (SELECT fecha_registro FROM Usuarios WHERE usuario_id = :id6) AS fecha_registro,
-            (SELECT email FROM Usuarios WHERE usuario_id = :id7) AS correo_usuario
+            (SELECT email FROM Usuarios WHERE usuario_id = :id7) AS correo_usuario,
+            (SELECT estado FROM Pomodoro WHERE usuario_id = :id5) AS contador_pomodoro
         FROM DUAL";
 
         $stmt = $conn->prepare($query);
@@ -171,7 +172,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if(isset($_POST['listar_notificaciones'])){
-        $stmt = $conn->prepare("SELECT * FROM notificaciones WHERE usuario_id = :id");
+        $stmt = $conn->prepare("SELECT * FROM Notificaciones WHERE usuario_id = :id");
         $stmt->bindParam(':id', $id, PDO::PARAM_STR);
         $stmt->execute();
         $notificaciones = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -209,7 +210,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($_POST['accion'] === 'aceptar_solicitud_sala') {
         $nuevo_sala_id = $_POST['sala_id'];
-        $stmt = $conn->prepare("INSERT INTO participantes_salas (sala_id, usuario_id) VALUES (:sala_id, :usuario_id)");
+        $stmt = $conn->prepare("INSERT INTO Participantes_Salas (sala_id, usuario_id) VALUES (:sala_id, :usuario_id)");
         $stmt->bindParam(':usuario_id', $id, PDO::PARAM_STR);
         $stmt->bindParam(':sala_id', $nuevo_sala_id, PDO::PARAM_STR);
     
@@ -223,7 +224,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($_POST['accion'] === 'borrar_notificacion') {
         $notificacion_id = $_POST["id_notificacion"];
-        $stmt = $conn->prepare("DELETE FROM notificaciones WHERE usuario_id = :usuario_id AND notificacion_id = :notificacion_id");
+        $stmt = $conn->prepare("DELETE FROM Notificaciones WHERE usuario_id = :usuario_id AND notificacion_id = :notificacion_id");
         $stmt->bindParam(':usuario_id', $id, PDO::PARAM_STR);
         $stmt->bindParam(':notificacion_id', $notificacion_id, PDO::PARAM_INT);
         $stmt->execute();

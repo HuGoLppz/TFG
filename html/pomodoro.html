@@ -4,32 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entorno de Estudio - STUDY-PLANNER</title>
-    <link rel="stylesheet" href="../css/estilos.css">
-    <link rel="stylesheet" href="../css/estilos_pomodoro.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="../js/cabecero.js"></script>
-    <script src="../js/pomodoro.js"></script>
+    <link rel="stylesheet" href="../styles/estilos.css">
+    <link rel="stylesheet" href="../styles/css/estilos_pomodoro.css">
+    <script src="../src/libs/jquery.min.js"></script>
+    <script src="../src/js/cabecero.js"></script>
+    <script src="../src/js/pomodoro.js"></script>
 </head>
 <body>
+    <div id="loader"></div>
     <div class="container">
-        <header>
-            <nav>
-                <ul class="menu-cabecero">
-                    <li><a href="home.html">Inicio</a></li>
-                    <li><a href="tareas.html">Tareas</a></li>
-                    <li><a href="salas.html">Salas de Trabajo</a></li>
-                    <li><a href="amigos.html">Lista de amigos</a></li>
-                    <li><a href="">Entorno de estudio</a></li>
-                    <li><a href="perfil.html">Perfil</a></li>
-                </ul>
-                <div class="btn-cabecero">
-                    <span class="line line-1"></span>
-                    <span class="line line-2"></span>
-                    <span class="line line-3"></span>
-                </div>
-            </nav>
-        </header>
-
+        <div id="header"></div>
         <main>
             <section class="pomodoro">
                 <h2>Entorno de Estudio - Temporizador Pomodoro</h2>
@@ -39,29 +23,15 @@
                     <label for="break-time">Tiempo de descanso (min):</label>
                     <input type="number" id="break-time" min="1" max="30" value="5">
                     <label for="display-type">Tipo de visualización:</label>
-                    <select id="display-type">
-                        <option value="digital">Cuenta regresiva digital</option>
-                        <option value="analog">Reloj analógico</option>
-                    </select>
                     <button id="start-timer">Iniciar Temporizador</button>
                 </div>
                 <div class="timer">
-                    <div id="digital-timer" style="display: none;">25:00</div>
-                    <div id="analog-clock" style="display: none;">
-                        <div class="clock">
-                            <div class="hand hour"></div>
-                            <div class="hand minute"></div>
-                            <div class="center"></div>
-                        </div>
-                    </div>
+                    <div id="digital-timer""></div>
                 </div>
             </section>
             
         </main>
-
-        <footer>
-            <p>&copy; 2024 STUDY-PLANNER. Todos los derechos reservados.</p>
-        </footer>
+        <div id="footer"></div>
     </div>
 </body>
 </html>

@@ -11,8 +11,8 @@ require_once 'db.php';
         $password = $_POST['password'];
         $email = $_POST['email']; 
         
-        $checkEmailStmt = $conn->prepare("SELECT COUNT(*) FROM `Usuarios` WHERE email = :email");
-        $checkEmailStmt->bindParam(':email', $email);
+        $checkEmailStmt = $conn->prepare("SELECT COUNT(*) FROM Usuarios WHERE email = :email");
+        $checkEmailStmt->bindParam(':email', $name);
         $checkEmailStmt->execute();
         
         $emailExists = $checkEmailStmt->fetchColumn();

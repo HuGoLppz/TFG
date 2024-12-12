@@ -1,40 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/estilos.css">
-    <link rel="stylesheet" href="../css/estilos_tareas.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>   
+    <link rel="stylesheet" href="../styles/estilos.css">
+    <link rel="stylesheet" href="../styles/css/estilos_tareas.css">
+    <script src="../src/libs/jquery.min.js"></script>
+    <script src='../src/libs/index.global.min.js'></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.5/locales/es.js"></script>
-    <script src="../js/cabecero.js"></script>
-    <script src="../js/tareas.js"></script>
+    <script src="../src/js/cabecero.js"></script>
+    <script src="../src/js/tareas.js"></script>
     <title>Tareas - STUDY-PLANNER</title>
 </head>
-<body>
-    <div class="container">
-        <header>
-            <nav>
-                <ul class="menu-cabecero">
-                    <li><a href="home.html">Inicio</a></li>
-                    <li><a href="">Tareas</a></li>
-                    <li><a href="salas.html">Salas de Trabajo</a></li>
-                    <li><a href="amigos.html">Lista de amigos</a></li>
-                    <li><a href="pomodoro.html">Entorno de estudio</a></li>
-                    <li><a href="perfil.html">Perfil</a></li>
-                </ul>
-                <div class="btn-cabecero">
-                    <span class="line line-1"></span>
-                    <span class="line line-2"></span>
-                    <span class="line line-3"></span>
-                </div>
-            </nav>
-        </header>
 
+<body>
+    <div id="loader"></div>
+    <div class="container">
+        <div id="header"></div>
         <main>
             <section class="tareas">
-                <h2>Tus Tareas Pendientes</h2>
+                <button class="openFiltros">Filtrar</button>
+                <button class="openFiltros2">Filtrar</button>
+                <h2>Tus Tareas</h2>
                 <div class="tareas-cont">
                     <ul>
                     </ul>
@@ -44,8 +32,8 @@
                 <button class="btn-volver">Revisar tareas no completadas</button>
             </section>
             <section class="calendar-section">
-                <div id="calendar"></div> 
-            </section>           
+                <div id="calendar"></div>
+            </section>
         </main>
         <section class="tareas-crear">
             <img src="../img/x-lg.svg" alt="cerrar ventana" class="cerrar-ventana">
@@ -53,37 +41,40 @@
             <form>
                 <label for="titulo">Título de la Tarea:</label>
                 <div class="input-container">
-                    <input type="text" id="titulo" class="titulo" name="titulo" maxlength="255" placeholder="Ej: Estudio de Matemáticas">
+                    <input type="text" id="titulo" class="titulo" name="titulo" maxlength="255"
+                        placeholder="Ej: Estudio de Matemáticas">
                     <span class="input-border"></span>
                 </div>
                 <br>
-                
+
                 <label for="descripcion">Descripción:</label>
-                <textarea id="descripcion" name="descripcion" rows="4" placeholder="Escribe una breve descripción de la tarea..." maxlength="200"></textarea>
+                <textarea id="descripcion" name="descripcion" rows="4"
+                    placeholder="Escribe una breve descripción de la tarea..." maxlength="200"></textarea>
                 <br>
-                
+
                 <label for="fecha_entrega">Fecha de Entrega:</label>
                 <div class="input-container">
                     <input type="date" id="fecha_entrega" name="fecha_entrega">
                     <span class="input-border"></span>
                 </div>
                 <br>
-                
+
                 <label for="asignatura">Asignatura:</label>
                 <div class="input-container">
-                        <select id="asignatura" name="asignatura">
+                    <select id="asignatura" name="asignatura">
                         <span class="input-border"></span>
                     </select>
                 </div>
                 <br>
-                
+
                 <label for="tipo_actividad">Tipo de Actividad:</label>
                 <div class="input-container">
-                    <input type="text" id="tipo_actividad" name="tipo_actividad" maxlength="50" placeholder="Ej: Estudio, Proyecto">
+                    <input type="text" id="tipo_actividad" name="tipo_actividad" maxlength="50"
+                        placeholder="Ej: Estudio, Proyecto">
                     <span class="input-border"></span>
                 </div>
                 <br>
-                
+
                 <label for="urgencia">Urgencia:</label>
                 <div class="input-container">
                     <select id="urgencia" name="urgencia">
@@ -94,7 +85,7 @@
                     </select>
                 </div>
                 <br>
-                
+
                 <button type="submit" class="btn-crear-tarea">Crear Tarea</button>
             </form>
         </section>
@@ -105,7 +96,8 @@
                 <input type="hidden" id="tarea-id-completar" name="tarea_id">
                 <label for="nota">Nota de la tarea (0.00 - 10.00):</label>
                 <div class="input-container">
-                    <input type="number" id="nota" name="nota" step="0.01" min="0" max="10" placeholder="Ej: 8.75" required>
+                    <input type="number" id="nota" name="nota" step="0.01" min="0" max="10" placeholder="Ej: 8.75"
+                        required>
                     <span class="input-border"></span>
                 </div>
                 <br>
@@ -116,14 +108,49 @@
             <img src="../img/x-lg.svg" alt="cerrar ventana" class="cerrar-ventana">
             <h2>Detalle de la Tarea</h2>
             <div class="detalle-contenido">
-                
+
             </div>
         </section>
-        
-        
-        <footer>
-            <p>&copy; 2024 STUDY-PLANNER. Todos los derechos reservados.</p>
-        </footer>
+        <section class="form-filtro">
+            <img src="../img/x-lg.svg" alt="cerrar ventana" class="cerrar-ventana">
+            <h2>Filtros para tareas pendientes</h2>
+            <label for="nombre_filtro">Nombre de la tarea</label>
+            <div class="input-container">
+                <input type="text" id="nombre_filtro" name="nombre" placeholder="Ej: Examen de física" required>
+                <span class="input-border"></span>
+            </div>
+            <br>
+            <label for="asignatura">Asignatura:</label>
+            <div class="input-container">
+                <select id="asignatura2" name="asignatura">
+                    <span class="input-border"></span>
+                </select>
+            </div>
+            <br>
+            <button type="submit" class="btn-completar-filtro">Buscar</button>
+        </section>
+
+        <section class="form-filtro2">
+            <img src="../img/x-lg.svg" alt="cerrar ventana" class="cerrar-ventana">
+            <h2>Filtros para tareas completadas</h2>
+            <label for="nombre_filtro2">Nombre de la tarea</label>
+            <div class="input-container">
+                <input type="text" id="nombre_filtro2" name="nombre" placeholder="Ej: Proyecto de biología" required>
+                <span class="input-border"></span>
+            </div>
+            <br>
+            <label for="asignatura">Asignatura:</label>
+            <div class="input-container">
+                <select id="asignatura3" name="asignatura">
+                    <span class="input-border"></span>
+                </select>
+            </div>
+            <br>
+            <button type="submit" class="btn-completar-filtro2">Buscar</button>
+        </section>
+
+        <div id="footer"></div>
     </div>
 </body>
+
 </html>

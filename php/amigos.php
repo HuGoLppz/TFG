@@ -19,19 +19,25 @@ if (!$conn) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accion = $_POST['accion'];
 
-    // Listar amigos
     if ($accion === 'listar_amigos') {
-        $stmt = $conn->prepare("SELECT u.usuario_id, u.nombre, u.email, u.foto_perfil 
-                                FROM Amigos a 
-                                JOIN Usuarios u ON a.amigo_id = u.usuario_id 
-                                WHERE a.usuario_id = :usuario_id");
-        $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR);
-        $stmt->execute();
-        $amigos = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        echo json_encode($amigos);
+        $usuario_id = $_SESSION['usuario_id']; 
+        $nombre = '%' . $_POST['valor'] . '%'; 
+
+        try {
+            $stmt = $conn->prepare("SELECT u.usuario_id, u.nombre, u.email, u.foto_perfil 
+                                    FROM Amigos a 
+                                    JOIN Usuarios u ON a.amigo_id = u.usuario_id 
+                                    WHERE a.usuario_id = :usuario_id AND u.nombre LIKE :nombre");
+            $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR);
+            $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
+            $stmt->execute();
+            $amigos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            echo json_encode($amigos);
+        } catch (PDOException $e) {
+            echo json_encode(['error' => $e->getMessage()]);
+        }
     }
 
-    // Buscar amigos según un término de búsqueda
     if ($accion === 'buscar_amigos') {
         $busqueda = $_POST['query'] ?? '';
         $likeBusqueda = "%{$busqueda}%";
@@ -41,13 +47,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 WHERE (u.nombre LIKE :likeBusqueda)
                                 AND u.usuario_id != :usuario_id
                                 AND u.usuario_id IN (SELECT amigo_id FROM Amigos WHERE usuario_id = :usuario_id)
-                                LIMIT 15");
+                                ");
         $stmt->bindParam(':likeBusqueda', $likeBusqueda, PDO::PARAM_STR);
         $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR);
         $stmt->execute();
 
         $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode($resultados ?: ["mensaje" => "No se encontraron amigos"]);
+    }
+
+    if ($accion === 'listar_amigos2') {
+        $stmt = $conn->prepare("SELECT u.usuario_id, u.nombre, u.email, u.foto_perfil 
+                                FROM Amigos a 
+                                JOIN Usuarios u ON a.amigo_id = u.usuario_id 
+                                WHERE a.usuario_id = :usuario_id");
+        $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR);
+        $stmt->execute();
+        $amigos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($amigos);
     }
 
     // Buscar y agregar amigos

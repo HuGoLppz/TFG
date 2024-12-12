@@ -274,8 +274,8 @@ try {
             $success_sala = $stmt_sala->execute();
         
             if ($success_sala) {
-                $query_participante = "INSERT INTO Participantes_Salas (sala_id, usuario_id) 
-                                       VALUES (:sala_id, :usuario_id)";
+                $query_participante = "INSERT INTO Participantes_Salas (sala_id, usuario_id, administrador) 
+                                       VALUES (:sala_id, :usuario_id, 1)";
                 $stmt_participante = $conn->prepare($query_participante);
                 $stmt_participante->bindParam(':sala_id', $sala_id, PDO::PARAM_STR);
                 $stmt_participante->bindParam(':usuario_id', $usuario_id, PDO::PARAM_STR);
