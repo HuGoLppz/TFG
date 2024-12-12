@@ -24,6 +24,11 @@ $(document).ready(function() {
         $.ajax({
             url: '../php/tareas.php', 
             method: 'GET',
+            data:{
+              action: 'listarPendiente',
+              nombre: '',
+              asignatura: '',  
+            },
             dataType: 'json',
             success: function(data) {
                 if (data.error) {

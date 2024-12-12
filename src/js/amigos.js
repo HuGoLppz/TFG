@@ -19,7 +19,7 @@ $(document).ready(function() {
                                 <a href="../html/perfil-amigo.html?usuario_id=${amigo.usuario_id.replace('#', '')}">
                                     <img src="${amigo.foto_perfil || '../img/default-profile.png'}" alt="Amigo ${amigo.nombre}">
                                     <h3>${amigo.nombre}</h3>
-                                    <p>${amigo.email}</p>
+                                    <p>${amigo.usuario_id}</p>
                                 </a>
                             </div>
                         </li>
