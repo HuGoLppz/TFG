@@ -5,7 +5,7 @@ A continuación, se listan las tareas pendientes para completar el desarrollo de
 ## Lista de Tareas
 
 ### Estilos y Distribución
-- [x] Terminar los estilos y distribuciones actuales de la app.
+- [] Terminar los estilos y distribuciones actuales de la app.
 
 ### Diseño Responsivo
 - [ ] Hacer responsivas las páginas para teléfono.
