@@ -61,6 +61,22 @@ $(document).ready(function () {
     $(document).on("click", ".btn-info-tarea", function () {
         const tareaId = $(this).closest(".tarea").data("id");
         obtenerDetalleTarea(tareaId);
+        $(document).on("click", ".btn-borrar-tarea", function () {
+            const detalleTarea = $(".detalle-contenido");
+            detalleTarea.html(`
+                <p style="color: red" class="advertenciaEliminar">¿Estás totalmente seguro? Una vez borrada, la calificación se borrará con la tarea</p>
+                <button class="btn-borrar-tarea2">Eliminar tarea</button>
+            `);
+
+            $(".btn-borrar-tarea").css("display", "none");
+            $(document).on("click", ".btn-borrar-tarea2", function () {
+                $(".btn-borrar-tarea").css("display", "block");
+                borrarTarea(tareaId);
+                console.log(tareaId);
+                $(".detalle-tarea").css("display", "none");
+                cargarTareasCompletadas();
+            });
+        });
     });
 
     $(document).on("click", ".fc-event", function () {
@@ -72,12 +88,6 @@ $(document).ready(function () {
         const tareaId = $(this).closest(".tarea").data("id");
         $("#tarea-id-completar").val(tareaId);
         $(".form-tarea-completar").toggle();
-    });
-
-    $(document).on("click", ".btn-borrar-tarea", function () {
-        const tareaId = $(this).closest(".tarea").data("id");
-        borrarTarea(tareaId);
-        cargarTareasCompletadas();
     });
 
     $("#form-completar-tarea").on("submit", function (event) {
@@ -180,7 +190,7 @@ $(document).ready(function () {
             <p><strong>Estado:</strong> ${data.estado === 'completada' ? "Completada" : "Pendiente"}</p>
             <p><strong>Calificación:</strong> ${data.calificacion !== null ? data.calificacion : "Pendiente"}</p>
         `);
-        if(data.estado === 'completada'){
+        if (data.estado === 'completada') {
             detalleTarea.html(`
                 <h3>${data.titulo}</h3>
                 <p>${data.descripcion}</p>
@@ -192,7 +202,6 @@ $(document).ready(function () {
                 <button class="btn-borrar-tarea">Eliminar tarea</button>
             `);
         }
-
         $(".detalle-tarea").css("display", "block");
     }
 
@@ -278,21 +287,21 @@ $(document).ready(function () {
         });
     }
 
-    function borrarTarea(a){
+    function borrarTarea(a) {
         const id = a;
         $.ajax({
             url: "../php/tareas.php",
-            method: "POST",
-            data: { 
-                action: "eliminarAsignatura", 
-                id : id,
+            method: "GET",
+            data: {
+                action: "eliminarTarea",
+                id: id,
             },
             dataType: "json",
-            success: function(response){
+            success: function (response) {
                 console.log(response);
             },
-            error(response){
-                console.log(response)
+            error(response, xhr, a) {
+                console.log(response); console.log(xhr); console.log(a);
             }
         })
     }

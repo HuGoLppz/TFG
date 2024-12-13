@@ -45,7 +45,10 @@
 - [ ] Diseñar un loader para implementarlo en la app, el cual debe llevar el logo de la app.
 
 ### Tareas
-- [ ] Función para eliminar tareas una vez completadas, lo cual borrará si calificación asignada.
+- [x] Función para eliminar tareas una vez completadas, lo cual borrará si calificación asignada.
+
+### Crónometro
+- [ ] Crea la funcionalidad total, que funcione en todas las páginas
 
 ---
 
