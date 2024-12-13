@@ -1,9 +1,5 @@
 # Mejoras Pendientes en la App
 
-A continuación, se listan las tareas pendientes para completar el desarrollo de la aplicación. Cada tarea incluye un checkbox para que puedas marcarla como completada a medida que avances.
-
-## Lista de Tareas
-
 ### Estilos y Distribución
 - [] Terminar los estilos y distribuciones actuales de la app.
 
