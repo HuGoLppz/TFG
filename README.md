@@ -1,7 +1,7 @@
 # Mejoras Pendientes en la App
 
 ### Estilos y Distribución
-- [] Terminar los estilos y distribuciones actuales de la app.
+- [ ] Terminar los estilos y distribuciones actuales de la app.
 
 ### Diseño Responsivo
 - [ ] Hacer responsivas las páginas para teléfono.
