@@ -17,16 +17,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit();
     }
 
-    $stmt = $conn->prepare("SELECT usuario_id, password FROM Usuarios WHERE nombre = :name LIMIT 1");
+    $stmt = $conn->prepare("SELECT usuario_id, nombre, password FROM Usuarios WHERE nombre = :name LIMIT 1");
     $stmt->bindParam(':name', $name, PDO::PARAM_STR);
     $stmt->execute();
 
     if ($stmt->rowCount() === 1) {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($password = $user['password']) {
+        if (password_verify($password, $user['password'])) {
             $_SESSION['usuario_id'] = $user['usuario_id'];
-            $_SESSION['nombre_usuario'] = $name;
+            $_SESSION['nombre_usuario'] = $user['nombre'];
             echo json_encode(['success' => true, 'message' => 'Inicio de sesión exitoso']);
         } else {
             echo json_encode(['success' => false, 'message' => 'Contraseña incorrecta']);

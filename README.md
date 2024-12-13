@@ -22,15 +22,30 @@
 ### Gestión de Usuario
 - [ ] Mejorar el apartado del usuario.
   - [ ] Añadir funcionalidad para crear imágenes de perfil.
+  - [ ] Crear la posibilidad de desloguearte
+  - [ ] Crear la posibilidad de eliminar la cuenta definitivamente
 
 ### Registro y Seguridad
 - [ ] Mejorar el registro.
   - [ ] Implementar verificación del correo.
-  - [ ] Cifrar contraseñas.
+  - [x] Cifrar contraseñas.
   - [ ] Añadir contenedores obligatorios para rellenar datos de perfil (excepto la imagen de perfil).
+  - [ ] Cambiar el sistema de los ids, haciendo que el usuario pueda elegir el suyo, debe ser único, y de inicio será el nombre de usuario, el cual se podrá cambiar de forma libre.
 
 ### Inicio de Sesión
 - [ ] Arreglar el inicio de sesión.
+  - [ ] Iniciar sesión con el correo o con el id.
+  - [x] Iniciar sesión con la contraseña del usuario, con cifrado y descifrado.
+
+### Navegador
+- [ ] Crear un diseño de navegador para los teléfonos móviles.
+- [ ] Implementar mas texto al navegador en su forma no desplegada.
+
+### Loader
+- [ ] Diseñar un loader para implementarlo en la app, el cual debe llevar el logo de la app.
+
+### Tareas
+- [ ] Función para eliminar tareas una vez completadas, lo cual borrará si calificación asignada.
 
 ---
 

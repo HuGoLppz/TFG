@@ -31,7 +31,6 @@ $(document).ready(function () {
         $(".tareas-crear").toggle();
         $(".tareas").css("opacity", $(".tareas-crear").is(":visible") ? 0.5 : 1);
         cargarAsignaturas();
-        calendario();
     });
 
     $(".btn-crear2, .cerrar-ventana").on("click", function () {
@@ -40,6 +39,7 @@ $(document).ready(function () {
         $('.form-filtro').css("display", "none");
         $('.form-filtro2').css("display", "none");
         $(".tareas").css("opacity", 1);
+        calendario();
     });
 
     $(".btn-historial").on("click", function () {
@@ -72,6 +72,12 @@ $(document).ready(function () {
         const tareaId = $(this).closest(".tarea").data("id");
         $("#tarea-id-completar").val(tareaId);
         $(".form-tarea-completar").toggle();
+    });
+
+    $(document).on("click", ".btn-borrar-tarea", function () {
+        const tareaId = $(this).closest(".tarea").data("id");
+        borrarTarea(tareaId);
+        cargarTareasCompletadas();
     });
 
     $("#form-completar-tarea").on("submit", function (event) {
@@ -142,6 +148,7 @@ $(document).ready(function () {
                 alert("Error al crear la tarea.");
             },
         });
+        calendario();
     });
     function obtenerDetalleTarea(tareaId) {
         $.ajax({
@@ -173,6 +180,18 @@ $(document).ready(function () {
             <p><strong>Estado:</strong> ${data.estado === 'completada' ? "Completada" : "Pendiente"}</p>
             <p><strong>Calificación:</strong> ${data.calificacion !== null ? data.calificacion : "Pendiente"}</p>
         `);
+        if(data.estado === 'completada'){
+            detalleTarea.html(`
+                <h3>${data.titulo}</h3>
+                <p>${data.descripcion}</p>
+                <p><strong>Fecha de entrega:</strong> ${data.fecha_entrega}</p>
+                <p><strong>Asignatura:</strong> ${data.asignatura || "No especificada"}</p>
+                <p><strong>Estado:</strong> ${data.estado === 'completada' ? "Completada" : "Pendiente"}</p>
+                <p><strong>Calificación:</strong> ${data.calificacion !== null ? data.calificacion : "Pendiente"}</p>
+                <br>
+                <button class="btn-borrar-tarea">Eliminar tarea</button>
+            `);
+        }
 
         $(".detalle-tarea").css("display", "block");
     }
@@ -259,7 +278,24 @@ $(document).ready(function () {
         });
     }
 
-
+    function borrarTarea(a){
+        const id = a;
+        $.ajax({
+            url: "../php/tareas.php",
+            method: "POST",
+            data: { 
+                action: "eliminarAsignatura", 
+                id : id,
+            },
+            dataType: "json",
+            success: function(response){
+                console.log(response);
+            },
+            error(response){
+                console.log(response)
+            }
+        })
+    }
 
     function cargarAsignaturas() {
         $.ajax({
