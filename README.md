@@ -13,6 +13,11 @@
   - [ ] Permitir al administrador eliminar usuarios de las salas.
   - [ ] Permitir al administrador añadir usuarios a las salas.
   - [ ] Permitir al administrador asignar a otro usuario como administrador.
+  - [ ] Permitir que el administrador sea el que asigna las calificaciones a las tareas.
+- [ ] Añadir mas funcionalidades a las salas
+  - [ ] Permitir descargar los archivos con un botón al lado
+  - [ ] Mejorar el chat para que se actualice y se almacene en un array de una forma apropiada
+  - [ ] Implementar todo el apartado de ajustes de sala, sumado a mejorar la funcionalidad del inicio (listado de usuarios que participan mas estético, apartado de tareas grupales mas óptimo, mejora del registro a las salas, con pregunta de a cual asignatura te va a afectar las tareas...)
 
 ### Gestión de Usuario
 - [ ] Mejorar el apartado del usuario.
