@@ -68,6 +68,14 @@ header {
     height: 50px;
 }
 
+.img-header {
+    position: absolute;
+    left: 10px;
+    top: 5px;
+    height: 40px;
+    filter: invert(1);
+}
+
 .menu-cabecero {
     list-style: none;
     text-align: center;

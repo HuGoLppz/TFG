@@ -91,10 +91,6 @@ main{
     margin-bottom: 10px;
 }
 
-.advertenciaEliminar{
-    display: none;
-}
-
 #calendar {
     margin-top: 0px;
     top: 7.5%;
