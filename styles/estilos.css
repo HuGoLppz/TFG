@@ -156,6 +156,12 @@ main {
     flex: 1;
 }
 
+div, section{
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
 footer {
     width: 100%;
     padding: 20px;

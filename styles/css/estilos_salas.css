@@ -104,3 +104,55 @@ ul{
     height: 25px;
     cursor: pointer;
 }
+
+.form{
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    word-wrap: normal;
+    overflow-wrap: normal;
+    word-break: normal;
+}
+
+.form input, .form input[type="text"]:focus ~ .input-border{
+    width: 99%;
+}
+
+#lista-mensajes{
+    height: 480px;
+    overflow: scroll;
+}
+
+.mensaje {
+    background-color: var(--color-bg-gray);
+    margin: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    max-width: 70%;
+}
+
+.align-right {
+    text-align: right;
+    display: block;
+    margin-left: 30% !important;
+    background-color: var(--color-bg-gray);
+    margin: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    width: 70%;
+}
+
+
+#lista-archivos > li{
+    background-color: var(--color-bg-gray);
+    margin-bottom: 10px;
+    padding: 15px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#lista-archivos p{
+    color: black;
+    text-decoration: none;
+}
