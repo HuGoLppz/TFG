@@ -68,6 +68,14 @@ header {
     height: 50px;
 }
 
+.img-header {
+    position: absolute;
+    left: 10px;
+    top: 5px;
+    height: 40px;
+    filter: invert(1);
+}
+
 .menu-cabecero {
     list-style: none;
     text-align: center;
@@ -148,6 +156,12 @@ main {
     flex: 1;
 }
 
+div, section{
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
 footer {
     width: 100%;
     padding: 20px;
@@ -174,6 +188,8 @@ footer > .bloque-texto-footer {
 
 input[type="text"],
 input[type="date"],
+input[type="password"],
+input[type="email"],
 input,
 textarea,
 select {
@@ -220,6 +236,8 @@ textarea {
 
 input[type="text"]:focus,
 input[type="date"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
 input,
 textarea:focus,
 select:focus {
@@ -229,6 +247,8 @@ select:focus {
 input[type="text"]:focus ~ .input-border,
 input[type="date"]:focus ~ .input-border,
 input[type="number"]:focus ~ .input-border,
+input[type="password"]:focus~ .input-border,
+input[type="email"]:focus~ .input-border,
 textarea:focus ~ .input-border,
 select:focus ~ .input-border {
     width: 100%;

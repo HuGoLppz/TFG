@@ -45,8 +45,11 @@ $(document).ready(function () {
         });
 
         $(".cabecero-sala").on("click", ".acceso-chat-grupo", function () {
-            mostrarChat($(this).data("sala-id"));
+            const salaId = $(this).data("sala-id");
+            mostrarChat(salaId);
+            iniciarAutoActualizacionChat(salaId);
         });
+        
 
         $(".contenido-sala").on("click", ".btn-env-mensaje", function () {
             const salaId = $(this).data("sala-id");
@@ -56,6 +59,105 @@ $(document).ready(function () {
 
         $(".cabecero-sala").on("click", ".acceso-ajustes", function () {
 
+        });  
+        
+        $(".btn-descargar-archivo").on("click", function (event) {
+            event.preventDefault();
+            
+            const url = $(this).attr("href");
+            const nombre = $(this).data("nombre");
+        
+            if (!url || !nombre) {
+                alert("No se encontró el archivo a descargar.");
+                return;
+            }
+        
+            if (confirm(`¿Quieres descargar el archivo "${nombre}"?`)) {
+                const enlace = document.createElement("a");
+                enlace.href = url;
+                enlace.download = nombre;
+                document.body.appendChild(enlace);
+                enlace.click();
+                document.body.removeChild(enlace);
+            }
+        });
+
+        $(document).on("click", "#boton-nuevo-mensaje", function () {
+            const contenedorMensajes = $("#contenedor-mensajes");
+            contenedorMensajes.scrollTop(contenedorMensajes.prop("scrollHeight"));
+            $(this).hide(); 
+        });
+
+                    
+    }
+
+    let intervalChat; 
+    let ultimoMensajeId = null;
+
+    function iniciarAutoActualizacionChat(salaId) {
+        if (intervalChat) {
+            clearInterval(intervalChat);
+        }
+
+        intervalChat = setInterval(function () {
+            actualizarChat(salaId);
+        }, 3000);
+    }
+
+    function detenerAutoActualizacionChat() {
+        if (intervalChat) {
+            clearInterval(intervalChat);
+            intervalChat = null;
+        }
+    }
+
+    function actualizarChat(salaId) {
+        $.ajax({
+            url: "../php/salas.php",
+            type: "POST",
+            data: { action: "listar_mensajes", salaId: salaId },
+            success: function (response) {
+                const data = JSON.parse(response);
+                if (data.success) {
+                    const mensajes = data.mensajes;
+                    const listaMensajes = $("#lista-mensajes");
+                    const contenedorMensajes = $("#contenedor-mensajes");
+                    const botonNuevoMensaje = $("#boton-nuevo-mensaje");
+
+                    if (mensajes.length > 0) {
+                        const ultimoMensajeNuevo = mensajes[mensajes.length - 1].mensaje_id;
+
+                        // Si hay nuevos mensajes y el scroll no está abajo, mostrar el botón
+                        const scrollAbajo = contenedorMensajes.prop("scrollHeight") - contenedorMensajes.scrollTop() === contenedorMensajes.outerHeight();
+
+                        listaMensajes.empty(); // Limpiar mensajes actuales
+                        mensajes.forEach(mensaje => {
+                            const alignClass = mensaje.nombre_usuario === "Yo" ? "align-right" : "mensaje";
+
+                            listaMensajes.append(`
+                                <li id="${mensaje.usuario_id}" class="${alignClass}">
+                                    <strong>${mensaje.nombre_usuario}</strong> 
+                                    <p>${mensaje.mensaje}</p>
+                                </li>
+                            `);
+                        });
+
+                        if (ultimoMensajeId !== null && ultimoMensajeNuevo !== ultimoMensajeId && !scrollAbajo) {
+                            botonNuevoMensaje.show(); // Mostrar el botón si hay nuevos mensajes
+                        }
+
+                        ultimoMensajeId = ultimoMensajeNuevo; // Actualizar el último mensaje recibido
+                    } else {
+                        listaMensajes.empty();
+                        listaMensajes.append("<li>No hay mensajes en esta sala.</li>");
+                    }
+                } else {
+                    alert(data.error || "Error al obtener los mensajes.");
+                }
+            },
+            error: function () {
+                alert("Error al conectar con el servidor.");
+            },
         });
     }
 
@@ -202,12 +304,16 @@ $(document).ready(function () {
 
                     if (archivos.length > 0) {
                         archivos.forEach((archivo) => {
+                            console.log(archivo)
                             listaArchivos.append(`
                                 <li>
-                                    <a href="${archivo.url}" target="_blank">${archivo.nombre}</a>
-                                    <button class="btn-eliminar-archivo" data-archivo-id="${archivo.archivo_id}">Eliminar</button>
+                                    <p>${archivo.nombre}</p>
+                                    <div class="randomNameUseless">
+                                        <button class="btn-descargar-archivo" href="../archivos/${archivo.sala_id}/${archivo.nombre}" data-nombre="archivo.pdf">Descargar</button>
+                                        <button class="btn-eliminar-archivo" data-archivo-id="${archivo.archivo_id}">Eliminar</button>
+                                    </div>
                                 </li>
-                            `);
+                            `);                            
                         });
                     } else {
                         listaArchivos.append("<li>No hay archivos disponibles.</li>");
@@ -286,28 +392,38 @@ $(document).ready(function () {
         $(".contenido-sala").html(`
             <h3>Gestión de documentos</h3>
             <div class="subir-archivo">
-                <input type="file" id="archivo" style="display:none">                
-                <label for="archivo" class="file-box">
+                <input type="file" id="archivo" style="display:none">
+                <label for="archivo" class="file-box" style="margin-right: 20px;">
                     Seleccionar archivo
-                </label>                
+                </label>
                 <button id="btn-subir" data-sala-id="${salaId}">Subir archivo</button>
             </div>
             <h4>Archivos subidos:</h4>
             <ul id="lista-archivos">
                 <li>No hay archivos aún.</li>
             </ul>`);
+    
+        $("#archivo").on("change", function () {
+            const archivo = this.files[0];
+            if (archivo) {
+                $("label[for='archivo']").text(archivo.name);
+            } else {
+                $("label[for='archivo']").text("Seleccionar archivo");
+            }
+        });
+    
         $("#btn-subir").on("click", function () {
             const archivo = $("#archivo")[0].files[0];
             if (!archivo) {
                 alert("Por favor, selecciona un archivo para subir.");
                 return;
             }
-
+    
             const formData = new FormData();
             formData.append("archivo", archivo);
             formData.append("action", "subir_archivo");
             formData.append("sala_id", salaId);
-
+    
             $.ajax({
                 url: "../php/salas.php",
                 type: "POST",
@@ -319,6 +435,8 @@ $(document).ready(function () {
                     if (data.success) {
                         alert("Archivo subido correctamente.");
                         listarArchivos(salaId);
+                        $("#archivo").val("");
+                        $("label[for='archivo']").text("Seleccionar archivo");
                     } else {
                         alert("Error: " + data.error);
                     }
@@ -329,32 +447,31 @@ $(document).ready(function () {
             });
         });
     }
+    
 
     function enviarMensaje(salaId) {
         console.log($("#texto_mensaje").val().trim())
         const mensaje = $("#texto_mensaje").val().trim();
 
-        // Verificar si el mensaje es válido (no undefined, no null, y no una cadena vacía)
         if (!mensaje || typeof mensaje !== "string" || mensaje.trim() === "") {
             alert("El mensaje no puede estar vacío.");
             return;
         }
 
-        // Si pasa la validación, enviar el mensaje al servidor
         $.ajax({
             url: "../php/salas.php",
             type: "POST",
             data: {
                 action: "enviar_mensaje",
                 sala_id: salaId,
-                mensaje: mensaje.trim(),  // Aplica trim() solo si el mensaje es válido
+                mensaje: mensaje.trim(),
             },
             success: function (response) {
                 const data = JSON.parse(response);
 
                 if (data.success) {
-                    $("#mensaje-input").val("");  // Limpiar el campo de entrada
-                    mostrarChat(salaId);  // Actualiza el chat con los nuevos mensajes
+                    $("#mensaje-input").val("");
+                    mostrarChat(salaId);
                 } else {
                     alert("Error al enviar el mensaje: " + (data.error || "Desconocido"));
                 }
@@ -367,11 +484,10 @@ $(document).ready(function () {
 
     function mostrarChat(salaId) {
         $(".contenido-sala").html(`
-            <h3>Chat del grupo</h3>
-            <h4>Mensajes:</h4>
             <ul id="lista-mensajes">
                 <li>Cargando mensajes...</li>
             </ul>
+
             <div class="form">
                 <div class="input-container">
                     <input class = "input" type="text" id="texto_mensaje" placeholder="Envia un mensaje">
@@ -381,7 +497,7 @@ $(document).ready(function () {
                 <button class="btn-env-mensaje" data-sala-id="${salaId}">Enviar</button>
             </div>
         `);
-
+        /*<div id="boton-nuevo-mensaje" style="display:none">nuevo mensaje</div>*/ 
         $.ajax({
             url: "../php/salas.php",
             type: "POST",
@@ -392,19 +508,23 @@ $(document).ready(function () {
                     const mensajes = data.mensajes;
                     const listaMensajes = $("#lista-mensajes");
                     listaMensajes.empty();
+                    console.log(response);
                     if (mensajes.length > 0) {
                         mensajes.forEach(mensaje => {
+                            const alignClass = mensaje.nombre_usuario === "Yo" ? "align-right" : "mensaje";
+                            
                             listaMensajes.append(`
-                                <li>
-                                    <strong>${mensaje.nombre_usuario}:</strong> 
-                                    ${mensaje.mensaje}
-                                    <span class="fecha">${new Date(mensaje.fecha_envio).toLocaleString()}</span>
-                                </li>
+                                <li id="${mensaje.usuario_id}" class="${alignClass}">
+                                    <strong>${mensaje.nombre_usuario}</strong> 
+                                    <p>${mensaje.mensaje}</p>
+                                </li>   
                             `);
                         });
                     } else {
                         listaMensajes.append("<li>No hay mensajes en esta sala.</li>");
                     }
+                    const contenedorMensajes = $("#lista-mensajes");
+                    contenedorMensajes.scrollTop(contenedorMensajes.prop("scrollHeight"));
                 } else {
                     alert(data.error || "Error al obtener los mensajes.");
                 }
@@ -413,5 +533,6 @@ $(document).ready(function () {
                 alert("Error al conectar con el servidor.");
             },
         });
+        
     }
 });

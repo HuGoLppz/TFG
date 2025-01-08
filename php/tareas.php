@@ -18,6 +18,16 @@ $method = $_SERVER['REQUEST_METHOD'];
 try {
     if ($method === 'GET') {
         $action = $_GET['action'] ?? '';
+        
+        if ($action === 'eliminarTarea') {
+            $tareaID = $_GET['id'];
+            $query = "DELETE FROM tareas WHERE tarea_id = :id";
+            $stmt = $conn->prepare($query);
+            $stmt->bindParam(':id', $tareaID, PDO::PARAM_STR);
+            $stmt->execute();
+            echo json_encode(["success" => true, "events" => $eventos]);
+            exit;
+        }
 
         if ($action === 'listar_calendario') {
             $query = "SELECT tarea_id, titulo, descripcion, fecha_entrega, asignatura, estado FROM Tareas  WHERE usuario_id = :usuario_id";

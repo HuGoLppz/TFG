@@ -43,7 +43,7 @@ try {
         if ($_POST['action'] === 'listar_archivos') {
             $sala_id = $_POST['sala_id'];
         
-            $query = "SELECT archivo_id, nombre_archivo AS nombre, ruta_archivo AS url, fecha_subida 
+            $query = "SELECT sala_id, archivo_id, nombre_archivo AS nombre, ruta_archivo AS url, fecha_subida 
                       FROM Archivos_Salas 
                       WHERE sala_id = :sala_id";
             $stmt = $conn->prepare($query);
@@ -198,7 +198,7 @@ try {
                 echo json_encode(['success' => false, 'error' => 'ID de la sala no proporcionado.']);
                 exit;
             }
-            
+        
             $query = "SELECT Mensajes_Salas.mensaje_id, Mensajes_Salas.mensaje, Mensajes_Salas.fecha_envio, 
                              Usuarios.usuario_id, Usuarios.nombre AS nombre_usuario
                       FROM Mensajes_Salas
@@ -210,12 +210,20 @@ try {
             
             if ($stmt->execute()) {
                 $mensajes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+                foreach ($mensajes as &$mensaje) {
+                    if ($mensaje['usuario_id'] == $usuario_id) {
+                        $mensaje['nombre_usuario'] = 'Yo';
+                    }
+                }
+        
                 echo json_encode(['success' => true, 'mensajes' => $mensajes]);
             } else {
                 echo json_encode(['success' => false, 'error' => 'Error al obtener los mensajes de la sala.']);
             }
             exit;
-        }        
+        }
+               
 
         if ($action === 'infoSala') {
             $sala_id = $_POST['sala_id'] ?? '';

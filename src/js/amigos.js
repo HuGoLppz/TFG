@@ -11,13 +11,13 @@ $(document).ready(function() {
             },
             success: function (data) {
                 const amigos = JSON.parse(data);
-                $('#lista-amigos').empty(); // Limpiar lista antes de actualizar.
+                $('#lista-amigos').empty();
                 amigos.forEach(amigo => {
                     $('#lista-amigos').append(`
                         <li>
                             <div class="amigo">
                                 <a href="../html/perfil-amigo.html?usuario_id=${amigo.usuario_id.replace('#', '')}">
-                                    <img src="${amigo.foto_perfil || '../img/default-profile.png'}" alt="Amigo ${amigo.nombre}">
+                                    <img src="${amigo.foto_perfil || '../img/default-profile.png'}" alt="Amigo ${amigo.nombre}" class="img-perfil">
                                     <h3>${amigo.nombre}</h3>
                                     <p>${amigo.usuario_id}</p>
                                 </a>
