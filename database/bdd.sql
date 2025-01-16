@@ -110,6 +110,7 @@ CREATE TABLE Participantes_Salas (
     usuario_id VARCHAR(9),
     administrador bit,
     fecha_union TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    asignatura varchar(100),
     PRIMARY KEY (sala_id, usuario_id),
     FOREIGN KEY (sala_id) REFERENCES Salas(sala_id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (usuario_id) REFERENCES Usuarios(usuario_id) ON DELETE CASCADE ON UPDATE CASCADE

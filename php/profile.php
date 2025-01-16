@@ -18,6 +18,79 @@ if (!$conn) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
+    if (isset($_POST['modificar_informacion'])) {
+        $descripcion = $_POST['descripcion'] ?? '';
+        $curso = $_POST['curso'] ?? '';
+        $estudios = $_POST['estudios'] ?? '';
+        $id = $_SESSION['usuario_id'] ?? '';
+    
+        if (empty($id)) {
+            echo json_encode(['error' => 'No se encontró el ID del usuario']);
+            exit;
+        }
+    
+        $fotoPerfilPath = '';
+    
+        $id_mod = '';
+
+        if (isset($_FILES['foto_perfil']) && $_FILES['foto_perfil']['error'] !== UPLOAD_ERR_NO_FILE) {
+            if ($_FILES['foto_perfil']['error'] !== UPLOAD_ERR_OK) {
+                echo json_encode(['error' => 'Error al subir la imagen: ' . $_FILES['foto_perfil']['error']]);
+                exit;
+            }
+    
+            $fotoPerfil = $_FILES['foto_perfil'];
+            $id_mod = str_replace('#', '', $id);
+            $uploadDir = "../img/perfil/$id_mod/";
+    
+            if (!file_exists($uploadDir) && !mkdir($uploadDir, 0777, true)) {
+                echo json_encode(['error' => 'No se pudo crear el directorio para guardar la imagen']);
+                exit;
+            }
+    
+            $fotoPerfilNombre = 'pfp.jpg';
+            $uploadPath = $uploadDir . $fotoPerfilNombre;
+    
+            $allowedTypes = ['image/jpeg', 'image/png'];
+    
+            if (!in_array($fotoPerfil['type'], $allowedTypes)) {
+                echo json_encode(['error' => 'Solo se permiten imágenes en formato JPG, PNG o GIF']);
+                exit;
+            }
+    
+            if (!move_uploaded_file($fotoPerfil['tmp_name'], $uploadPath)) {
+                echo json_encode(['error' => 'Error al mover la imagen subida']);
+                exit;
+            }
+    
+            $fotoPerfilPath = "../img/perfil/$id_mod/$fotoPerfilNombre";
+    
+            $query = "UPDATE Usuarios SET foto_perfil = :foto_perfil WHERE usuario_id = :id";
+            $stmt = $conn->prepare($query);
+            $stmt->bindParam(':foto_perfil', $fotoPerfilPath, PDO::PARAM_STR);
+            $stmt->bindParam(':id', $id, PDO::PARAM_STR);
+    
+            if (!$stmt->execute()) {
+                echo json_encode(['error' => 'Error al actualizar la foto de perfil en la base de datos']);
+                exit;
+            }
+        }
+    
+        $query = "UPDATE Usuarios SET descripcion = :descripcion, curso = :curso, estudios = :estudios WHERE usuario_id = :id";
+        $stmt = $conn->prepare($query);
+        $stmt->bindParam(':descripcion', $descripcion, PDO::PARAM_STR);
+        $stmt->bindParam(':curso', $curso, PDO::PARAM_STR);
+        $stmt->bindParam(':estudios', $estudios, PDO::PARAM_STR);
+        $stmt->bindParam(':id', $id, PDO::PARAM_STR);
+    
+        if ($stmt->execute()) {
+            echo json_encode(['success' => 'Perfil actualizado con éxito']);
+        } else {
+            echo json_encode(['error' => 'Error al actualizar el perfil']);
+        }
+    }              
+
     if (isset($_POST['obtener_estadisticas'])) {
         $query = "SELECT 
             (SELECT COUNT(*) FROM Amigos WHERE usuario_id = :id1) AS total_amigos,
@@ -180,7 +253,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    if ($_POST['accion'] === 'aceptar_solicitud_amistad') {
+    if (isset($_POST['accion']) && $_POST['accion'] === 'aceptar_solicitud_amistad') {
         $nuevo_amigo_id = $_POST['amigo_id'];
         
         $stmt = $conn->prepare("SELECT COUNT(*) FROM Amigos WHERE 
@@ -195,6 +268,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo json_encode(["mensaje" => "Ya existe una relación de amistad"]);
             exit();
         }
+    
         $stmt = $conn->prepare("INSERT INTO Amigos (usuario_id, amigo_id) 
                                 VALUES (:usuario_id, :amigo_id), (:amigo_id, :usuario_id)");
         $stmt->bindParam(':usuario_id', $id, PDO::PARAM_STR);
@@ -205,24 +279,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             echo json_encode(["mensaje" => "Error al agregar amigo"]);
         }
-    exit();
+        exit();
     }
-
-    if ($_POST['accion'] === 'aceptar_solicitud_sala') {
+    
+    if (isset($_POST['accion']) && $_POST['accion'] === 'aceptar_solicitud_sala') {
         $nuevo_sala_id = $_POST['sala_id'];
-        $stmt = $conn->prepare("INSERT INTO Participantes_Salas (sala_id, usuario_id) VALUES (:sala_id, :usuario_id)");
+        $asignatura = $_POST['asignatura'];
+        $stmt = $conn->prepare("INSERT INTO Participantes_Salas (sala_id, usuario_id, administrador, asignatura) VALUES (:sala_id, :usuario_id, 0, :asignatura)");
         $stmt->bindParam(':usuario_id', $id, PDO::PARAM_STR);
         $stmt->bindParam(':sala_id', $nuevo_sala_id, PDO::PARAM_STR);
+        $stmt->bindParam(':asignatura', $asignatura, PDO::PARAM_STR);
     
         if ($stmt->execute()) {
-            echo json_encode(["mensaje" => "Amigo agregado exitosamente"]);
+            echo json_encode(["mensaje" => "Se ha agregado exitosamente a la sala"]);
         } else {
-            echo json_encode(["mensaje" => "Error al agregar amigo"]);
+            echo json_encode(["mensaje" => "Error al agregar a la sala"]);
         }
-    exit();
+        exit();
     }
-
-    if ($_POST['accion'] === 'borrar_notificacion') {
+    
+    if (isset($_POST['accion']) && $_POST['accion'] === 'borrar_notificacion') {
         $notificacion_id = $_POST["id_notificacion"];
         $stmt = $conn->prepare("DELETE FROM Notificaciones WHERE usuario_id = :usuario_id AND notificacion_id = :notificacion_id");
         $stmt->bindParam(':usuario_id', $id, PDO::PARAM_STR);
@@ -230,47 +306,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute();
         exit();
     }
-
-    $descripcion = $_POST['descripcion'] ?? '';
-    $curso = $_POST['curso'] ?? '';
-    $estudios = $_POST['estudios'] ?? '';
-    $privacidad = isset($_POST['privacidad']) ? 1 : 0;
-    $fotoPerfil = $_FILES['foto_perfil']['name'] ?? null;
-
-    if ($fotoPerfil) {
-        $uploadDir = '../img/profiles/';
-        $uploadFile = $uploadDir . basename($_FILES['foto_perfil']['name']);
-        
-        if (move_uploaded_file($_FILES['foto_perfil']['tmp_name'], $uploadFile)) {
-            $fotoPerfilPath = $uploadFile;
-        } else {
-            echo json_encode(['error' => 'Error al subir la imagen']);
-            exit();
-        }
-    } else {
-        $fotoPerfilPath = null;
-    }
-
-    $query = "UPDATE Usuarios SET descripcion = :descripcion, curso = :curso, estudios = :estudios, privacidad = :privacidad";
-    if ($fotoPerfilPath) {
-        $query .= ", foto_perfil = :foto_perfil";
-    }
-    $query .= " WHERE usuario_id = :id";
-
-    $stmt = $conn->prepare($query);
-    $stmt->bindParam(':descripcion', $descripcion, PDO::PARAM_STR);
-    $stmt->bindParam(':curso', $curso, PDO::PARAM_STR);
-    $stmt->bindParam(':estudios', $estudios, PDO::PARAM_STR);
-    $stmt->bindParam(':privacidad', $privacidad, PDO::PARAM_INT);
-    $stmt->bindParam(':id', $id, PDO::PARAM_STR);
-    if ($fotoPerfilPath) {
-        $stmt->bindParam(':foto_perfil', $fotoPerfilPath, PDO::PARAM_STR);
-    }
-
-    if ($stmt->execute()) {
-        echo json_encode(['success' => 'Perfil actualizado con éxito']);
-    } else {
-        echo json_encode(['error' => 'Error al actualizar el perfil']);
-    }
+    
 }
 ?>

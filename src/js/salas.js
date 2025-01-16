@@ -267,8 +267,23 @@ $(document).ready(function () {
             <p><strong>Descripción:</strong> ${sala.descripcion}</p>
             <p><strong>Fecha de creación:</strong> ${sala.fecha_creacion}</p>
             <p><strong>Creador:</strong> ${sala.creador}</p>
-            <h3>Participantes:</h3>
-            <ul>${participantes.map((p) => `<li>${p.nombre}</li>`).join("")}</ul>`).show();
+            <div class="cont-display">
+                <div class="usuarios_sala_cont">
+                    <h3>Participantes</h3>
+                    <ul class="cont_usuarios_sala">${participantes.map((p) => 
+                        `<li class="usuarios_sala">
+                            <img src="${p.foto_perfil || '../img/default-profile.png'}" alt="Foto de perfil" class="imagenes">
+                            <p>${p.nombre}</p>
+                        </li>`).join("")}
+                    </ul>
+                </div> 
+                <div class="tareas_salas_cont">
+                    <h3>Tareas de la sala</h3>
+                    <ul class="lista_tareas_sala">
+                    </ul>
+                </div>
+            </div>
+        `).show();
     }
 
     function buscarAmigos(a) {

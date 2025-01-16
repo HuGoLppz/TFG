@@ -195,8 +195,8 @@ $(document).ready(function() {
                                 const centerY = chart.getDatasetMeta(0).data[0].y;
                     
                                 ctx.save();
-                                ctx.font = '30px Arial'; // Fuente Arial y tamaño 18px
-                                ctx.fillStyle = 'white'; // Color blanco
+                                ctx.font = '30px Arial';
+                                ctx.fillStyle = 'white';
                                 ctx.textAlign = 'center';
                                 ctx.textBaseline = 'middle';
                                 ctx.fillText(`${mostrarMediaPorcentaje}`+"%", centerX, centerY);

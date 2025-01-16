@@ -41,5 +41,31 @@ if ($action === 'start') {
     } else {
         echo json_encode(['success' => false, 'error' => 'Error al actualizar el Pomodoro.']);
     }
+} elseif ($action === 'status') {
+    $query = "SELECT duracion_trabajo, duracion_descanso, estado FROM Pomodoro 
+              WHERE usuario_id = :usuario_id 
+              ORDER BY pomodoro_id DESC LIMIT 1";
+    $stmt = $db->prepare($query);
+    $stmt->bindParam(':usuario_id', $usuario_id);
+
+    if ($stmt->execute()) {
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        echo json_encode(['success' => true, 'data' => $result]);
+    } else {
+        echo json_encode(['success' => false, 'error' => 'Error al obtener el estado del Pomodoro.']);
+    }
+} elseif ($action === 'stop') {
+    $query = "UPDATE Pomodoro 
+              SET estado = 'detenido' 
+              WHERE usuario_id = :usuario_id AND estado = 'en_proceso' 
+              ORDER BY pomodoro_id DESC LIMIT 1";
+    $stmt = $db->prepare($query);
+    $stmt->bindParam(':usuario_id', $usuario_id);
+
+    if ($stmt->execute()) {
+        echo json_encode(['success' => true, 'message' => 'Pomodoro detenido.']);
+    } else {
+        echo json_encode(['success' => false, 'error' => 'Error al detener el Pomodoro.']);
+    }
 }
 ?>
