@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    /*$('.container').css("display", "none");*/
     notasMedias();
     obtenerEstadisticas();
     $.ajax({
@@ -14,12 +13,11 @@ $(document).ready(function () {
                 $('#id-usuario').text(profileData.usuario_id || 'Usuario no disponible');
                 $('#estudios-usuario').text((profileData.curso || '') + " " + (profileData.estudios || 'Estudios no disponibles'));
                 $('#descripcion-usuario').text(profileData.descripcion || 'Sin descripción');
-                $('#imagen-perfil').attr('src', profileData.foto_perfil || '../img/default-profile.png');
+                $('#imagen-perfil').attr('src',profileData.foto_perfil || '../img/default-profile.png');
     
                 $('#descripcion').val(profileData.descripcion || '');
                 $('#curso').val(profileData.curso || '');
                 $('#estudios').val(profileData.estudios || '');
-                $('#privacidad').prop('checked', profileData.privacidad == 1);
             } else {
                 alert(data.error || 'Error desconocido');
             }
@@ -61,45 +59,37 @@ $(document).ready(function () {
 
     $("#enviar-formulario").on("click", function(event) {
         event.preventDefault();
-
-        var formData = new FormData();
-        formData.append("descripcion", $("#descripcion").val());
-        formData.append("curso", $("#curso").val());
-        formData.append("estudios", $("#estudios").val());
-        formData.append("privacidad", $("#privacidad").is(":checked") ? 1 : 0);
-
-        const fileInput = document.querySelector('.foto-perfil-input');
-        if (fileInput.files[0]) {
-            formData.append("foto_perfil", fileInput.files[0]);
-        }
-
+        
+        var formData = new FormData($("#perfil-form")[0]);
+    
+        formData.append("modificar_informacion", true);    
         $.ajax({
             url: '../php/profile.php',
             type: 'POST',
             data: formData,
+            dataType: 'json',
             processData: false,
             contentType: false,
-            dataType: 'json',
             success: function(response) {
                 if (response.success) {
                     alert(response.success);
                 } else {
                     alert(response.error || 'Error al actualizar el perfil.');
                 }
-
+    
                 $(".perfil-contenedor").show();
                 $(".formulario-perfil").hide();
-
                 location.reload();
             },
-            error: function() {
+            error: function(xhr, status, error) {
+                alert(xhr.responseText || "Error desconocido");
                 $(".perfil-contenedor").show();
                 $(".formulario-perfil").hide();
-
                 location.reload();
             }
         });
     });
+        
 
     $('#crear_asignatura').on('click', function () {
         const nuevaAsignatura = $('#nueva_asignatura').val().trim();
@@ -167,7 +157,6 @@ $(document).ready(function () {
         });
     }
     
-
     function eliminarAsignatura(id, item) {
         $.ajax({
             url: '../php/profile.php',
@@ -186,6 +175,7 @@ $(document).ready(function () {
             }
         });
     }
+
     function notasMedias() {
         $.ajax({
             url: '../php/profile.php',
@@ -217,7 +207,6 @@ $(document).ready(function () {
             }
         });
     }
-    
     
     function listarAsignaturas() {
         $.ajax({
@@ -263,10 +252,9 @@ $(document).ready(function () {
                         const listItem = $('<li class="notificacion-item"></li>');
                         if(notificacion.tipo === "Solicitud de amistad"){
                             listItem.append(`
-                                <div>
+                                <div class=notificacion>
                                     <p><strong>Tipo:</strong> ${notificacion.tipo}</p>
                                     <p><strong>Mensaje:</strong> ${notificacion.mensaje}</p>
-                                    <p><strong>Fecha:</strong> ${notificacion.fecha}</p>
                                     <button class="aceptar-solicitud-amistad" data-amigo-id="${notificacion.remitente_id}" data-notificacion-id="${notificacion.notificacion_id}">
                                         Aceptar solicitud
                                     </button>
@@ -276,10 +264,9 @@ $(document).ready(function () {
                         }
                         if(notificacion.tipo === "Solicitud de unión a sala"){
                             listItem.append(`
-                                <div>
+                                <div class=notificacion>
                                     <p><strong>Tipo:</strong> ${notificacion.tipo}</p>
                                     <p><strong>Mensaje:</strong> ${notificacion.mensaje}</p>
-                                    <p><strong>Fecha:</strong> ${notificacion.fecha}</p>
                                     <button class="aceptar-solicitud-sala" data-sala-id="${notificacion.remitente_id}" data-notificacion-id="${notificacion.notificacion_id}">
                                         Aceptar solicitud
                                     </button>
@@ -297,9 +284,76 @@ $(document).ready(function () {
                     $('.aceptar-solicitud-sala').on('click', function () {
                         const salaId = $(this).data('sala-id');
                         const notificacionId = $(this).data('notificacion-id');
-                        aceptar_solicitud_sala(salaId);
-                        eliminar_notificacion(notificacionId);
+                    
+                        const modalHtml = `
+                            <div id="modalAsignaturas" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:20px; border:1px solid #ccc; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.5);">
+                                <h3>Selecciona una asignatura</h3>
+                                <select id="asignaturaSeleccionada">
+                                    <option value="">Selecciona una asignatura</option>
+                                </select>
+                                <br><br>
+                                <button id="confirmarAsignatura">Confirmar</button>
+                                <button id="cancelarAsignatura">Cancelar</button>
+                            </div>
+                        `;
+                    
+                        if ($('#modalAsignaturas').length === 0) {
+                            $('body').append(modalHtml);
+                        }
+                    
+                        $('#modalAsignaturas').show();
+                    
+                        cargarAsignaturas();
+                    
+                        $('#confirmarAsignatura').off('click').on('click', function () {
+                            const asignatura = $('#asignaturaSeleccionada').val();
+                            if (!asignatura) {
+                                alert('Por favor, selecciona una asignatura.');
+                                return;
+                            }
+                    
+                            // Ejecutar las funciones principales
+                            aceptar_solicitud_sala(salaId, asignatura);
+                            eliminar_notificacion(notificacionId);
+                    
+                            // Ocultar y eliminar el modal
+                            $('#modalAsignaturas').remove();
+                        });
+                    
+                        // Manejar el evento de cancelación
+                        $('#cancelarAsignatura').off('click').on('click', function () {
+                            // Ocultar y eliminar el modal
+                            $('#modalAsignaturas').remove();
+                        });
                     });
+                    
+                    function cargarAsignaturas() {
+                        $.ajax({
+                            url: "../php/tareas.php",
+                            method: "POST",
+                            data: { action: "listarAsignaturas" },
+                            dataType: "json",
+                            success: function (response) {
+                                if (response.success) {
+                                    const asignaturas = response.data;
+                                    const selectAsignatura = $("#asignaturaSeleccionada");
+                                    selectAsignatura.empty();
+                                    selectAsignatura.append('<option value="">Selecciona una asignatura</option>');
+                                    asignaturas.forEach(function (asignatura) {
+                                        selectAsignatura.append(
+                                            `<option value="${asignatura.nombre_asignatura}">${asignatura.nombre_asignatura}</option>`
+                                        );
+                                    });
+                                } else {
+                                    alert(response.error || "Error al cargar las asignaturas.");
+                                }
+                            },
+                            error: function () {
+                                alert("Error en la solicitud de asignaturas.");
+                            },
+                        });
+                    }
+                    
                 } else {
                     $('.notificaciones').text(response.error || 'No se encontraron notificaciones.');
                 }
@@ -350,13 +404,14 @@ $(document).ready(function () {
         });
     }
 
-    function aceptar_solicitud_sala(a) {
+    function aceptar_solicitud_sala(a, b) {
         $.ajax({
             url: '../php/profile.php',
             type: 'POST',
             data: {
                 accion: 'aceptar_solicitud_sala',
                 sala_id: a,
+                asignatura: b,
             },
             dataType: 'json',
             success: function (response) {

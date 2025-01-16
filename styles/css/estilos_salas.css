@@ -120,7 +120,8 @@ ul{
 
 #lista-mensajes{
     height: 480px;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .mensaje {
@@ -156,3 +157,47 @@ ul{
     color: black;
     text-decoration: none;
 }
+
+.contenido-sala{
+    overflow: scroll;
+    height: 535px;
+}
+
+.imagenes{
+    max-height: 75px;
+    border-radius: 50%;
+    border: 2px solid var(--color-purple);
+}
+
+.usuarios_sala{
+    background-color: var(--color-bg-gray);
+    margin: 10px;
+    padding: 5px;
+    height: 85px;
+    border-radius: 10px
+    
+}
+
+.usuarios_sala p{
+    margin-left: 80px;
+    margin-top: -60px;
+}
+
+.usuarios_sala_cont, .tareas_salas_cont {
+    flex: 1; 
+    width: 100% !important; 
+    box-sizing: border-box;
+}
+.cont_usuarios_sala, .lista_tareas_sala{
+    border: 2px solid var(--color-black);
+    border-radius: 10px;
+    height: 385px;
+    overflow: scroll;
+}
+
+.cont-display {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+

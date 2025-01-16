@@ -233,7 +233,7 @@ try {
                 exit;
             }
         
-            $query = "SELECT Salas.sala_id, Salas.nombre, Salas.descripcion, Salas.fecha_creacion, Usuarios.nombre AS creador
+            $query = "SELECT Salas.sala_id, Salas.nombre, Salas.descripcion, Salas.fecha_creacion, Usuarios.nombre AS creador, Usuarios.foto_perfil 
                       FROM Salas
                       JOIN Usuarios ON Salas.creador_id = Usuarios.usuario_id
                       WHERE Salas.sala_id = :sala_id";

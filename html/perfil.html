@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,17 +11,19 @@
     <script src="../src/libs/jquery.min.js"></script>
     <script src="../src/js/cabecero.js"></script>
     <script src="../src/js/perfil.js"></script>
+    <script src="../src/js/pomodoro.js"></script>
 </head>
+
 <body>
     <div id="loader"></div>
     <div class="container">
         <div id="header"></div>
         <main>
             <div class="contenedor-principal">
-                    <div class="perfil-contenedor">
-                        <div class="cont-btn-notificacion">
-                            <img src="../img/bell.svg" alt="notificacion" class="btn-notificacion">
-                        </div>
+                <div class="perfil-contenedor">
+                    <div class="cont-btn-notificacion">
+                        <img src="../img/bell.svg" alt="notificacion" class="btn-notificacion">
+                    </div>
                     <div class="imagen-perfil">
                         <img alt="Imagen de Perfil" id="imagen-perfil" class="img-perfil">
                     </div>
@@ -34,53 +37,46 @@
                 </div>
 
                 <div class="formulario-perfil">
-                    <label for="foto_perfil">Foto de Perfil:</label>
-                    <div class="file-input-wrapper">
+                    <form id="perfil-form" enctype="multipart/form-data">
+                        <label for="foto_perfil">Foto de Perfil:</label>
                         <input type="file" class="foto-perfil-input" name="foto_perfil" accept="image/*">
-                        <label class="file-input-label">
-                          <img class="preview-img" src="../img/pen.svg" alt="Subir foto"/>
-                        </label>
-                      </div>                      
-                    <br>
-                    <label for="descripcion">Descripción:</label>
-                    <textarea id="descripcion" name="descripcion" rows="4" cols="50"></textarea>
-                    <br>
-                    <label for="curso">Curso:</label>
-                    <div class="input-container">
-                        <input type="text" id="curso" name="curso" maxlength="100">
-                        <span class="input-border"></span>
-                    </div>
-                    <br>
-                    <label for="estudios">Estudios:</label>
-                    <div class="input-container">
-                        <input type="text" id="estudios" name="estudios" maxlength="255">
-                        <span class="input-border"></span>
-                    </div>
-                    <br>
-                    <label for="privacidad">Privacidad:</label>
-                    <input type="checkbox" id="privacidad" name="privacidad" value="1">
-                    <span>(Marcar para mantener el perfil privado)</span>
-                    <br>
-                    <br>  
-                    <div class="cont-botones-formulario">
-                        <button type="submit" id="enviar-formulario">Modificar perfil</button>
-                        <button type="submit" id="mostrar-cont-asignaturas">Editar asignaturas del usuario</button>
-                    </div>                
-                </div>
-                <div class="cont-asignaturas">
-                    <label for="nueva_asignatura">Crear nueva asignatura:</label>
+                        <br>
+                        <label for="descripcion">Descripción:</label>
+                        <textarea id="descripcion" name="descripcion" rows="4" cols="50"></textarea>
+                        <br>
+                        <label for="curso">Curso:</label>
                         <div class="input-container">
-                            <input type="text" id="nueva_asignatura" placeholder="Nombre de la nueva asignatura">
-                             <span class="input-border"></span>
+                            <input type="text" id="curso" name="curso" maxlength="100">
+                            <span class="input-border"></span>
                         </div>
                         <br>
-                        <button type="button" id="crear_asignatura">Crear y Añadir</button>
+                        <label for="estudios">Estudios:</label>
+                        <div class="input-container">
+                            <input type="text" id="estudios" name="estudios" maxlength="255">
+                            <span class="input-border"></span>
+                        </div>
+                        <br>
+                        <div class="cont-botones-formulario">
+                            <button type="button" id="enviar-formulario">Modificar perfil</button>
+                            <button type="button" id="mostrar-cont-asignaturas">Editar asignaturas del usuario</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="cont-asignaturas">
+                    <label for="nueva_asignatura">Crear nueva asignatura:</label>
+                    <div class="input-container">
+                        <input type="text" id="nueva_asignatura" placeholder="Nombre de la nueva asignatura">
+                        <span class="input-border"></span>
+                    </div>
+                    <br>
+                    <button type="button" id="crear_asignatura">Crear y Añadir</button>
                     <br>
                     <label>Asignaturas añadidas:</label>
-                    <ul id="asignaturas_añadidas"></ul>  
+                    <ul id="asignaturas_añadidas"></ul>
                     <button type="button" id="volver-editar">Volver a editar</button>
                 </div>
-                                
+
                 <div class="datos-perfil">
                     <div class="datos-notas">
                         <h3>Calificaciones de tus Asignaturas</h3>

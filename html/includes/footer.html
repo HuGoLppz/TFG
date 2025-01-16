@@ -12,12 +12,20 @@
     </div>
 </footer>
 <script>
-     $(document).ready(function () {
+    $(document).ready(function () {
+        const isDarkTheme = localStorage.getItem("dark-theme") === "true";
+        if (isDarkTheme) {
+            $("body").addClass("dark-theme");
+            $(".checkbox").prop("checked", true); 
+        }
+
         $(".checkbox").on("change", function () {
             if ($(this).is(":checked")) {
                 $("body").addClass("dark-theme");
+                localStorage.setItem("dark-theme", "true");
             } else {
                 $("body").removeClass("dark-theme");
+                localStorage.setItem("dark-theme", "false");
             }
         });
     });

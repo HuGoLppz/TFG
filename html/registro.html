@@ -13,7 +13,9 @@
 <body>
     <div class="registro-container">
         <h1>Regístrate en STUDY-PLANNER</h1>
-        <form action="#" method="POST" class="formulario">
+        
+        <!-- Primer formulario -->
+        <form id="formulario1" action="#" method="POST">
             <div class="input-container">
                 <label for="user">Nombre Completo</label>
                 <input type="text" id="user" name="user" placeholder="Ingresa tu nombre completo" required>
@@ -32,8 +34,35 @@
                 <span class="input-border"></span>
             </div>
             <br>
-            <button type="submit" class="btn-primario">Registrarse</button>
+            <button type="button" class="btn-primario" id="btn-continue">Continuar</button>
         </form>
+        
+        <!-- Segundo formulario -->
+        <form id="formulario2" action="#" method="POST" style="display:none;">
+            <input type="hidden" id="hidden-user" name="user">
+            <input type="hidden" id="hidden-email" name="email">
+            <input type="hidden" id="hidden-password" name="password">
+
+            <div class="input-container">
+                <label for="course">Curso</label>
+                <input type="text" id="course" name="course" placeholder="Ingresa el curso" required>
+                <span class="input-border"></span>
+            </div>
+            <br>
+            <div class="input-container">
+                <label for="study-name">Nombre del Estudio</label>
+                <input type="text" id="study-name" name="study-name" placeholder="Ingresa el nombre del estudio" required>
+                <span class="input-border"></span>
+            </div>
+            <br>
+            <div class="input-container">
+                <label for="description">Descripción</label>
+                <textarea id="description" name="description" placeholder="Ingresa una descripción" required></textarea>
+            </div>
+            <br>
+            <button type="submit" class="btn-primario">Guardar</button>
+        </form>
+        
         <p>¿Ya tienes cuenta? <a href="login.html">Inicia sesión aquí</a></p>
     </div>
 </body>
