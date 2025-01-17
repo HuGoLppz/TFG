@@ -15,7 +15,7 @@ function conectar() {
     $username = 'root';
     $password = '';
     $charset = 'utf8';
-
+    
     try {
         $connect = new PDO("mysql:host=$host;port=3306;dbname=$dbname;charset=$charset", $username, $password);
 
