@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Salas de Trabajo - STUDY-PLANNER</title>
-        <link rel="stylesheet" href="../styles/estilos.css">
-        <link rel="stylesheet" href="../styles/css/estilos_salas.css">
-        <script src="../src/libs/jquery.min.js"></script>
-        <script src="../src/js/cabecero.js"></script>
-        <script src="../src/js/salas.js"></script>
-        <script src="../src/js/pomodoro.js"></script>
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Salas de Trabajo - STUDY-PLANNER</title>
+    <link rel="stylesheet" href="../styles/estilos.css">
+    <link rel="stylesheet" href="../styles/css/estilos_salas.css">
+    <script src="../src/libs/jquery.min.js"></script>
+    <script src="../src/js/cabecero.js"></script>
+    <script src="../src/js/salas.js"></script>
+    <script src="../src/js/pomodoro.js"></script>
+</head>
 <body>
     <div id="loader"></div>
     <div class="container">
@@ -21,20 +21,20 @@
                 <h2>Salas de Trabajo</h2>
                 <div class="cont-salas">
                     <ul>
-                        
                     </ul>
                 </div>
                 <button class="crear-sala">Crear sala</button>
             </section>
             <section class="salas-select">
                 <div class="cabecero-sala">
-                    
                 </div>
                 <div class="contenido-sala">
-
                 </div>
-            </section>    
+            </section>
         </main>
+        <section class="cont-info-tareas">
+            
+        </section>
         <section class="menu-crear-sala">
             <img src="../img/x-lg.svg" alt="cerrar ventana" class="cerrar-ventana">
             <h2>Crear Sala de Trabajo</h2>
@@ -65,7 +65,39 @@
                 <label>Amigos invitados:</label>
                 <ul id="amigos_invitados"></ul>
                 <br>
+                <label for="asignaturaSeleccionada">Asignatura:</label>
+                <div class="input-container">
+                    <select id="asignaturaSeleccionada" name="asignatura" required>
+                        <option value="">Selecciona una asignatura</option>
+                    </select>
+                    <span class="input-border"></span>
+                </div>
+                <br>
                 <button type="submit" class="btn-crear-sala">Crear Sala</button>
+            </form>
+        </section>
+        <section class="tareas-crear">
+            <img src="../img/x-lg.svg" alt="cerrar ventana" class="cerrar-ventana">
+            <h2>Crea la nueva tarea</h2>
+            <form class="formu-tareas">
+                <label for="titulo">Título de la Tarea:</label>
+                <div class="input-container">
+                    <input type="text" id="titulo" class="titulo" name="titulo" maxlength="255"
+                        placeholder="Ej: Estudio de Matemáticas">
+                    <span class="input-border"></span>
+                </div>
+                <br>
+                <label for="descripcion">Descripción:</label>
+                <textarea id="descripcion" name="descripcion" rows="4"
+                    placeholder="Escribe una breve descripción de la tarea..." maxlength="200"></textarea>
+                <br>
+                <label for="fecha_entrega">Fecha de Entrega:</label>
+                <div class="input-container">
+                    <input type="date" id="fecha_entrega2" name="fecha_entrega">
+                    <span class="input-border"></span>
+                </div>
+                <br>
+                <button type="submit" class="btn-crear-tarea">Crear Tarea</button>
             </form>
         </section>
         <div id="footer"></div>

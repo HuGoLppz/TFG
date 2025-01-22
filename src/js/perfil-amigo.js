@@ -2,7 +2,6 @@ $(document).ready(function () {
     function getParameterByName(name) {
         const url = new URL(window.location.href);
         let value = url.searchParams.get(name);
-
         if (!value) {
             const fragment = url.hash.substring(1);
             const params = new URLSearchParams(fragment);
@@ -14,10 +13,8 @@ $(document).ready(function () {
         }
         return value;
     }
-
     const usuario_id = getParameterByName('usuario_id');
     console.log("ID de usuario obtenido:", usuario_id);
-
     $.ajax({
         url: '../php/profile-friend.php',
         type: 'GET',
@@ -28,7 +25,6 @@ $(document).ready(function () {
         },
         success: function (data) {
             if (data.error) {
-                alert(data.error);
             } else {
                 $('#nombre-usuario').text(data.nombre || 'Usuario no disponible');
                 $('#id-usuario').text(data.usuario_id || 'Usuario no disponible');
@@ -39,7 +35,6 @@ $(document).ready(function () {
             }
         },
         error: function () {
-            alert('Hubo un error al cargar los datos del perfil.');
         }
     });
 
@@ -60,9 +55,7 @@ $(document).ready(function () {
                     console.error('Contenedor de estadísticas no encontrado.');
                     return;
                 }
-
                 estadisticasContainer.empty();
-
                 const lista = $('<ul></ul>');
                 lista.append(`<li>Amigos totales: ${estadisticas.total_amigos}</li>`);
                 lista.append(`<li>Tareas completadas: ${estadisticas.tareas_completadas}</li>`);
@@ -72,16 +65,13 @@ $(document).ready(function () {
                 lista.append(`<li>Fecha de registro: ${estadisticas.fecha_registro}</li>`);
                 lista.append(`<li>Correo electrónico: ${estadisticas.correo_usuario}</li>`);
                 lista.append(`<li>Pomodoro: ${estadisticas.contador_pomodoro}</li>`);
-
                 estadisticasContainer.append(lista);
             } else {
                 console.error(response.error || 'No se pudieron obtener las estadísticas.');
-                alert(response.error || 'Error al obtener las estadísticas.');
             }
         },
         error: function (xhr, status, error) {
             console.error(error);
-            alert('Hubo un error al cargar las estadísticas.');
         }
     });
 
@@ -97,7 +87,6 @@ $(document).ready(function () {
             if (data.success) {
                 const notasContainer = $('.notas');
                 notasContainer.empty();
-
                 data.medias.forEach(function (nota) {
                     const notaContainer = $('<div class="nota-container"></div>');
                     const notaLabel = $('<div class="nota-label"></div>').text(nota.asignatura);

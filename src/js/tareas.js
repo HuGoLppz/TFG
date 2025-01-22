@@ -112,15 +112,12 @@ $(document).ready(function () {
             dataType: "json",
             success: function (response) {
                 if (response.success) {
-                    alert("Tarea completada con éxito.");
                     cargarTareas();
                     $(".form-tarea-completar").hide();
                 } else {
-                    alert(response.error || "No se pudo completar la tarea.");
                 }
             },
             error: function () {
-                alert("Error al completar la tarea.");
             },
         });
     });
@@ -145,17 +142,14 @@ $(document).ready(function () {
             dataType: "json",
             success: function (response) {
                 if (response.success) {
-                    alert("Tarea creada con éxito.");
                     cargarTareas();
                     $("form")[0].reset();
                     $(".tareas-crear").hide();
                     $(".tareas").css("opacity", 1);
                 } else {
-                    alert(response.error || "No se pudo crear la tarea.");
                 }
             },
             error: function () {
-                alert("Error al crear la tarea.");
             },
         });
         calendario();
@@ -170,11 +164,9 @@ $(document).ready(function () {
                 if (response.success) {
                     mostrarDetalleTarea(response.data);
                 } else {
-                    //alert("No se pudo obtener el detalle de la tarea.");
                 }
             },
             error: function () {
-                alert("Error al obtener el detalle de la tarea.");
             },
         });
     }
@@ -221,7 +213,6 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (data) {
                 if (data.error) {
-                    alert(data.error);
                 } else {
                     $(".openFiltros").attr("id", "filtroTareas");
                     $('.tareas > h2').empty();
@@ -242,7 +233,6 @@ $(document).ready(function () {
                 }
             },
             error: function () {
-                alert("Error al cargar las tareas.");
             },
         });
     }
@@ -262,7 +252,6 @@ $(document).ready(function () {
             dataType: "json",
             success: function (data) {
                 if (data.error) {
-                    alert(data.error);
                 } else {
                     $(".openFiltros").attr("id", "filtroCompletado");
                     $(".tareas ul").empty();
@@ -282,7 +271,6 @@ $(document).ready(function () {
                 }
             },
             error: function () {
-                alert("Error al cargar las tareas completadas.");
             },
         });
     }
@@ -349,11 +337,9 @@ $(document).ready(function () {
                         );
                     });
                 } else {
-                    alert(response.error || "Error al cargar las asignaturas.");
                 }
             },
             error: function () {
-                alert("Error en la solicitud de asignaturas.");
             },
         });
     }

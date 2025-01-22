@@ -6,11 +6,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const inputDescanso = document.getElementById("break-time");
     let intervalo;
 
-    // Valores predeterminados
-    const tiempoEstudioPorDefecto = 25; // minutos
-    const tiempoDescansoPorDefecto = 5; // minutos
+    const tiempoEstudioPorDefecto = 25;
+    const tiempoDescansoPorDefecto = 5;
 
-    // Guardar valores iniciales en localStorage si no existen
     if (!localStorage.getItem("studyTime")) {
         localStorage.setItem("studyTime", tiempoEstudioPorDefecto);
     }
@@ -18,11 +16,9 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.setItem("breakTime", tiempoDescansoPorDefecto);
     }
 
-    // Actualizar inputs con los valores de localStorage al cargar la página
     if (inputEstudio) inputEstudio.value = localStorage.getItem("studyTime");
     if (inputDescanso) inputDescanso.value = localStorage.getItem("breakTime");
 
-    // Crear el widget flotante
     const widget = document.createElement("div");
     widget.id = "pomodoro-widget";
     widget.style = `
@@ -51,7 +47,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const estadoTemporizador = document.getElementById("estado-temporizador");
     const pantallaTemporizador = document.getElementById("pantalla-temporizador");
 
-    // Alternar despliegue del temporizador
     cabeceraWidget.addEventListener("click", function () {
         temporizadorWidget.style.display =
             temporizadorWidget.style.display === "none" ? "block" : "none";
@@ -62,7 +57,8 @@ document.addEventListener("DOMContentLoaded", function () {
         bloqueador.id = "page-blocker";
         bloqueador.innerHTML = `
             <div>${mensaje}</div>
-            <br/>
+            <br>
+            <br>
             <button id="cerrar-bloqueador" style="text-align: center">Cerrar</button>
         `;
         cuerpo.appendChild(bloqueador);
@@ -72,13 +68,19 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    function actualizarPantallas(minutos, segundos, textoEstado) {
+        const tiempoFormateado = `${String(minutos).padStart(2, "0")}:${String(segundos).padStart(2, "0")}`;
+        pantallaTemporizador.textContent = tiempoFormateado;
+        if (textoEstado) {
+            estadoTemporizador.textContent = `Estado: ${textoEstado}`;
+        }
+    }
+
     function iniciarTemporizador(duracion, esDescanso) {
         let tiempo = duracion * 60;
         const textoEstado = esDescanso ? "Descanso" : "Estudio";
-        estadoTemporizador.textContent = `Estado: ${textoEstado}`;
         clearInterval(intervalo);
 
-        // Guardar el estado inicial en localStorage
         localStorage.setItem(
             "pomodoro",
             JSON.stringify({
@@ -91,9 +93,8 @@ document.addEventListener("DOMContentLoaded", function () {
             const minutos = Math.floor(tiempo / 60);
             const segundos = tiempo % 60;
 
-            pantallaTemporizador.textContent = `${String(minutos).padStart(2, "0")}:${String(segundos).padStart(2, "0")}`;
+            actualizarPantallas(minutos, segundos, textoEstado);
 
-            // Actualizar el estado en localStorage
             localStorage.setItem(
                 "pomodoro",
                 JSON.stringify({
@@ -104,16 +105,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (tiempo <= 0) {
                 clearInterval(intervalo);
-
-                // Mostrar la pantalla de bloqueo
-                mostrarBloqueador(esDescanso ? "¡Tiempo de estudio!" : "¡Tiempo de descanso!");
-
-                // Recuperar los valores por defecto
+                mostrarBloqueador(esDescanso ? "¡Tiempo de estudio! <br>" : "¡Tiempo de descanso! <br>");
                 const siguienteDuracion = esDescanso
                     ? parseInt(localStorage.getItem("studyTime"), 10)
                     : parseInt(localStorage.getItem("breakTime"), 10);
-
-                // Reiniciar el temporizador con valores por defecto
                 iniciarTemporizador(siguienteDuracion, !esDescanso);
             }
 
@@ -123,23 +118,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function detenerTemporizador() {
         clearInterval(intervalo);
-        pantallaTemporizador.textContent = "00:00";
-        estadoTemporizador.textContent = "Estado: Detenido";
-
-        // Eliminar el estado de localStorage
+        actualizarPantallas(0, 0, "Detenido");
         localStorage.removeItem("pomodoro");
 
-        // Notificar al servidor que el temporizador ha sido detenido
-        fetch("../php/pomodoro.php", {
-            method: "POST",
-            body: new URLSearchParams({ action: "stop" }),
-        });
-
-        // Ocultar el widget
         widget.style.display = "none";
     }
 
-    // Restaurar el estado desde localStorage si existe
     const estadoGuardado = JSON.parse(localStorage.getItem("pomodoro"));
     if (estadoGuardado) {
         widget.style.display = "block";
@@ -151,11 +135,9 @@ document.addEventListener("DOMContentLoaded", function () {
         const tiempoDescanso = parseInt(inputDescanso?.value || localStorage.getItem("breakTime"), 10);
 
         if (isNaN(tiempoEstudio) || isNaN(tiempoDescanso)) {
-            alert("Por favor, introduce valores válidos.");
             return;
         }
 
-        // Guardar valores en localStorage
         localStorage.setItem("studyTime", tiempoEstudio);
         localStorage.setItem("breakTime", tiempoDescanso);
 

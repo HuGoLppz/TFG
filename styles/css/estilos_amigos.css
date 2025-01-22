@@ -51,3 +51,27 @@ a{
     color:var(--color-black);
     text-decoration: none;
 }
+
+@media only screen and (max-width: 830px) {
+    main{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .amigos, .buscar-amigos{
+        width: 95%;
+    }
+    .contenido-sala{
+        max-height:none;
+    }
+    .salas-select{
+        height: auto;
+        min-height: 400px;
+        overflow: scroll;
+        margin-bottom: 5px;
+    }
+    .menu-crear-sala{
+        width: 380px;
+    }
+}
