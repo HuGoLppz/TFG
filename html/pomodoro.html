@@ -9,28 +9,41 @@
     <script src="../src/libs/jquery.min.js"></script>
     <script src="../src/js/cabecero.js"></script>
     <script src="../src/js/pomodoro.js"></script>
+    <script src="../src/js/pomodoro2.js"></script>
 </head>
 <body>
     <div id="loader"></div>
     <div class="container">
         <div id="header"></div>
         <main>
-            <section class="pomodoro">
-                <h2>Entorno de Estudio - Temporizador Pomodoro</h2>
-                <div class="settings">
-                    <label for="study-time">Tiempo de estudio (min):</label>
-                    <input type="number" id="study-time" min="1" max="60" value="">
-                    <label for="break-time">Tiempo de descanso (min):</label>
-                    <input type="number" id="break-time" min="1" max="30" value="">
-                    <label for="display-type">Tipo de visualización:</label>
-                    <button id="start-timer">Iniciar Temporizador</button>
-                    <button id="stop-timer">Detener Temporizador</button>
-                </div>                
-                <div class="timer">
-                    <div id="digital-timer""></div>
+            <section class="pomodoro-container">
+                <div class="pomodoro">
+                    <h2>Temporizador</h2>
+                    <div class="settings">
+                        <label for="study-time">Tiempo de estudio (min):</label>
+                        <br/>
+                        <div class="input-container">
+                            <input type="number" id="study-time" min="1" max="60" value="">
+                            <span class="input-border"></span>
+                        </div>
+                        <label for="break-time">Tiempo de descanso (min):</label>
+                        <div class="input-container">
+                            <input type="number" id="break-time" min="1" max="30" value="">
+                            <span class="input-border"></span>
+                        </div>
+                        <br>
+                        <button id="start-timer">Iniciar Temporizador</button>
+                        <button id="stop-timer">Detener Temporizador</button>
+                    </div>
+                    <div class="timer">
+                        <div id="digital-timer"></div>
+                    </div>
+                </div>
+                <div class="digital-clock">
+                    <h2>Reloj Digital</h2>
+                    <div id="clock-display">00:00:00</div>
                 </div>
             </section>
-            
         </main>
         <div id="footer"></div>
     </div>

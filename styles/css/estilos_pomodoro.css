@@ -1,6 +1,63 @@
-/* Temporizador digital */
-#digital-timer {
-    font-size: 3em;
-    text-align: center;
+.pomodoro-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 80%;
+    margin: auto;
+    margin-top: 150px;
+}
+
+.pomodoro {
+    background-color: var(--color-white); 
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 18px 0px var(--color-purple); 
+    width: 20%;
+    min-width: 400px; 
+    flex-direction: column;
+    align-items: center;
     margin: 20px;
+    flex: 0 1 400px;
+    
+}
+
+.digital-clock {
+    background-color: var(--color-white);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 18px 0px var(--color-purple);
+    width: 20%;
+    min-width: 400px;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+    flex: 0 1 400px;
+    position: relative;
+    text-align: center;
+    
+}
+
+.digital-clock h2{
+    font-size: 40px;    
+}
+
+#clock-display {
+    font-weight: bold;
+    margin-top: 10px;
+    font-size: 40px;    
+}
+
+@media only screen and (max-width: 830px) {
+    .pomodoro-container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: -10px;
+    }
+    .pomodoro, .digital-clock{
+        width: 95%;
+        height: auto;
+        min-width: unset;
+    }
 }

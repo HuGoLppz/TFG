@@ -1,7 +1,6 @@
 $(document).ready(function() {
     function listarAmigos() {
         const valorBusqueda = $('#busqueda-nuevos').val();
-
         $.ajax({
             url: '../php/amigos.php',
             type: 'POST',
@@ -80,7 +79,6 @@ $(document).ready(function() {
             data: { accion: 'agregar_amigo', amigo_id: amigo_id },
             success: function(data) {
                 const respuesta = JSON.parse(data);
-                alert(respuesta.mensaje);
                 listarAmigos();
             },
             error: function (xhr) {

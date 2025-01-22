@@ -17,10 +17,17 @@
     </nav>
 </header>
 <script>
-    $(".btn-cabecero").click(function() {
+    $(".btn-cabecero").click(function () {
+        let responsive = $(window).width() > 820; 
         $(".line-1").toggleClass("hide");
         $(".line-2").toggleClass("rotate-45");
         $(".line-3").toggleClass("rotate--45");
-        $(".menu-cabecero").slideToggle();
+
+        if (responsive) {
+            $(".menu-cabecero").slideToggle();
+        } else {
+            $(".menu-cabecero").toggleClass("show");
+        }
     });
 </script>
+

@@ -19,11 +19,9 @@ $(document).ready(function () {
                 $('#curso').val(profileData.curso || '');
                 $('#estudios').val(profileData.estudios || '');
             } else {
-                alert(data.error || 'Error desconocido');
             }
         },
         error: function () {
-            alert('Hubo un error al cargar los datos del perfil.');
         }
     });
     
@@ -34,12 +32,13 @@ $(document).ready(function () {
     });
 
     $("#mostrar-cont-asignaturas").on("click", function(){
-        $(".formulario-perfil").hide();
+        listarAsignaturas();
+        $(".perfil-contenedor").hide();
         $(".cont-asignaturas").show();
     });
 
     $("#volver-editar").on("click", function(){
-        $(".formulario-perfil").show();
+        $(".perfil-contenedor").show();
         $(".cont-asignaturas").hide();
     });
 
@@ -56,12 +55,9 @@ $(document).ready(function () {
         $(".cont-btn-notificacion").html('<div class="cont-btn-notificacion"><img src="../img/bell.svg" alt="notificacion" class="btn-notificacion"></div>'); 
     });
     
-
     $("#enviar-formulario").on("click", function(event) {
         event.preventDefault();
-        
         var formData = new FormData($("#perfil-form")[0]);
-    
         formData.append("modificar_informacion", true);    
         $.ajax({
             url: '../php/profile.php',
@@ -71,18 +67,14 @@ $(document).ready(function () {
             processData: false,
             contentType: false,
             success: function(response) {
-                if (response.success) {
-                    alert(response.success);
+                if (response.success) { 
                 } else {
-                    alert(response.error || 'Error al actualizar el perfil.');
                 }
-    
                 $(".perfil-contenedor").show();
                 $(".formulario-perfil").hide();
                 location.reload();
             },
             error: function(xhr, status, error) {
-                alert(xhr.responseText || "Error desconocido");
                 $(".perfil-contenedor").show();
                 $(".formulario-perfil").hide();
                 location.reload();
@@ -90,10 +82,8 @@ $(document).ready(function () {
         });
     });
         
-
     $('#crear_asignatura').on('click', function () {
         const nuevaAsignatura = $('#nueva_asignatura').val().trim();
-
         if (nuevaAsignatura) {
             $.ajax({
                 url: '../php/profile.php',
@@ -104,15 +94,12 @@ $(document).ready(function () {
                     if (response.success) {
                         listarAsignaturas(); 
                     } else {
-                        alert(response.error || 'Error al crear la asignatura.');
                     }
                 },
                 error: function () {
-                    alert('Hubo un error al crear la asignatura.');
                 }
             });
         } else {
-            alert('Por favor, ingresa el nombre de la asignatura.');
         }
     });
 
@@ -125,15 +112,12 @@ $(document).ready(function () {
             success: function (response) {
                 if (response.success) {
                     const estadisticas = response.estadisticas;
-    
                     const estadisticasContainer = $('.estadisticas');
                     if (!estadisticasContainer.length) {
                         console.error('Contenedor de estadísticas no encontrado.');
                         return;
                     }
-    
                     estadisticasContainer.empty();
-    
                     const lista = $('<ul></ul>');
                     lista.append(`<li>Amigos totales: ${estadisticas.total_amigos}</li>`);
                     lista.append(`<li>Tareas completadas: ${estadisticas.tareas_completadas}</li>`);
@@ -147,12 +131,10 @@ $(document).ready(function () {
                     estadisticasContainer.append(lista);
                 } else {
                     console.error(response.error || 'No se pudieron obtener las estadísticas.');
-                    alert(response.error || 'Error al obtener las estadísticas.');
                 }
             },
             error: function (xhr, status, error) {
                 console.error(error);
-                alert('Hubo un error al cargar las estadísticas.');
             }
         });
     }
@@ -167,11 +149,9 @@ $(document).ready(function () {
                 if (response.success) {
                     item.remove();  
                 } else {
-                    alert(response.error || 'Error al eliminar la asignatura.');
                 }
             },
             error: function () {
-                alert('Hubo un error al eliminar la asignatura.');
             }
         });
     }
@@ -186,7 +166,6 @@ $(document).ready(function () {
                 if (data.success) {
                     const notasContainer = $('.notas');
                     notasContainer.empty(); 
-    
                     data.medias.forEach(function (nota) {
                         const notaContainer = $('<div class="nota-container"></div>');
                         const notaLabel = $('<div class="nota-label"></div>').text(nota.asignatura);
@@ -223,16 +202,13 @@ $(document).ready(function () {
                             const deleteButton = $('<button>').text('Eliminar').on('click', function() {
                                 eliminarAsignatura(asignatura.asignatura_id, listItem);
                             });
-                        
                         listItem.append(deleteButton);
                         $('#asignaturas_añadidas').append(listItem);
                     });
                 } else {
-                    alert('Error al listar las asignaturas');
                 }
             },
             error: function () {
-                alert('Hubo un error al listar las asignaturas.'); 
             }
         });
     }
@@ -284,7 +260,6 @@ $(document).ready(function () {
                     $('.aceptar-solicitud-sala').on('click', function () {
                         const salaId = $(this).data('sala-id');
                         const notificacionId = $(this).data('notificacion-id');
-                    
                         const modalHtml = `
                             <div id="modalAsignaturas" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:white; padding:20px; border:1px solid #ccc; border-radius:10px; box-shadow:0 0 10px rgba(0,0,0,0.5);">
                                 <h3>Selecciona una asignatura</h3>
@@ -296,33 +271,22 @@ $(document).ready(function () {
                                 <button id="cancelarAsignatura">Cancelar</button>
                             </div>
                         `;
-                    
                         if ($('#modalAsignaturas').length === 0) {
                             $('body').append(modalHtml);
                         }
-                    
                         $('#modalAsignaturas').show();
-                    
                         cargarAsignaturas();
-                    
                         $('#confirmarAsignatura').off('click').on('click', function () {
                             const asignatura = $('#asignaturaSeleccionada').val();
                             if (!asignatura) {
-                                alert('Por favor, selecciona una asignatura.');
                                 return;
                             }
-                    
-                            // Ejecutar las funciones principales
                             aceptar_solicitud_sala(salaId, asignatura);
                             eliminar_notificacion(notificacionId);
-                    
-                            // Ocultar y eliminar el modal
                             $('#modalAsignaturas').remove();
                         });
                     
-                        // Manejar el evento de cancelación
                         $('#cancelarAsignatura').off('click').on('click', function () {
-                            // Ocultar y eliminar el modal
                             $('#modalAsignaturas').remove();
                         });
                     });
@@ -345,11 +309,9 @@ $(document).ready(function () {
                                         );
                                     });
                                 } else {
-                                    alert(response.error || "Error al cargar las asignaturas.");
                                 }
                             },
                             error: function () {
-                                alert("Error en la solicitud de asignaturas.");
                             },
                         });
                     }
@@ -396,10 +358,8 @@ $(document).ready(function () {
             },
             dataType: 'json',
             success: function (response) {
-                alert(response.mensaje);
             },
             error: function (xhr) {
-                alert('Error al procesar la solicitud.');
             }
         });
     }
@@ -415,7 +375,6 @@ $(document).ready(function () {
             },
             dataType: 'json',
             success: function (response) {
-                alert(response.mensaje);
             },
             error: function (xhr) {
                 console.log(xhr);

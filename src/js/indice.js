@@ -1,6 +1,5 @@
 $(document).ready(function() {
     carrusel();  
-
     var val = 0;
     $.ajax({
         url: '../php/session.php',
@@ -48,7 +47,6 @@ $(document).ready(function() {
                 }
             },
             error: function() {
-                alert('Error al cargar las tareas.');
             }
         });
         $.ajax({
@@ -259,31 +257,34 @@ $(document).ready(function() {
                                 `);
                             });
                         } else {
-                            alert('No se encontraron salas.');
                         }
                     } else {
-                        alert('Error al listar salas: ' + (data.error || 'Desconocido'));
                     }
                 } catch (e) {
                     console.error('Error de formato JSON:', e);
-                    alert('Hubo un problema al procesar los datos del servidor.');
                 }
             },
             error: function() {
-                alert('Hubo un error al conectar con el servidor.');
             }
         });               
     }
+    
     $(document).on('click', '.btn-ir-tarea', function() {
         window.location.href = "../html/tareas.html";
     });
 
-    function carrusel(){
+    $(document).on('click', '.btn-ir', function() {
+        window.location.href = "../html/salas.html";
+    });
+
+    function carrusel() {
+        let centerPaddingValue = $(window).width() > 1450 ? '300px' : '0px'; 
+    
         $('.informacion').slick({
             arrows: false,
             dots: false,
             infinite: true,
-            centerPadding: '300px',  
+            centerPadding: centerPaddingValue, 
             slidesToShow: 1,
             slidesToScroll: 1,
             autoplay: true,
