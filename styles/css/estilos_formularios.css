@@ -50,7 +50,7 @@ body {
     margin-bottom: 5px;
     display: block;
 }
-/* Estilo del enlace para registrar o iniciar sesión */
+
 p {
     margin-top: 20px;
     font-size: 14px;
@@ -67,4 +67,19 @@ p a:hover {
 
 label{
     font-size:larger;
+}
+
+ul{
+    list-style: none;
+}
+
+li{
+    background-color: var(--color-purple);
+    margin-top: 5px;
+    border-radius: 5px;
+}
+@media only screen and (max-width: 750px) {
+    .login-container, .registro-container {
+        width: 95%;
+    }
 }

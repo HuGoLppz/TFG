@@ -251,7 +251,6 @@ $(document).ready(function() {
                                         <div class="sala">
                                             <h3>${sala.nombre}</h3>
                                             <p>Fecha de entrega: ${sala.fecha_entrega || 'No definida'}</p>
-                                            <button class="btn-ir" data-sala-id="${sala.sala_id}">Ir a la sala</button>
                                         </div>
                                     </li>
                                 `);
