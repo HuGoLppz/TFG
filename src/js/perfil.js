@@ -122,12 +122,12 @@ $(document).ready(function () {
                     lista.append(`<li>Amigos totales: ${estadisticas.total_amigos}</li>`);
                     lista.append(`<li>Tareas completadas: ${estadisticas.tareas_completadas}</li>`);
                     lista.append(`<li>Tareas sin completar: ${estadisticas.tareas_sin_completar}</li>`);
-                    lista.append(`<li>Media total de las tareas: ${estadisticas.media_total_asignaturas}</li>`);
+                    const mediaRedondeada = parseFloat(estadisticas.media_total_asignaturas).toFixed(2);
+                    lista.append(`<li>Media total de las tareas: ${mediaRedondeada}</li>`);
                     lista.append(`<li>Salas totales: ${estadisticas.total_salas}</li>`);
                     lista.append(`<li>Fecha de registro: ${estadisticas.fecha_registro}</li>`);
                     lista.append(`<li>Correo electrónico: ${estadisticas.correo_usuario}</li>`);
-                    lista.append(`<li>Pomodoro: ${estadisticas.contador_pomodoro}</li>`);
-    
+            
                     estadisticasContainer.append(lista);
                 } else {
                     console.error(response.error || 'No se pudieron obtener las estadísticas.');
@@ -171,8 +171,8 @@ $(document).ready(function () {
                         const notaLabel = $('<div class="nota-label"></div>').text(nota.asignatura);
                         const progressBarWrapper = $('<div class="progress-bar-wrapper"></div>');
                         const progressBar = $('<div class="progress-bar"></div>').css('width', `${(nota.promedio_calificaciones / 10) * 100}%`);
-                        const progressValue = $('<div class="progress-value"></div>').text(nota.promedio_calificaciones);
-    
+                        const promedio = parseFloat(nota.promedio_calificaciones);
+                        const progressValue = $('<div class="progress-value"></div>').text(promedio.toFixed(2));
                         progressBarWrapper.append(progressBar).append(progressValue);
                         notaContainer.append(notaLabel).append(progressBarWrapper);
                         notasContainer.append(notaContainer);
