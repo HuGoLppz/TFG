@@ -1,21 +1,21 @@
 <?php
 function conectar() {
     /*Conexión con la bdd real*/
-    /*
-    $dbname = 'dbs13563147';
-    $host = 'db5016774299.hosting-data.io';
-    $username = 'dbu1639034';
-    $password = '9t8eyJYxtc8u'; 
-    $charset = 'utf8';
-    */
-    /*Conexión con la bdd local*/
     
+    $dbname = 'dbs13739129';
+    $host = 'db5017076511.hosting-data.io';
+    $username = 'dbu1665227';
+    $password = 'xxxx'; 
+    $charset = 'utf8';
+    
+    /*Conexión con la bdd local*/
+    /*
     $dbname = 'study_planner';
     $host = 'localhost';
     $username = 'root';
     $password = '';
     $charset = 'utf8';
-    
+    */
     try {
         $connect = new PDO("mysql:host=$host;port=3306;dbname=$dbname;charset=$charset", $username, $password);
 

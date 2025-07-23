@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", function () {
             relojDigital.textContent = "No hay temporizador activo";
         }
     }
-
     // Actualizar cada segundo
     setInterval(actualizarReloj, 1000);
     actualizarReloj();
